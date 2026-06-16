@@ -574,7 +574,7 @@ function handleInvFile(file){
       Papa.parse(text,{header:true,skipEmptyLines:true,dynamicTyping:false,complete:res=>{
         if(!res.data.length){document.getElementById('inv-upload-status').innerHTML='<div style="color:#dc2626;padding:8px 12px;background:#fef2f2;border-radius:8px;border:1px solid #fecaca">❌ データが空です。</div>';return;}
         const toNum=v=>parseFloat(String(v||0).replace(/[,¥\s円]/g,''))||0;
-        INVRAW=res.data.map(r=>({
+        INVRAW=[...INVRAW,...res.data.map(r=>({
           brand:    String(r['子カテゴリ']||r['親カテゴリ']||'').trim(),
           childCat: String(r['子商品タイプ']||'').trim(),
           sku:      String(r['ブランド品番']||'').trim(),
@@ -584,7 +584,7 @@ function handleInvFile(file){
           stockQty:    toNum(r['在庫数']),
           totalAmt:    toNum(r['合計金額（税抜）']),
           properPrice: toNum(r['プロパー価格（税抜）']),
-        })).filter(r=>r.sku);
+        })).filter(r=>r.sku)];
         // 月セレクター更新
         const months=[...new Set(INVRAW.map(r=>r.month).filter(m=>m>0))].sort((a,b)=>a-b);
         const monthOpts='<option value="">すべての月</option>'+months.map(m=>`<option value="${m}">${m}月</option>`).join('');
@@ -1452,6 +1452,7 @@ document.getElementById('content').addEventListener('click',e=>{
 </script>
 </body>
 </html>
+
 
 
 
