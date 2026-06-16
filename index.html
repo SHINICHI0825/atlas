@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MD Dashboard</title>
+<title>Sales Analytics System</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -28,14 +28,14 @@ body{font-family:'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans
 .nav-divider{border-top:1px solid #f1f5f9;margin:6px 0}
 /* ===== メインエリア ===== */
 #main{flex:1;overflow-y:auto;display:flex;flex-direction:column;background:#f1f5f9;min-width:0}
-#page-header{background:#fff;border-bottom:1px solid #e2e8f0;padding:16px 22px 0;flex-shrink:0}
+#page-header{background:#fff;border-bottom:2px solid #cbd5e1;padding:20px 22px 16px;flex-shrink:0}
 #page-title{font-size:17px;font-weight:700;color:#0f172a;margin-bottom:14px;letter-spacing:-.2px}
 /* ===== フィルターフォーム ===== */
-.filter-tbl{border-collapse:collapse;width:100%;margin-bottom:10px}
+.filter-tbl{border-collapse:collapse;width:100%;margin-bottom:10px;border-bottom:1px solid #e2e8f0}
 .filter-tbl td{padding:0;border:1px solid #e2e8f0;font-size:12px;vertical-align:middle}
-.filter-tbl .fl{background:#f8fafc;color:#374151;font-weight:700;padding:7px 14px;white-space:nowrap;width:80px;font-size:11px;letter-spacing:.2px}
-.filter-tbl .fv{padding:5px 10px;background:#fff}
-.filter-input{padding:4px 8px;border:1.5px solid #94a3b8;border-radius:5px;font-size:12px;background:#fff;height:28px;font-family:inherit;color:#0f172a}
+.filter-tbl .fl{background:#f8fafc;color:#374151;font-weight:700;padding:13px 14px;white-space:nowrap;width:80px;font-size:11px;letter-spacing:.2px}
+.filter-tbl .fv{padding:8px 10px;background:#fff}
+.filter-input{padding:4px 8px;border:1px solid #d1d9e0;border-radius:5px;font-size:12px;background:#fff;height:28px;font-family:inherit;color:#0f172a}
 .filter-input:focus{outline:none;border-color:#0284c7;box-shadow:0 0 0 3px rgba(2,132,199,.1)}
 select.filter-input{width:100%}
 /* ===== チップ（ナビゲーション用） ===== */
@@ -114,13 +114,21 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 .cs-kpi-card{background:#fff;border-radius:8px;padding:12px 14px;border-top:3px solid #0284c7;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .cs-kpi-card .label{font-size:10px;color:#94a3b8;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px}
 .cs-kpi-card .value{font-size:16px;font-weight:700;color:#0f172a}
+/* ===== 在庫KPIカード ===== */
+.inv-kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px}
+.inv-kpi-card{border-radius:12px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.inv-kpi-card::before{content:'';position:absolute;top:-30px;right:-20px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.inv-kpi-card::after{content:'';position:absolute;bottom:-20px;right:10px;width:55px;height:55px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.inv-kpi-card .label{font-size:10px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px}
+.inv-kpi-card .value{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.4px;line-height:1.2}
+.inv-kpi-card .sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:6px}
 </style>
 </head>
 <body>
 <div id="app">
 <!-- トップバー -->
 <div id="topbar">
-  <h1>MD Dashboard</h1>
+  <h1>Sales Analytics System</h1>
   <div id="topbar-right">
     <span id="data-status" style="font-size:11px;color:#94a3b8">データ未読込</span>
     <button class="dl-btn" style="background:#fee2e2;color:#dc2626;border-color:#fca5a5" onclick="clearData()">&#128465; クリア</button>
@@ -133,8 +141,10 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
   <div id="sidebar">
     <div class="nav-section">分析メニュー</div>
     <div class="nav-item active" data-tab="dashboard">ダッシュボード</div>
-    <div class="nav-item" data-tab="md">カテゴリ分析</div>
-    <div class="nav-item" data-tab="sku-analysis">商品分析</div>
+    <div class="nav-item" data-tab="md">カテゴリ販売分析</div>
+    <div class="nav-item" data-tab="sku-analysis">商品販売分析</div>
+    <div class="nav-item" data-tab="cat-inv">カテゴリ在庫分析</div>
+    <div class="nav-item" data-tab="sku-inv">商品在庫分析</div>
     <div class="nav-item" data-tab="customer">顧客分析</div>
     <div class="nav-item" data-tab="basket">バスケット分析</div>
     <div class="nav-item" data-tab="product-pair">クロスセルランキング</div>
@@ -236,6 +246,78 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <table id="sku-table"><thead><tr></tr></thead><tbody></tbody></table>
     </div>
     <div class="chart-card"><div class="chart-title">&#128202; 品番別 売上・粗利 TOP15</div><div class="chart-wrap" style="height:300px"><canvas id="chart-sku-bar"></canvas></div></div>
+  </div>
+
+  <!-- カテゴリ在庫分析 -->
+  <div class="tab-pane" id="tab-cat-inv">
+    <div id="cat-inv-no-data" style="text-align:center;padding:60px 20px;color:#94a3b8">
+      <div style="font-size:40px;margin-bottom:12px">📦</div>
+      <div style="font-weight:700;margin-bottom:6px">在庫CSVをアップロードしてください</div>
+      <div style="font-size:11px">「データ取込」タブから在庫CSVを読み込むと分析が表示されます</div>
+    </div>
+    <div id="cat-inv-content" style="display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e2e8f0">
+        <span style="font-size:12px;font-weight:700;color:#64748b">月</span>
+        <select id="inv-month-sel-cat" class="filter-input" style="width:130px" onchange="renderInv()"><option value="">すべての月</option></select>
+      </div>
+      <div class="inv-kpi-row">
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><div class="label">売上金額</div><div class="value" id="cinv-sales">-</div><div class="sub" id="cinv-qty">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><div class="label">上代在庫金額</div><div class="value" id="cinv-proper">-</div><div class="sub" id="cinv-total">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><div class="label">消化率</div><div class="value" id="cinv-stock">-</div><div class="sub" id="cinv-shoka">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#0891b2,#7dd3fc)"><div class="label">在庫回転率</div><div class="value" id="cinv-turn">-</div><div class="sub" id="cinv-turnday">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#f59e0b,#fde68a)"><div class="label">交差比率</div><div class="value" id="cinv-cross">-</div><div class="sub" id="cinv-nedsa">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#14b8a6,#99f6e4)"><div class="label">粗利率</div><div class="value" id="cinv-gpr">-</div><div class="sub"> </div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-title">📦 カテゴリ（子商品タイプ）別 在庫分析 <button class="dl-btn" onclick="dlTable('cat-inv-table','カテゴリ在庫分析')">⬇CSV</button></div>
+        <table id="cat-inv-table">
+          <thead><tr>
+            <th>#</th><th>カテゴリ</th>
+            <th>売上金額</th><th>売上数量</th>
+            <th>上代在庫金額</th><th>下代在庫金額</th><th>在庫数量</th>
+            <th>消化率</th><th>在庫回転率</th><th>在庫回転日数</th>
+            <th>交差比率</th><th>粗利率</th><th>値下率</th>
+          </tr></thead><tbody></tbody>
+          <tfoot id="cat-inv-foot"></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 商品在庫分析 -->
+  <div class="tab-pane" id="tab-sku-inv">
+    <div id="sku-inv-no-data" style="text-align:center;padding:60px 20px;color:#94a3b8">
+      <div style="font-size:40px;margin-bottom:12px">📦</div>
+      <div style="font-weight:700;margin-bottom:6px">在庫CSVをアップロードしてください</div>
+      <div style="font-size:11px">「データ取込」タブから在庫CSVを読み込むと分析が表示されます</div>
+    </div>
+    <div id="sku-inv-content" style="display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e2e8f0">
+        <span style="font-size:12px;font-weight:700;color:#64748b">月</span>
+        <select id="inv-month-sel-sku" class="filter-input" style="width:130px" onchange="renderInv()"><option value="">すべての月</option></select>
+      </div>
+      <div class="inv-kpi-row">
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="label">売上金額</div><div class="value" id="sinv-sales">-</div><div class="sub" id="sinv-qty">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><div class="label">上代在庫金額</div><div class="value" id="sinv-proper">-</div><div class="sub" id="sinv-total">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><div class="label">消化率</div><div class="value" id="sinv-stock">-</div><div class="sub" id="sinv-shoka">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#0891b2,#7dd3fc)"><div class="label">在庫回転率</div><div class="value" id="sinv-turn">-</div><div class="sub" id="sinv-turnday">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#f59e0b,#fde68a)"><div class="label">交差比率</div><div class="value" id="sinv-cross">-</div><div class="sub" id="sinv-nedsa">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#14b8a6,#99f6e4)"><div class="label">粗利率</div><div class="value" id="sinv-gpr">-</div><div class="sub"> </div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-title">📦 商品（品番）別 在庫分析 <button class="dl-btn" onclick="dlTable('sku-inv-table','商品在庫分析')">⬇CSV</button></div>
+        <table id="sku-inv-table">
+          <thead><tr>
+            <th>#</th><th>品番</th><th>商品名</th>
+            <th>売上金額</th><th>売上数量</th>
+            <th>上代在庫金額</th><th>下代在庫金額</th><th>在庫数量</th>
+            <th>消化率</th><th>在庫回転率</th><th>在庫回転日数</th>
+            <th>交差比率</th><th>粗利率</th><th>値下率</th>
+          </tr></thead><tbody></tbody>
+          <tfoot id="sku-inv-foot"></tfoot>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- 顧客分析 -->
@@ -434,6 +516,18 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <input type="file" id="csv-input" accept=".csv" style="display:none" onchange="handleFile(this.files[0])">
     </div>
     <div id="upload-status" style="margin-bottom:14px"></div>
+    <div style="margin-top:16px;margin-bottom:6px;font-size:12px;font-weight:700;color:#64748b">📦 在庫CSV（別途アップロード）</div>
+    <div id="inv-upload-zone" onclick="document.getElementById('inv-csv-input').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleInvDrop(event)"
+         style="border:2px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;cursor:pointer;background:#f8fafc;transition:all .15s;margin-bottom:10px">
+      <div style="font-size:36px;margin-bottom:8px">📦</div>
+      <p style="font-weight:700;margin-bottom:4px">在庫CSVをドラッグ＆ドロップ</p>
+      <p style="font-size:11px;color:#94a3b8">列構成：ショップ名, 親カテゴリ, ブランド(子カテゴリ), 子商品タイプ, 商品コード, 品番(ブランド品番), 商品名, CS品番, カラー, サイズ, 販売価格, 在庫数, 価格タイプ, 合計金額, プロパー価格...</p>
+      <input type="file" id="inv-csv-input" accept=".csv" style="display:none" onchange="handleInvFile(this.files[0])">
+    </div>
+    <div id="inv-upload-status" style="margin-bottom:14px"></div>
     <div class="table-wrap"><div class="table-title">&#128203; 読込データプレビュー（先頭10件）</div><div style="overflow-x:auto"><table id="preview-table"><tbody><tr><td class="no-data" colspan="13">データなし</td></tr></tbody></table></div></div>
   </div>
     </div><!-- /#content -->
@@ -442,7 +536,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 </div><!-- /#app -->
 
 <script>
-let RAW=[],FILTERED=[],CHARTS={};
+let RAW=[],FILTERED=[],CHARTS={},INVRAW=[];
 if(typeof ChartDataLabels!=='undefined')Chart.register(ChartDataLabels);
 Chart.defaults.font.family="'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans-serif";
 
@@ -468,6 +562,213 @@ const FMT={
 };
 
 function handleDrop(e){e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)handleFile(f);}
+function handleInvDrop(e){e.preventDefault();document.getElementById('inv-upload-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)handleInvFile(f);}
+
+function handleInvFile(file){
+  if(!file)return;
+  const tryParse=enc=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      let text=ev.target.result;
+      if(enc==='UTF-8'&&/[<EFBFBD>]/.test(text)){tryParse('Shift_JIS');return;}
+      Papa.parse(text,{header:true,skipEmptyLines:true,dynamicTyping:false,complete:res=>{
+        if(!res.data.length){document.getElementById('inv-upload-status').innerHTML='<div style="color:#dc2626;padding:8px 12px;background:#fef2f2;border-radius:8px;border:1px solid #fecaca">❌ データが空です。</div>';return;}
+        const toNum=v=>parseFloat(String(v||0).replace(/[,¥\s円]/g,''))||0;
+        INVRAW=res.data.map(r=>({
+          brand:    String(r['子カテゴリ']||r['親カテゴリ']||'').trim(),
+          childCat: String(r['子商品タイプ']||'').trim(),
+          sku:      String(r['ブランド品番']||'').trim(),
+          name:     String(r['商品名']||'').trim(),
+          month:    parseInt(r['月']||'0')||0,
+          sellPrice:   toNum(r['販売価格(税抜)']),
+          stockQty:    toNum(r['在庫数']),
+          totalAmt:    toNum(r['合計金額（税抜）']),
+          properPrice: toNum(r['プロパー価格（税抜）']),
+        })).filter(r=>r.sku);
+        // 月セレクター更新
+        const months=[...new Set(INVRAW.map(r=>r.month).filter(m=>m>0))].sort((a,b)=>a-b);
+        const monthOpts='<option value="">すべての月</option>'+months.map(m=>`<option value="${m}">${m}月</option>`).join('');
+        ['inv-month-sel-cat','inv-month-sel-sku'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=monthOpts;});
+        document.getElementById('inv-upload-status').innerHTML=`<div style="color:#059669;padding:8px 12px;background:#f0fdf4;border-radius:8px;border:1px solid #86efac">✅ 在庫データ読込完了：${INVRAW.length.toLocaleString()}件</div>`;
+        renderInv();
+      }});
+    };
+    reader.readAsText(file,enc);
+  };
+  tryParse('UTF-8');
+}
+
+function renderInv(){
+  if(!INVRAW.length)return;
+  // ブランド・月フィルター適用
+  const brandFilter=document.getElementById('f-brand').value;
+  const monthSelCat=document.getElementById('inv-month-sel-cat');
+  const monthSelSku=document.getElementById('inv-month-sel-sku');
+  const monthFilter=parseInt((monthSelCat&&monthSelCat.value)||(monthSelSku&&monthSelSku.value)||'0')||0;
+  // 両セレクターを同期
+  if(monthSelCat&&monthSelSku){if(monthSelCat.value!==monthSelSku.value){if(document.activeElement===monthSelCat)monthSelSku.value=monthSelCat.value;else monthSelCat.value=monthSelSku.value;}}
+  const inv=(brandFilter||monthFilter)?INVRAW.filter(r=>{
+    if(brandFilter&&r.brand!==brandFilter)return false;
+    if(monthFilter&&r.month!==monthFilter)return false;
+    return true;
+  }):INVRAW;
+  // 在庫：SKU集計
+  const invSku={};
+  inv.forEach(r=>{
+    if(!invSku[r.sku])invSku[r.sku]={childCat:r.childCat,name:r.name,stockQty:0,totalAmt:0,properAmt:0};
+    const s=invSku[r.sku];
+    s.stockQty+=r.stockQty;s.totalAmt+=r.totalAmt;s.properAmt+=r.properPrice*r.stockQty;
+  });
+  // 在庫：カテゴリ（D列=子商品タイプ）集計
+  const invCat={};
+  Object.values(invSku).forEach(s=>{
+    const c=s.childCat||'未分類';
+    if(!invCat[c])invCat[c]={stockQty:0,totalAmt:0,properAmt:0};
+    invCat[c].stockQty+=s.stockQty;invCat[c].totalAmt+=s.totalAmt;invCat[c].properAmt+=s.properAmt;
+  });
+  // 注文：SKU集計
+  const ordSku={};
+  FILTERED.forEach(r=>{
+    if(!r.sku)return;
+    if(!ordSku[r.sku])ordSku[r.sku]={sales:0,gp:0,qty:0};
+    ordSku[r.sku].sales+=r.sales;ordSku[r.sku].gp+=r.gp;ordSku[r.sku].qty+=r.qty;
+  });
+  // 注文：カテゴリ（childCat）集計
+  const ordCat={};
+  FILTERED.forEach(r=>{
+    const c=r.childCat||'';if(!c)return;
+    if(!ordCat[c])ordCat[c]={sales:0,gp:0,qty:0};
+    ordCat[c].sales+=r.sales;ordCat[c].gp+=r.gp;ordCat[c].qty+=r.qty;
+  });
+  // 期間日数
+  const sv=document.getElementById('f-start').value,ev2=document.getElementById('f-end').value;
+  let days=365;
+  if(sv&&ev2){const d=(new Date(ev2)-new Date(sv))/86400000;if(d>0)days=d;}
+  const calc=(sales,gp,qty,properAmt,totalAmt,stockQty)=>{
+    const gpRate=sales?gp/sales:0;
+    const shokaRate=(qty+stockQty)?qty/(qty+stockQty):0;
+    const turnover=properAmt?sales/properAmt:0;
+    const turnDays=turnover?days/turnover:0;
+    const crossRate=gpRate*turnover;
+    const nedsaRate=properAmt?(properAmt-totalAmt)/properAmt:0;
+    return{gpRate,shokaRate,turnover,turnDays,crossRate,nedsaRate};
+  };
+  const pct=v=>(v*100).toFixed(1)+'%';
+  // カテゴリ在庫分析
+  const catRows=Object.entries(invCat).map(([cat,ci])=>{
+    const ord=ordCat[cat]||{sales:0,gp:0,qty:0};
+    const m=calc(ord.sales,ord.gp,ord.qty,ci.properAmt,ci.totalAmt,ci.stockQty);
+    return{cat,ord,ci,m};
+  }).sort((a,b)=>b.ci.properAmt-a.ci.properAmt);
+  document.getElementById('cat-inv-no-data').style.display='none';
+  document.getElementById('cat-inv-content').style.display='';
+  // カテゴリ在庫KPIカード（売上はFILTERED全体）
+  {
+    const tS=FILTERED.reduce((s,r)=>s+r.sales,0);
+    const tQ=FILTERED.reduce((s,r)=>s+r.qty,0);
+    const tG=FILTERED.reduce((s,r)=>s+r.gp,0);
+    const tP=catRows.reduce((s,r)=>s+r.ci.properAmt,0);
+    const tT=catRows.reduce((s,r)=>s+r.ci.totalAmt,0);
+    const tSt=catRows.reduce((s,r)=>s+r.ci.stockQty,0);
+    const sh=(tQ+tSt)?tQ/(tQ+tSt):0;
+    const tv=tP?tS/tP:0;const td=tv?days/tv:0;
+    const gr=tS?tG/tS:0;const nd=tP?(tP-tT)/tP:0;const cx=gr*tv;
+    const el=id=>document.getElementById(id);
+    el('cinv-sales').textContent=FMT.yen(tS);
+    el('cinv-qty').textContent='数量 '+FMT.num(tQ)+'点';
+    el('cinv-proper').textContent=FMT.yen(tP);
+    el('cinv-total').textContent='下代在庫 '+FMT.yen(tT);
+    el('cinv-stock').textContent=pct(sh);
+    el('cinv-shoka').textContent='在庫数量 '+FMT.num(tSt);
+    el('cinv-turn').textContent=tv?tv.toFixed(2)+'回':'-';
+    el('cinv-turnday').textContent=td?'在庫回転日数 '+Math.round(td)+'日':'-';
+    el('cinv-cross').textContent=cx?(cx*100).toFixed(1):'- ';
+    el('cinv-nedsa').textContent='値下率 '+pct(nd);
+    el('cinv-gpr').textContent=pct(gr);
+  }
+  fillSortable('cat-inv-table',catRows.map((r,i)=>[
+    i+1,r.cat,
+    FMT.yen(r.ord.sales),FMT.num(r.ord.qty),
+    FMT.yen(r.ci.properAmt),FMT.yen(r.ci.totalAmt),FMT.num(r.ci.stockQty),
+    pct(r.m.shokaRate),r.m.turnover?r.m.turnover.toFixed(2):'-',
+    r.m.turnDays?Math.round(r.m.turnDays)+'日':'-',
+    r.m.crossRate?(r.m.crossRate*100).toFixed(1):'-',
+    pct(r.m.gpRate),pct(r.m.nedsaRate),
+  ]));
+  {
+    const tSales=catRows.reduce((s,r)=>s+r.ord.sales,0);
+    const tQty=catRows.reduce((s,r)=>s+r.ord.qty,0);
+    const tProper=catRows.reduce((s,r)=>s+r.ci.properAmt,0);
+    const tTotal=catRows.reduce((s,r)=>s+r.ci.totalAmt,0);
+    const tStock=catRows.reduce((s,r)=>s+r.ci.stockQty,0);
+    const tGP=catRows.reduce((s,r)=>s+r.ord.gp,0);
+    const tShoka=(tQty+tStock)?tQty/(tQty+tStock):0;
+    const tTurn=tProper?tSales/tProper:0;
+    const tTurnD=tTurn?days/tTurn:0;
+    const tGPR=tSales?tGP/tSales:0;
+    const tNedsa=tProper?(tProper-tTotal)/tProper:0;
+    const tCross=tGPR*tTurn;
+    const ft=`<tr style="background:#f0f9ff;font-weight:700;border-top:2px solid #0284c7"><td colspan="2">合計</td><td class="num">${FMT.yen(tSales)}</td><td class="num">${FMT.num(tQty)}</td><td class="num">${FMT.yen(tProper)}</td><td class="num">${FMT.yen(tTotal)}</td><td class="num">${FMT.num(tStock)}</td><td class="num">${pct(tShoka)}</td><td class="num">${tTurn?tTurn.toFixed(2):'-'}</td><td class="num">${tTurnD?Math.round(tTurnD)+'日':'-'}</td><td class="num">${tCross?(tCross*100).toFixed(1):'-'}</td><td class="num">${pct(tGPR)}</td><td class="num">${pct(tNedsa)}</td></tr>`;
+    document.getElementById('cat-inv-foot').innerHTML=ft;
+  }
+  // 商品在庫分析
+  const skuRows=Object.entries(invSku).map(([sku,si])=>{
+    const ord=ordSku[sku]||{sales:0,gp:0,qty:0};
+    const m=calc(ord.sales,ord.gp,ord.qty,si.properAmt,si.totalAmt,si.stockQty);
+    return{sku,childCat:si.childCat,name:si.name,ord,si,m};
+  }).sort((a,b)=>b.si.properAmt-a.si.properAmt);
+  document.getElementById('sku-inv-no-data').style.display='none';
+  document.getElementById('sku-inv-content').style.display='';
+  // 商品在庫KPIカード（売上はFILTERED全体）
+  {
+    const tS=FILTERED.reduce((s,r)=>s+r.sales,0);
+    const tQ=FILTERED.reduce((s,r)=>s+r.qty,0);
+    const tG=FILTERED.reduce((s,r)=>s+r.gp,0);
+    const tP=skuRows.reduce((s,r)=>s+r.si.properAmt,0);
+    const tT=skuRows.reduce((s,r)=>s+r.si.totalAmt,0);
+    const tSt=skuRows.reduce((s,r)=>s+r.si.stockQty,0);
+    const sh=(tQ+tSt)?tQ/(tQ+tSt):0;
+    const tv=tP?tS/tP:0;const td=tv?days/tv:0;
+    const gr=tS?tG/tS:0;const nd=tP?(tP-tT)/tP:0;const cx=gr*tv;
+    const el=id=>document.getElementById(id);
+    el('sinv-sales').textContent=FMT.yen(tS);
+    el('sinv-qty').textContent='数量 '+FMT.num(tQ)+'点';
+    el('sinv-proper').textContent=FMT.yen(tP);
+    el('sinv-total').textContent='下代在庫 '+FMT.yen(tT);
+    el('sinv-stock').textContent=pct(sh);
+    el('sinv-shoka').textContent='在庫数量 '+FMT.num(tSt);
+    el('sinv-turn').textContent=tv?tv.toFixed(2)+'回':'-';
+    el('sinv-turnday').textContent=td?'在庫回転日数 '+Math.round(td)+'日':'-';
+    el('sinv-cross').textContent=cx?(cx*100).toFixed(1):'- ';
+    el('sinv-nedsa').textContent='値下率 '+pct(nd);
+    el('sinv-gpr').textContent=pct(gr);
+  }
+  fillSortable('sku-inv-table',skuRows.map((r,i)=>[
+    i+1,`<span class="fcat">${r.sku}</span>`,r.name,
+    FMT.yen(r.ord.sales),FMT.num(r.ord.qty),
+    FMT.yen(r.si.properAmt),FMT.yen(r.si.totalAmt),FMT.num(r.si.stockQty),
+    pct(r.m.shokaRate),r.m.turnover?r.m.turnover.toFixed(2):'-',
+    r.m.turnDays?Math.round(r.m.turnDays)+'日':'-',
+    r.m.crossRate?(r.m.crossRate*100).toFixed(1):'-',
+    pct(r.m.gpRate),pct(r.m.nedsaRate),
+  ]));
+  {
+    const tSales=skuRows.reduce((s,r)=>s+r.ord.sales,0);
+    const tQty=skuRows.reduce((s,r)=>s+r.ord.qty,0);
+    const tProper=skuRows.reduce((s,r)=>s+r.si.properAmt,0);
+    const tTotal=skuRows.reduce((s,r)=>s+r.si.totalAmt,0);
+    const tStock=skuRows.reduce((s,r)=>s+r.si.stockQty,0);
+    const tGP=skuRows.reduce((s,r)=>s+r.ord.gp,0);
+    const tShoka=(tQty+tStock)?tQty/(tQty+tStock):0;
+    const tTurn=tProper?tSales/tProper:0;
+    const tTurnD=tTurn?days/tTurn:0;
+    const tGPR=tSales?tGP/tSales:0;
+    const tNedsa=tProper?(tProper-tTotal)/tProper:0;
+    const tCross=tGPR*tTurn;
+    const ft=`<tr style="background:#f0f9ff;font-weight:700;border-top:2px solid #0284c7"><td colspan="3">合計</td><td class="num">${FMT.yen(tSales)}</td><td class="num">${FMT.num(tQty)}</td><td class="num">${FMT.yen(tProper)}</td><td class="num">${FMT.yen(tTotal)}</td><td class="num">${FMT.num(tStock)}</td><td class="num">${pct(tShoka)}</td><td class="num">${tTurn?tTurn.toFixed(2):'-'}</td><td class="num">${tTurnD?Math.round(tTurnD)+'日':'-'}</td><td class="num">${tCross?(tCross*100).toFixed(1):'-'}</td><td class="num">${pct(tGPR)}</td><td class="num">${pct(tNedsa)}</td></tr>`;
+    document.getElementById('sku-inv-foot').innerHTML=ft;
+  }
+}
 
 function handleFile(file){
   if(!file)return;
@@ -1024,6 +1325,7 @@ function renderAll(){
   fillSortable('cat-age-young-table',[...C.catRows].filter(c=>c.young>0).sort((a,b)=>b.young-a.young).slice(0,20).map(catAgeRow));
   fillSortable('cat-age-mid-table',[...C.catRows].filter(c=>c.mid>0).sort((a,b)=>b.mid-a.mid).slice(0,20).map(catAgeRow));
   fillSortable('cat-age-adt-table',[...C.catRows].filter(c=>c.adt>0).sort((a,b)=>b.adt-a.adt).slice(0,20).map(catAgeRow));
+  renderInv();
 }
 
 // ===== ソート対応テーブル =====
@@ -1100,7 +1402,7 @@ function showPreview(){
 // ページ読込時にフィルター初期構築
 buildFilters();
 
-const TAB_LABELS={dashboard:'ダッシュボード',md:'カテゴリ分析','sku-analysis':'商品分析',customer:'顧客分析',basket:'バスケット分析','product-pair':'クロスセルランキング',age:'デモグラフィック分析',upload:'データ取込'};
+const TAB_LABELS={dashboard:'ダッシュボード',md:'カテゴリ販売分析','sku-analysis':'商品販売分析','cat-inv':'カテゴリ在庫分析','sku-inv':'商品在庫分析',customer:'顧客分析',basket:'バスケット分析','product-pair':'クロスセルランキング',age:'デモグラフィック分析',upload:'データ取込'};
 
 function switchAgeAxis(){
   const v=document.getElementById('age-axis-sel').value;
@@ -1150,3 +1452,7 @@ document.getElementById('content').addEventListener('click',e=>{
 </script>
 </body>
 </html>
+
+
+
+
