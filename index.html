@@ -7,9 +7,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans-serif;background:#f1f5f9;color:#0f172a;font-size:13px;font-variant-numeric:tabular-nums}
@@ -20,9 +21,12 @@ body{font-family:'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans
 #topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
 /* ===== サイドバー＋ボディ ===== */
 #body{display:flex;flex:1;overflow:hidden}
-#sidebar{width:158px;background:#fff;border-right:1px solid #e8edf3;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+#sidebar{width:176px;background:#fff;border-right:1px solid #e8edf3;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
 .nav-section{padding:14px 14px 4px;font-size:10px;font-weight:700;color:#b0bac6;letter-spacing:1px;text-transform:uppercase}
+.nav-group{padding:10px 14px 2px;font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:.4px;margin-top:2px;user-select:none}
 .nav-item{padding:9px 16px;font-size:12px;cursor:pointer;color:#64748b;border-left:3px solid transparent;transition:all .12s;user-select:none;line-height:1.4}
+.nav-item.nav-child{padding:6px 16px 6px 22px;font-size:11px}
+.nav-item.nav-child::before{content:'・';color:#cbd5e1;margin-right:1px}
 .nav-item:hover{background:#f8fafc;color:#0f172a}
 .nav-item.active{background:#f0f9ff;color:#0369a1;border-left-color:#0284c7;font-weight:700}
 .nav-divider{border-top:1px solid #f1f5f9;margin:6px 0}
@@ -64,6 +68,9 @@ select.filter-input{width:100%}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{background:#f8fafc;color:#64748b;font-weight:700;padding:9px 10px;text-align:left;border-bottom:1px solid #e2e8f0;border-top:1px solid #e2e8f0;white-space:nowrap;user-select:none;font-size:11px;letter-spacing:.2px}
 th:hover{background:#f0f9ff;color:#0369a1}
+.col-hl{background:#eff6ff !important}
+.col-hl-th{background:#dbeafe !important;color:#1d4ed8 !important}
+#tbl-tip{position:fixed;background:#1e293b;color:#f8fafc;font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;pointer-events:none;z-index:9999;display:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 td{padding:8px 10px;border-bottom:1px solid #f8fafc;color:#334155}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8fafc}
@@ -103,10 +110,10 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 .lb-tri{background:#fefce8;color:#854d0e}
 .lb-chk{background:#f1f5f9;color:#475569}
 .lb-none{background:#f8fafc;color:#94a3b8}
-.pri-s{display:inline-block;background:#dc2626;color:#fff;border-radius:3px;padding:1px 8px;font-size:11px;font-weight:700}
-.pri-a{display:inline-block;background:#ea580c;color:#fff;border-radius:3px;padding:1px 8px;font-size:11px;font-weight:700}
-.pri-b{display:inline-block;background:#0284c7;color:#fff;border-radius:3px;padding:1px 8px;font-size:11px;font-weight:700}
-.pri-c{display:inline-block;background:#94a3b8;color:#fff;border-radius:3px;padding:1px 8px;font-size:11px;font-weight:700}
+.pri-s{display:inline-block;background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;border-radius:4px;padding:1px 9px;font-family:'Libre Baskerville',serif;font-size:9px;font-weight:700}
+.pri-a{display:inline-block;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:4px;padding:1px 9px;font-family:'Libre Baskerville',serif;font-size:9px;font-weight:700}
+.pri-b{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;border-radius:4px;padding:1px 9px;font-family:'Libre Baskerville',serif;font-size:9px;font-weight:700}
+.pri-c{display:inline-block;background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;border-radius:4px;padding:1px 9px;font-family:'Libre Baskerville',serif;font-size:9px;font-weight:700}
 .resell-b{display:inline-block;background:#fef2f2;color:#dc2626;border:1px solid #fca5a5;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;white-space:nowrap}
 .warn-b{display:inline-block;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;white-space:nowrap}
 .info-b{display:inline-block;background:#dcfce7;color:#166534;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -139,16 +146,21 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 <div id="body">
   <!-- サイドバーナビ -->
   <div id="sidebar">
-    <div class="nav-section">分析メニュー</div>
     <div class="nav-item active" data-tab="dashboard">ダッシュボード</div>
-    <div class="nav-item" data-tab="md">カテゴリ販売分析</div>
-    <div class="nav-item" data-tab="sku-analysis">商品販売分析</div>
-    <div class="nav-item" data-tab="cat-inv">カテゴリ在庫分析</div>
-    <div class="nav-item" data-tab="sku-inv">商品在庫分析</div>
-    <div class="nav-item" data-tab="customer">顧客分析</div>
-    <div class="nav-item" data-tab="basket">バスケット分析</div>
-    <div class="nav-item" data-tab="product-pair">クロスセルランキング</div>
-    <div class="nav-item" data-tab="age">デモグラフィック分析</div>
+    <div class="nav-group">01. 販売分析</div>
+    <div class="nav-item nav-child" data-tab="md">カテゴリ販売分析</div>
+    <div class="nav-item nav-child" data-tab="sku-analysis">商品販売分析</div>
+    <div class="nav-group">02. 在庫分析</div>
+    <div class="nav-item nav-child" data-tab="cat-inv">カテゴリ在庫分析</div>
+    <div class="nav-item nav-child" data-tab="sku-inv">商品在庫分析</div>
+    <div class="nav-group">03. 閲覧分析</div>
+    <div class="nav-item nav-child" data-tab="cat-ec">カテゴリ閲覧分析</div>
+    <div class="nav-item nav-child" data-tab="sku-ec">商品閲覧分析</div>
+    <div class="nav-group">04. 顧客・行動分析</div>
+    <div class="nav-item nav-child" data-tab="customer">顧客分析</div>
+    <div class="nav-item nav-child" data-tab="basket">バスケット分析</div>
+    <div class="nav-item nav-child" data-tab="product-pair">クロスセルランキング</div>
+    <div class="nav-item nav-child" data-tab="age">デモグラフィック分析</div>
     <div class="nav-divider"></div>
     <div class="nav-item" data-tab="upload">&#11014; データ取込</div>
   </div>
@@ -215,7 +227,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <div class="cs-kpi-card" style="border-top-color:#dc2626"><div class="label">転売疑いペア数</div><div class="value" id="cs-resell" style="color:#dc2626">-</div></div>
     </div>
     <div class="grid2">
-      <div class="chart-card"><div class="chart-title">&#128200; 月別売上推移</div><div class="chart-wrap"><canvas id="chart-trend"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">月別売上推移</div><div class="chart-wrap"><canvas id="chart-trend"></canvas></div></div>
       <div class="chart-card"><div class="chart-title">&#128101; 新規 vs リピーター</div><div class="chart-wrap"><canvas id="chart-repeat-ratio"></canvas></div></div>
     </div>
   </div>
@@ -231,7 +243,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <div class="table-title">&#128230; カテゴリ分析（子商品タイプ別） <button class="dl-btn" onclick="dlTable('md-table','カテゴリ分析')">&#11015;CSV</button></div>
       <table id="md-table"><thead><tr></tr></thead><tbody></tbody></table>
     </div>
-    <div class="chart-card"><div class="chart-title">&#128202; 子商品タイプ別 売上・粗利</div><div class="chart-wrap" style="height:260px"><canvas id="chart-md-bar"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">&#128202; 子商品タイプ別 売上・粗利・粗利率</div><div class="chart-wrap" style="height:260px"><canvas id="chart-md-bar"></canvas></div></div>
   </div>
 
   <!-- 品番・商品名軸 -->
@@ -245,7 +257,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <div class="table-title">&#128230; 品番・商品名軸 分析 <button class="dl-btn" onclick="dlTable('sku-table','品番商品名軸')">&#11015;CSV</button></div>
       <table id="sku-table"><thead><tr></tr></thead><tbody></tbody></table>
     </div>
-    <div class="chart-card"><div class="chart-title">&#128202; 品番別 売上・粗利 TOP15</div><div class="chart-wrap" style="height:300px"><canvas id="chart-sku-bar"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">&#128202; 品番別 売上・粗利・粗利率 TOP15</div><div class="chart-wrap" style="height:300px"><canvas id="chart-sku-bar"></canvas></div></div>
   </div>
 
   <!-- カテゴリ在庫分析 -->
@@ -297,7 +309,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
         <select id="inv-month-sel-sku" class="filter-input" style="width:130px" onchange="renderInv()"><option value="">すべての月</option></select>
       </div>
       <div class="inv-kpi-row">
-        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><div class="label">売上金額</div><div class="value" id="sinv-sales">-</div><div class="sub" id="sinv-qty">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><div class="label">売上金額</div><div class="value" id="sinv-sales">-</div><div class="sub" id="sinv-qty">-</div></div>
         <div class="inv-kpi-card" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><div class="label">上代在庫金額</div><div class="value" id="sinv-proper">-</div><div class="sub" id="sinv-total">-</div></div>
         <div class="inv-kpi-card" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><div class="label">消化率</div><div class="value" id="sinv-stock">-</div><div class="sub" id="sinv-shoka">-</div></div>
         <div class="inv-kpi-card" style="background:linear-gradient(135deg,#0891b2,#7dd3fc)"><div class="label">在庫回転率</div><div class="value" id="sinv-turn">-</div><div class="sub" id="sinv-turnday">-</div></div>
@@ -305,8 +317,12 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
         <div class="inv-kpi-card" style="background:linear-gradient(135deg,#14b8a6,#99f6e4)"><div class="label">粗利率</div><div class="value" id="sinv-gpr">-</div><div class="sub"> </div></div>
       </div>
       <div class="table-wrap">
-        <div class="table-title">📦 商品（品番）別 在庫分析 <button class="dl-btn" onclick="dlTable('sku-inv-table','商品在庫分析')">⬇CSV</button></div>
-        <table id="sku-inv-table">
+        <div class="table-title">📦 商品別 在庫分析 <button class="dl-btn" onclick="dlTable('sku-inv-table','商品在庫分析')">⬇CSV</button></div>
+        <table id="sku-inv-table" style="table-layout:fixed">
+          <colgroup>
+            <col style="width:32px"><col style="width:100px"><col style="width:500px">
+            <col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px"><col style="width:88px">
+          </colgroup>
           <thead><tr>
             <th>#</th><th>品番</th><th>商品名</th>
             <th>売上金額</th><th>売上数量</th>
@@ -320,13 +336,122 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
     </div>
   </div>
 
+  <!-- カテゴリ閲覧分析 -->
+  <div class="tab-pane" id="tab-cat-ec">
+    <div id="cat-ec-no-data" style="text-align:center;padding:60px 20px;color:#94a3b8">
+      <div style="font-size:40px;margin-bottom:12px">📊</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">EC閲覧データが未読込です</div>
+      <div style="font-size:12px">データ取込タブからZOZOバックオフィスのExcelをアップロードしてください</div>
+    </div>
+    <div id="cat-ec-body" style="display:none">
+      <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">平均閲覧数</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">PV ÷ UU。1人のユーザーが平均何ページ閲覧したか<br><span style="color:#94a3b8">高いほど商品への関心・回遊が深い</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">お気に入り率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">お気に入り登録数 ÷ UU × 100<br><span style="color:#94a3b8">閲覧者のうちお気に入りに追加した割合。購買意欲の指標</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">お気に入り→購入率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">購入者数 ÷ お気に入り登録者数 × 100<br><span style="color:#94a3b8">低い場合は価格・在庫・サイズ展開に障壁がある可能性</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">カート→購入率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">購入者数 ÷ カート投入数 × 100<br><span style="color:#94a3b8">低い場合は送料・決済・在庫切れなどカゴ落ちが発生</span></div>
+        </div>
+      </div>
+      <div class="inv-kpi-row">
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><div class="label">UU合計</div><div class="value" id="cec-uu">-</div><div class="sub" id="cec-pv">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><div class="label">CVR</div><div class="value" id="cec-cvr">-</div><div class="sub">購入者数 / UU</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#f59e0b,#fde68a)"><div class="label">お気に入り率</div><div class="value" id="cec-favr">-</div><div class="sub" id="cec-fav">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><div class="label">カート投入率</div><div class="value" id="cec-cart">-</div><div class="sub">カート / UU</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#0891b2,#7dd3fc)"><div class="label">お気に入り→購入率</div><div class="value" id="cec-fav2buy">-</div><div class="sub">購入者数 / お気に入り</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#14b8a6,#99f6e4)"><div class="label">カート→購入率</div><div class="value" id="cec-cart2buy">-</div><div class="sub">購入者数 / カート</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-title">📂 カテゴリ別 閲覧・転換分析 <button class="dl-btn" onclick="dlTable('cat-ec-table','カテゴリ閲覧分析')">⬇CSV</button></div>
+        <table id="cat-ec-table"><thead><tr>
+          <th>#</th><th>カテゴリ</th><th>UU</th><th>PV</th><th>平均閲覧数</th>
+          <th>お気に入り</th><th>お気に入り率</th><th>カート投入</th><th>カート率</th>
+          <th>購入者数</th><th>CVR</th><th>お気に入り→購入率</th><th>カート→購入率</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 商品閲覧分析 -->
+  <div class="tab-pane" id="tab-sku-ec">
+    <div id="sku-ec-no-data" style="text-align:center;padding:60px 20px;color:#94a3b8">
+      <div style="font-size:40px;margin-bottom:12px">📊</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">EC閲覧データが未読込です</div>
+      <div style="font-size:12px">データ取込タブからZOZOバックオフィスのExcelをアップロードしてください</div>
+    </div>
+    <div id="sku-ec-body" style="display:none">
+      <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">平均閲覧数</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">PV ÷ UU。1人のユーザーが平均何ページ閲覧したか<br><span style="color:#94a3b8">高いほど商品への関心・回遊が深い</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">お気に入り率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">お気に入り登録数 ÷ UU × 100<br><span style="color:#94a3b8">閲覧者のうちお気に入りに追加した割合。購買意欲の指標</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">お気に入り→購入率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">購入者数 ÷ お気に入り登録者数 × 100<br><span style="color:#94a3b8">低い場合は価格・在庫・サイズ展開に障壁がある可能性</span></div>
+        </div>
+        <div style="background:#fff5f5;border-left:3px solid #dc2626;padding:8px 12px;border-radius:0 6px 6px 0;flex:1;min-width:180px">
+          <div style="font-size:10px;font-weight:700;color:#dc2626;margin-bottom:2px">カート→購入率</div>
+          <div style="font-size:11px;color:#64748b;line-height:1.5">購入者数 ÷ カート投入数 × 100<br><span style="color:#94a3b8">低い場合は送料・決済・在庫切れなどカゴ落ちが発生</span></div>
+        </div>
+      </div>
+      <div class="inv-kpi-row">
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><div class="label">UU合計</div><div class="value" id="sec-uu">-</div><div class="sub" id="sec-pv">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><div class="label">CVR</div><div class="value" id="sec-cvr">-</div><div class="sub">購入者数 / UU</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#f59e0b,#fde68a)"><div class="label">お気に入り率</div><div class="value" id="sec-favr">-</div><div class="sub" id="sec-fav">-</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><div class="label">カート投入率</div><div class="value" id="sec-cart">-</div><div class="sub">カート / UU</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#0891b2,#7dd3fc)"><div class="label">お気に入り→購入率</div><div class="value" id="sec-fav2buy">-</div><div class="sub">購入者数 / お気に入り</div></div>
+        <div class="inv-kpi-card" style="background:linear-gradient(135deg,#14b8a6,#99f6e4)"><div class="label">カート→購入率</div><div class="value" id="sec-cart2buy">-</div><div class="sub">購入者数 / カート</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-title">📦 商品別 閲覧・転換分析 <button class="dl-btn" onclick="dlTable('sku-ec-table','商品閲覧分析')">⬇CSV</button></div>
+        <table id="sku-ec-table" style="table-layout:fixed">
+          <colgroup>
+            <col style="width:32px"><col style="width:100px"><col style="width:500px">
+            <col style="width:72px"><col style="width:72px"><col style="width:80px">
+            <col style="width:80px"><col style="width:84px"><col style="width:80px"><col style="width:72px">
+            <col style="width:72px"><col style="width:68px"><col style="width:100px"><col style="width:88px">
+          </colgroup>
+          <thead><tr>
+          <th>#</th><th>品番</th><th>商品名</th><th>UU</th><th>PV</th><th>平均閲覧数</th>
+          <th>お気に入り</th><th>お気に入り率</th><th>カート投入</th><th>カート率</th>
+          <th>購入者数</th><th>CVR</th><th>お気に入り→購入率</th><th>カート→購入率</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+      <div class="grid2" style="margin-top:4px">
+        <div class="table-wrap">
+          <div class="table-title" style="color:#dc2626">🔴 高閲覧×低CVR（ページ改善候補） <button class="dl-btn" onclick="dlTable('ec-low-cvr-table','高閲覧低CVR')">⬇CSV</button></div>
+          <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">UUが多いのにCVRが平均の半分以下 ＝ ページ・写真・説明文の改善余地あり</p>
+          <table id="ec-low-cvr-table"><thead><tr><th>#</th><th>品番</th><th>商品名</th><th>UU</th><th>CVR</th><th>お気に入り率</th><th>カート率</th></tr></thead><tbody></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <div class="table-title" style="color:#d97706">⭐ お気に入り高×購入低（価格・在庫障壁検証） <button class="dl-btn" onclick="dlTable('ec-fav-table','お気に入り高購入低')">⬇CSV</button></div>
+          <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">お気に入り率が高いのにお気に入り→購入率が低い ＝ 価格・在庫・サイズ展開の障壁検証</p>
+          <table id="ec-fav-table"><thead><tr><th>#</th><th>品番</th><th>商品名</th><th>UU</th><th>お気に入り率</th><th>お気に入り→購入率</th><th>CVR</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 顧客分析 -->
   <div class="tab-pane" id="tab-customer">
     <div class="grid2">
       <div class="table-wrap"><div class="table-title">&#128100; 全体KPI</div><table id="ca-table"><thead><tr><th>指標</th><th style="text-align:right">値</th></tr></thead><tbody></tbody></table></div>
       <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="chart-card"><div class="chart-title">&#128200; 年齢分布</div><div class="chart-wrap"><canvas id="chart-age-dist"></canvas></div></div>
-        <div class="chart-card"><div class="chart-title">&#128176; 年齢別客単価</div><div class="chart-wrap"><canvas id="chart-age-atv"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title">年齢分布</div><div class="chart-wrap"><canvas id="chart-age-dist"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title">年齢別客単価</div><div class="chart-wrap"><canvas id="chart-age-atv"></canvas></div></div>
       </div>
     </div>
     <div class="table-wrap">
@@ -336,11 +461,11 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
     <div class="grid2" style="margin-top:14px">
       <div class="table-wrap">
         <div class="table-title">&#128260; カテゴリ購入推移（2ステップ TOP30） <button class="dl-btn" onclick="dlTable('cat-flow-table','カテゴリ購入推移')">&#11015;CSV</button></div>
-        <table id="cat-flow-table"><thead><tr><th>順位</th><th>購入推移</th><th>人数</th><th>率</th></tr></thead><tbody></tbody></table>
+        <table id="cat-flow-table"><thead><tr><th>順位</th><th>購入推移</th><th>人数</th><th>延べ回数</th><th>平均購入回数</th><th>率（人数ベース）</th></tr></thead><tbody></tbody></table>
       </div>
       <div class="table-wrap">
         <div class="table-title">&#128260; カテゴリ購入シーケンス（3ステップ TOP20） <button class="dl-btn" onclick="dlTable('cat-seq-table','カテゴリシーケンス')">&#11015;CSV</button></div>
-        <table id="cat-seq-table"><thead><tr><th>順位</th><th>購入シーケンス</th><th>人数</th><th>率</th></tr></thead><tbody></tbody></table>
+        <table id="cat-seq-table"><thead><tr><th>順位</th><th>購入シーケンス</th><th>人数</th><th>延べ回数</th><th>平均購入回数</th><th>率（人数ベース）</th></tr></thead><tbody></tbody></table>
       </div>
     </div>
   </div>
@@ -361,11 +486,10 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
         <div style="font-size:11px;color:#64748b;line-height:1.5">Aを買った人がBも買う確率（A→B）とその逆<br><span style="color:#94a3b8">例）30% ＝ Aを買った3人に1人がBも購入</span></div>
       </div>
     </div>
-    <div class="grid2">
-      <div class="table-wrap"><div class="table-title">&#128279; カテゴリ軸 併売ペア（件数順） <button class="dl-btn" onclick="dlTable('ba-pair-table','カテゴリ併売')">&#11015;CSV</button></div>
+    <div style="display:grid;grid-template-columns:1fr 3fr;gap:12px"><div class="table-wrap"><div class="table-title">&#128279; カテゴリ軸 併売ペア（件数順） <button class="dl-btn" onclick="dlTable('ba-pair-table','カテゴリ併売')">&#11015;CSV</button></div>
         <table id="ba-pair-table"><thead><tr><th>順位</th><th>カテゴリペア</th><th>件数</th></tr></thead><tbody></tbody></table></div>
       <div class="table-wrap"><div class="table-title">&#128208; カテゴリ軸 総合分析 <button class="dl-btn" onclick="dlTable('ba-lift-table','カテゴリ総合')">&#11015;CSV</button></div>
-        <table id="ba-lift-table"><thead><tr><th>順位</th><th>カテゴリペア</th><th>件数</th><th>サポート</th><th>信頼度A→B</th><th>信頼度B→A</th><th>リフト値</th><th>評価</th><th>売上インパクト</th><th>粗利インパクト</th><th>推奨施策</th></tr></thead><tbody></tbody></table></div>
+        <table id="ba-lift-table"><thead><tr><th>順位</th><th>カテゴリペア</th><th>件数</th><th>サポート</th><th>信頼度A→B</th><th>信頼度B→A</th><th>リフト値</th><th>評価</th><th>売上インパクト</th><th>粗利インパクト</th></tr></thead><tbody></tbody></table></div>
     </div>
   </div>
 
@@ -386,55 +510,61 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
         <div style="font-size:11px;color:#64748b;line-height:1.5">Aを買った人がBも買う確率（A→B）とその逆<br><span style="color:#94a3b8">例）30% ＝ Aを買った3人に1人がBも購入</span></div>
       </div>
     </div>
-    <!-- 既存ランキング（強化版） -->
-    <div class="grid2">
-      <div class="table-wrap">
-        <div class="table-title">&#9312; クロスセル頻度ランキング TOP10 <button class="dl-btn" onclick="dlTable('pp-cnt-table','クロスセル頻度')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">同一注文で一緒に購入された回数が多いペア</p>
-        <table id="pp-cnt-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>サポート</th><th>リフト値</th><th>評価</th><th>優先度</th><th>推奨施策</th><th>注意</th><th>転売</th></tr></thead><tbody></tbody></table>
-      </div>
-      <div class="table-wrap">
-        <div class="table-title">&#9313; レコメンド効果ランキング TOP10 <button class="dl-btn" onclick="dlTable('pp-lift-table','レコメンド効果')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">偶然より何倍一緒に買われているか（リフト値）／目安：2.0以上で有意、3.0以上で強い関連</p>
-        <table id="pp-lift-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>リフト値</th><th>評価</th><th>優先度</th><th>推奨施策</th><th>注意</th><th>転売</th></tr></thead><tbody></tbody></table>
-      </div>
+    <!-- ランキング選択 -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <label style="font-size:12px;font-weight:700;color:#374151;white-space:nowrap">ランキング選択</label>
+      <select id="pp-rank-sel" onchange="ppShowRank(this.value)" style="padding:7px 12px;border:1px solid #d1d9e0;border-radius:6px;font-size:12px;font-weight:600;color:#374151;background:#fff;cursor:pointer;min-width:220px">
+        <option value="cnt">クロスセル頻度</option>
+        <option value="lift">レコメンド効果（リフト値）</option>
+        <option value="conf">購買誘導率（信頼度）</option>
+        <option value="single">クロスセル余地</option>
+        <option value="priority">施策優先</option>
+        <option value="sales-impact">売上インパクト</option>
+        <option value="gp-impact">粗利インパクト</option>
+        <option value="resell">転売・まとめ買い検知</option>
+      </select>
+      <button class="dl-btn" onclick="ppDl()">&#11015;CSV</button>
     </div>
-    <div class="grid2">
-      <div class="table-wrap">
-        <div class="table-title">&#9314; 購買誘導率ランキング TOP10 <button class="dl-btn" onclick="dlTable('pp-conf-table','購買誘導率')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">A購入者がBも買う確率 / B購入者がAも買う確率／目安：30%以上で有効、50%以上で強い誘導</p>
-        <table id="pp-conf-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>信頼度A→B</th><th>信頼度B→A</th><th>評価</th><th>優先度</th><th>推奨施策</th><th>注意</th><th>転売</th></tr></thead><tbody></tbody></table>
-      </div>
-      <div class="table-wrap">
-        <div class="table-title">&#9315; クロスセル余地ランキング TOP20 <button class="dl-btn" onclick="dlTable('pp-single-table','クロスセル余地')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">単品購入が多い商品 ＝ クロスセルをまだ活かせていない商品</p>
-        <table id="pp-single-table"><thead><tr><th>品番</th><th>商品名</th><th>単品購入数</th><th>評価</th></tr></thead><tbody></tbody></table>
-      </div>
+    <!-- パネル -->
+    <div class="table-wrap pp-panel" id="pp-panel-cnt">
+      <div class="table-title">クロスセル頻度ランキング TOP30</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">同一注文で一緒に購入された回数が多いペア</p>
+      <table id="pp-cnt-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>サポート</th><th>リフト値</th><th>評価</th><th>優先度</th><th>注意</th></tr></thead><tbody></tbody></table>
     </div>
-    <!-- 施策優先・インパクト分析 -->
-    <div class="grid2" style="margin-top:4px">
-      <div class="table-wrap">
-        <div class="table-title">&#127775; 施策優先ランキング TOP20 <button class="dl-btn" onclick="dlTable('pp-priority-table','施策優先')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">リフト値・信頼度・件数を総合評価してS→A→B順に並べた施策ターゲット</p>
-        <table id="pp-priority-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>リフト値</th><th>信頼度</th><th>優先度</th><th>推奨施策</th></tr></thead><tbody></tbody></table>
-      </div>
-      <div class="table-wrap">
-        <div class="table-title">&#128176; 売上インパクト TOP20 <button class="dl-btn" onclick="dlTable('pp-sales-impact-table','売上インパクト')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">件数 × 商品A客単価 + 商品B客単価</p>
-        <table id="pp-sales-impact-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>リフト値</th><th>売上インパクト</th><th>優先度</th></tr></thead><tbody></tbody></table>
-      </div>
+    <div class="table-wrap pp-panel" id="pp-panel-lift" style="display:none">
+      <div class="table-title">レコメンド効果ランキング TOP30</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">偶然より何倍一緒に買われているか（リフト値）／目安：2.0以上で有意、3.0以上で強い関連</p>
+      <table id="pp-lift-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>リフト値</th><th>評価</th><th>優先度</th><th>注意</th></tr></thead><tbody></tbody></table>
     </div>
-    <div class="grid2">
-      <div class="table-wrap">
-        <div class="table-title">&#128200; 粗利インパクト TOP20 <button class="dl-btn" onclick="dlTable('pp-gp-impact-table','粗利インパクト')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">件数 × 商品A客粗利 + 商品B客粗利</p>
-        <table id="pp-gp-impact-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>リフト値</th><th>粗利インパクト</th><th>優先度</th></tr></thead><tbody></tbody></table>
-      </div>
-      <div class="table-wrap">
-        <div class="table-title" style="color:#dc2626">&#9888; 転売・まとめ買い検知リスト <button class="dl-btn" onclick="dlTable('pp-resell-table','転売検知')">&#11015;CSV</button></div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">リフト値・信頼度・件数の組み合わせから転売・まとめ買い可能性を検知</p>
-        <table id="pp-resell-table"><thead><tr><th>品番A</th><th>商品名A</th><th>品番B</th><th>商品名B</th><th>件数</th><th>リフト値</th><th>信頼度</th><th>警告</th></tr></thead><tbody></tbody></table>
-      </div>
+    <div class="table-wrap pp-panel" id="pp-panel-conf" style="display:none">
+      <div class="table-title">購買誘導率ランキング TOP30</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">A購入者がBも買う確率 / B購入者がAも買う確率／目安：30%以上で有効、50%以上で強い誘導</p>
+      <table id="pp-conf-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>信頼度A→B</th><th>信頼度B→A</th><th>評価</th><th>優先度</th><th>注意</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="table-wrap pp-panel" id="pp-panel-single" style="display:none">
+      <div class="table-title">クロスセル余地ランキング TOP20</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">単品購入が多い商品 ＝ クロスセルをまだ活かせていない商品</p>
+      <table id="pp-single-table"><thead><tr><th>順位</th><th>商品</th><th>単品購入数</th><th>評価</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="table-wrap pp-panel" id="pp-panel-priority" style="display:none">
+      <div class="table-title">施策優先ランキング TOP20</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">リフト値・信頼度・件数を総合評価してS→A→B順に並べた施策ターゲット</p>
+      <table id="pp-priority-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>リフト値</th><th>信頼度</th><th>優先度</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="table-wrap pp-panel" id="pp-panel-sales-impact" style="display:none">
+      <div class="table-title">売上インパクト TOP20</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">件数 × 商品A客単価 + 商品B客単価</p>
+      <table id="pp-sales-impact-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>リフト値</th><th>売上インパクト</th><th>優先度</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="table-wrap pp-panel" id="pp-panel-gp-impact" style="display:none">
+      <div class="table-title">粗利インパクト TOP20</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">件数 × 商品A客粗利 + 商品B客粗利</p>
+      <table id="pp-gp-impact-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>リフト値</th><th>粗利インパクト</th><th>優先度</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="table-wrap pp-panel" id="pp-panel-resell" style="display:none">
+      <div class="table-title" style="color:#dc2626">転売・まとめ買い検知リスト</div>
+      <p style="font-size:11px;color:#94a3b8;margin-bottom:8px">リフト値・信頼度・件数の組み合わせから転売・まとめ買い可能性を検知</p>
+      <table id="pp-resell-table"><thead><tr><th>順位</th><th>商品A</th><th>商品B</th><th>件数</th><th>リフト値</th><th>信頼度</th><th>警告</th></tr></thead><tbody></tbody></table>
     </div>
   </div>
 
@@ -528,6 +658,18 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
       <input type="file" id="inv-csv-input" accept=".csv" style="display:none" onchange="handleInvFile(this.files[0])">
     </div>
     <div id="inv-upload-status" style="margin-bottom:14px"></div>
+    <div style="margin-top:16px;margin-bottom:6px;font-size:12px;font-weight:700;color:#64748b">📊 EC閲覧データ（ZOZOバックオフィス Excel）</div>
+    <div id="ec-upload-zone" onclick="document.getElementById('ec-xlsx-input').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleEcDrop(event)"
+         style="border:2px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;cursor:pointer;background:#f8fafc;transition:all .15s;margin-bottom:10px">
+      <div style="font-size:36px;margin-bottom:8px">📊</div>
+      <p style="font-weight:700;margin-bottom:4px">ZOZOバックオフィス Excelをドラッグ＆ドロップ</p>
+      <p style="font-size:11px;color:#94a3b8">対応形式：.xlsx / 列構成：日付, ショップ名, カテゴリ, 品番, 商品名, お気に入り, カート, UU, PV, 購入者数</p>
+      <input type="file" id="ec-xlsx-input" accept=".xlsx,.csv" style="display:none" onchange="handleEcFile(this.files[0])">
+    </div>
+    <div id="ec-upload-status" style="margin-bottom:14px"></div>
     <div class="table-wrap"><div class="table-title">&#128203; 読込データプレビュー（先頭10件）</div><div style="overflow-x:auto"><table id="preview-table"><tbody><tr><td class="no-data" colspan="13">データなし</td></tr></tbody></table></div></div>
   </div>
     </div><!-- /#content -->
@@ -536,7 +678,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 </div><!-- /#app -->
 
 <script>
-let RAW=[],FILTERED=[],CHARTS={},INVRAW=[];
+let RAW=[],FILTERED=[],CHARTS={},INVRAW=[],ECRAW=[];
 if(typeof ChartDataLabels!=='undefined')Chart.register(ChartDataLabels);
 Chart.defaults.font.family="'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans-serif";
 
@@ -580,6 +722,7 @@ function handleInvFile(file){
           sku:      String(r['ブランド品番']||'').trim(),
           name:     String(r['商品名']||'').trim(),
           month:    parseInt(r['月']||'0')||0,
+          year:     parseInt(r['年']||'0')||0,
           sellPrice:   toNum(r['販売価格(税抜)']),
           stockQty:    toNum(r['在庫数']),
           totalAmt:    toNum(r['合計金額（税抜）']),
@@ -612,13 +755,22 @@ function renderInv(){
     if(monthFilter&&r.month!==monthFilter)return false;
     return true;
   }):INVRAW;
-  // 在庫：SKU集計
+  // 月次平均在庫のため期数を計算
+  const periods=[...new Set(inv.map(r=>r.year&&r.month?`${r.year}-${String(r.month).padStart(2,'0')}`:null).filter(Boolean))].sort();
+  const nMonths=periods.length||1;
+  const latestPeriod=periods[periods.length-1]||'';
+  // 在庫：SKU集計（properAmt=全月合計→後で平均化、stockQty=最新月のみ）
   const invSku={};
   inv.forEach(r=>{
     if(!invSku[r.sku])invSku[r.sku]={childCat:r.childCat,name:r.name,stockQty:0,totalAmt:0,properAmt:0};
     const s=invSku[r.sku];
-    s.stockQty+=r.stockQty;s.totalAmt+=r.totalAmt;s.properAmt+=r.properPrice*r.stockQty;
+    s.properAmt+=r.properPrice*r.stockQty;
+    s.totalAmt+=r.totalAmt;
+    const period=r.year&&r.month?`${r.year}-${String(r.month).padStart(2,'0')}`:null;
+    if(!latestPeriod||period===latestPeriod)s.stockQty+=r.stockQty;
   });
+  // 平均化（在庫回転率用）
+  Object.values(invSku).forEach(s=>{s.properAmt/=nMonths;s.totalAmt/=nMonths;});
   // 在庫：カテゴリ（D列=子商品タイプ）集計
   const invCat={};
   Object.values(invSku).forEach(s=>{
@@ -938,11 +1090,11 @@ function clearData(){
 function buildFilters(){
   const dates=RAW.map(r=>r.date).filter(Boolean).sort();
   if(dates.length){document.getElementById('f-start').value=dates[0].slice(0,10);document.getElementById('f-end').value=dates[dates.length-1].slice(0,10);}
-  // ブランド：CSV C列の実データから動的生成
-  const brands=[...new Set(RAW.map(r=>r.brand).filter(Boolean))].sort();
+  // ブランド：注文CSV＋EC閲覧データ両方から集約
+  const brands=[...new Set([...RAW.map(r=>r.brand),...ECRAW.map(r=>r.brand)].filter(Boolean))].sort();
   document.getElementById('f-brand').innerHTML='<option value="">すべて</option>'+brands.map(b=>`<option>${b}</option>`).join('');
-  // 性別：CSV F列の実データから動的生成
-  const genders=[...new Set(RAW.map(r=>r.gender).filter(Boolean))].sort();
+  // 性別：注文CSV＋EC閲覧データ両方から集約
+  const genders=[...new Set([...RAW.map(r=>r.gender),...ECRAW.map(r=>r.gender)].filter(Boolean))].sort();
   document.getElementById('f-gender').innerHTML='<option value="">すべて</option>'+genders.map(g=>`<option>${g}</option>`).join('');
 }
 
@@ -1098,22 +1250,28 @@ function computeCatJourney(D){
     if(!memberOrds[r.member][r.order])memberOrds[r.member][r.order]={date:r.date||'',cats:new Set()};
     memberOrds[r.member][r.order].cats.add(r.childCat);
   });
+  const trans={},transTotal={},seq3={},seq3Total={};
   let total2=0,total3=0;
-  const trans={},seq3={};
+  // 人数（ユニーク）と延べ回数を両方集計
   Object.values(memberOrds).forEach(om=>{
     const ords=Object.values(om).sort((a,b)=>a.date<b.date?-1:1);
     if(ords.length<2)return;
     total2++;
     if(ords.length>=3)total3++;
+    const seenTrans=new Set(),seenSeq=new Set();
     for(let i=0;i<ords.length-1;i++){
       const c1=[...ords[i].cats].slice(0,5),c2=[...ords[i+1].cats].slice(0,5);
       c1.forEach(a=>c2.forEach(b=>{
-        const k=a+'\x00'+b;trans[k]=(trans[k]||0)+1;
+        const k=a+'\x00'+b;
+        transTotal[k]=(transTotal[k]||0)+1; // 延べ回数（重複あり）
+        if(!seenTrans.has(k)){seenTrans.add(k);trans[k]=(trans[k]||0)+1;} // 人数（ユニーク）
       }));
       if(i<ords.length-2){
         const c3=[...ords[i+2].cats].slice(0,5);
         c1.forEach(a=>c2.forEach(b=>c3.forEach(c=>{
-          const k=a+'\x00'+b+'\x00'+c;seq3[k]=(seq3[k]||0)+1;
+          const k=a+'\x00'+b+'\x00'+c;
+          seq3Total[k]=(seq3Total[k]||0)+1; // 延べ回数（重複あり）
+          if(!seenSeq.has(k)){seenSeq.add(k);seq3[k]=(seq3[k]||0)+1;} // 人数（ユニーク）
         })));
       }
     }
@@ -1121,9 +1279,9 @@ function computeCatJourney(D){
   const chip=s=>`<span class="fcat">${s}</span>`;
   const arr=`<span class="farr">›</span>`;
   const transRows=Object.entries(trans).sort((a,b)=>b[1]-a[1]).slice(0,30)
-    .map(([k,cnt],i)=>{const[f,t]=k.split('\x00');return[i+1,chip(f)+arr+chip(t),FMT.num(cnt),(total2?(cnt/total2*100).toFixed(1):0)+'%'];});
+    .map(([k,uniq],i)=>{const[f,t]=k.split('\x00');const tot=transTotal[k]||0;return[i+1,chip(f)+arr+chip(t),FMT.num(uniq),FMT.num(tot),(uniq?(tot/uniq).toFixed(1):'-')+'回',(total2?(uniq/total2*100).toFixed(1):0)+'%'];});
   const seqRows=Object.entries(seq3).sort((a,b)=>b[1]-a[1]).slice(0,20)
-    .map(([k,cnt],i)=>{const[s1,s2,s3]=k.split('\x00');return[i+1,chip(s1)+arr+chip(s2)+arr+chip(s3),FMT.num(cnt),(total3?(cnt/total3*100).toFixed(1):0)+'%'];});
+    .map(([k,uniq],i)=>{const[s1,s2,s3]=k.split('\x00');const tot=seq3Total[k]||0;return[i+1,chip(s1)+arr+chip(s2)+arr+chip(s3),FMT.num(uniq),FMT.num(tot),(uniq?(tot/uniq).toFixed(1):'-')+'回',(total3?(uniq/total3*100).toFixed(1):0)+'%'];});
   return{transRows,seqRows};
 }
 function _liftBadge(lift){
@@ -1141,6 +1299,12 @@ function _warnFlag(lift,cnt){
   if(lift>=100&&cnt>=50)return'<span class="info-b">✓ 実需レベル強関連</span>';
   if(lift>=50&&cnt<10)return'<span class="warn-b">⚠ 少数サンプル参考値</span>';
   return'';
+}
+function _warnAndResell(lift,conf,cnt){
+  const parts=[];
+  const w=_warnFlag(lift,cnt);if(w)parts.push(w);
+  if((lift>=100&&cnt>=50)||(lift>=50&&conf>=0.5&&cnt>=30))parts.push('<span class="resell-b">⚠ 転売可能性あり</span>');
+  return parts.join(' ');
 }
 function _resellFlag(lift,conf,cnt){
   if((lift>=100&&cnt>=50)||(lift>=50&&conf>=0.5&&cnt>=30))
@@ -1168,12 +1332,12 @@ function renderAll(){
   document.getElementById('kpi-gp').textContent=FMT.yen(C.totalGP);
   document.getElementById('kpi-gp-rate').textContent='粗利率 '+FMT.pct(C.totalSales?C.totalGP/C.totalSales:0);
   document.getElementById('kpi-orders').textContent=FMT.num(C.orders);
-  document.getElementById('kpi-orders-sub').textContent='セット率 '+FMT.pct(C.setRate);
+  document.getElementById('kpi-orders-sub').textContent='セット率 '+(C.members?C.orders/C.members:0).toFixed(2)+'回';
   const newCount=C.members-C.repeatCount;
   document.getElementById('kpi-buyers').textContent=FMT.num(C.members);
   document.getElementById('kpi-buyers-sub').textContent='新規 '+FMT.num(newCount)+'人 / リピ '+FMT.num(C.repeatCount)+'人';
   document.getElementById('kpi-atv').textContent=FMT.yen(C.atv);
-  document.getElementById('kpi-atv-sub').textContent='平均購入点数 '+(C.orders?C.totalQty/C.orders:0).toFixed(1)+'点';
+  document.getElementById('kpi-atv-sub').textContent='商品単価 '+FMT.yen(C.totalQty?C.totalSales/C.totalQty:0);
   document.getElementById('kpi-age').textContent=FMT.dec(C.avgAge);
   document.getElementById('kpi-age-sub').textContent='新規率 '+FMT.pct(C.members?newCount/C.members:0)+' / リピ率 '+FMT.pct(C.repeatRate);
   // Dashboard charts
@@ -1212,7 +1376,7 @@ function renderAll(){
     thead.querySelectorAll('th').forEach(h=>delete h.dataset.orig);
     fillSortable('md-table',C.catRows.map((r,i)=>[i+1,`<span class="fcat">${r.cat}</span>`,FMT.yen(r.sales),FMT.yen(r.gp),FMT.pct(r.gpRate),FMT.yen(r.salesLTV),FMT.yen(r.gpLTV),FMT.num(r.qty),FMT.num(r.orders),FMT.num(r.members),FMT.yen(r.members?r.sales/r.members:0),FMT.yen(r.qty?r.sales/r.qty:0),FMT.pct(r.setRate),FMT.pct(r.cosellRate),FMT.dec(r.avgAge),(r.sales/total*100).toFixed(1)+'%']));
   }
-  const t8=C.catRows.slice(0,8);mkGroupBar('chart-md-bar',t8.map(r=>r.cat.slice(0,8)),t8.map(r=>r.sales),t8.map(r=>r.gp));
+  const t8=C.catRows.slice(0,8);mkMixBar('chart-md-bar',t8.map(r=>r.cat.slice(0,8)),t8.map(r=>r.sales),t8.map(r=>r.gp),t8.map(r=>+(r.gpRate*100).toFixed(1)));
   {const ts=C.totalSales||1;const _s=n=>((C.catRows.slice(0,n).reduce((s,r)=>s+r.sales,0)/ts)*100).toFixed(1)+'%';const el=id=>document.getElementById(id);if(el('cat-share10'))el('cat-share10').textContent=_s(10);if(el('cat-share20'))el('cat-share20').textContent=_s(20);if(el('cat-share30'))el('cat-share30').textContent=_s(30);}
   // 品番・商品名軸
   {
@@ -1223,7 +1387,7 @@ function renderAll(){
     const skuRows=[...C.prodRows].sort((a,b)=>b.sales-a.sales);
     fillSortable('sku-table',skuRows.map((r,i)=>[i+1,`<span class="fcat">${r.sku}</span>`,r.name,FMT.yen(r.sales),FMT.yen(r.gp),FMT.pct(r.gpRate),FMT.yen(r.salesLTV),FMT.yen(r.gpLTV),FMT.num(r.qty),FMT.num(r.totalOrds||r.buyers),FMT.num(r.buyers),FMT.yen(r.buyers?r.sales/r.buyers:0),FMT.yen(r.qty?r.sales/r.qty:0),FMT.pct(r.setRate),FMT.pct(r.cosellRate),FMT.dec(r.avgAge),(r.sales/total*100).toFixed(1)+'%']));
     const top15=skuRows.slice(0,15);
-    mkGroupBar('chart-sku-bar',top15.map(r=>(r.sku||r.name||'').slice(0,10)),top15.map(r=>r.sales),top15.map(r=>r.gp));
+    mkMixBar('chart-sku-bar',top15.map(r=>(r.sku||r.name||'').slice(0,10)),top15.map(r=>r.sales),top15.map(r=>r.gp),top15.map(r=>+(r.gpRate*100).toFixed(1)));
     {const ts=C.totalSales||1;const _s=n=>((skuRows.slice(0,n).reduce((s,r)=>s+r.sales,0)/ts)*100).toFixed(1)+'%';const el=id=>document.getElementById(id);if(el('sku-share10'))el('sku-share10').textContent=_s(10);if(el('sku-share20'))el('sku-share20').textContent=_s(20);if(el('sku-share30'))el('sku-share30').textContent=_s(30);}
   }
   // Customer
@@ -1255,7 +1419,7 @@ function renderAll(){
   const _trustScore=r=>r.lift*((r.conf+r.confBA)/2)*Math.log(r.cnt+1);
   const _medals=['🥇','🥈','🥉'];
   const _medalMap=Object.fromEntries([...C.catPairs].sort((a,b)=>_trustScore(b)-_trustScore(a)).slice(0,3).map((r,i)=>[r.catA+'|||'+r.catB,_medals[i]]));
-  const _pair=r=>{const m=_medalMap[r.catA+'|||'+r.catB];return(m?`<span style="font-size:15px;margin-right:5px;vertical-align:middle">${m}</span>`:'')+_chip(r.catA)+_arr+_chip(r.catB);};
+  const _pair=r=>{const m=_medalMap[r.catA+"|||"+r.catB];return`<span style="white-space:nowrap">${(m?`<span style="font-size:15px;margin-right:5px;vertical-align:middle">${m}</span>`:'')+_chip(r.catA)+_arr+_chip(r.catB)}</span>`;};
   // カテゴリ軸 売上/粗利インパクト計算
   const catSalesPerOrd={},catGPPerOrd={};
   C.catRows.forEach(r=>{catSalesPerOrd[r.cat]=r.orders?r.sales/r.orders:0;catGPPerOrd[r.cat]=r.orders?r.gp/r.orders:0;});
@@ -1264,7 +1428,7 @@ function renderAll(){
     const conf=Math.max(r.conf,r.confBA);
     const si=r.cnt*((catSalesPerOrd[r.catA]||0)+(catSalesPerOrd[r.catB]||0));
     const gi=r.cnt*((catGPPerOrd[r.catA]||0)+(catGPPerOrd[r.catB]||0));
-    return[i+1,_pair(r),FMT.num(r.cnt),(r.support*100).toFixed(2)+'%',FMT.pct(r.conf),FMT.pct(r.confBA),FMT.dec(r.lift),_liftBadge(r.lift),FMT.yen(si),FMT.yen(gi),_measure(r.lift,conf,r.cnt)];
+    return[i+1,_pair(r),FMT.num(r.cnt),(r.support*100).toFixed(2)+'%',FMT.pct(r.conf),FMT.pct(r.confBA),FMT.dec(r.lift),_liftBadge(r.lift),FMT.yen(si),FMT.yen(gi)];
   }));
   // Product pair
   const _csB=(cls,txt)=>`<span class="cs-badge ${cls}">${txt}</span>`;
@@ -1276,40 +1440,41 @@ function renderAll(){
   const _psi=r=>r.cnt*((skuAPO[r.skuA]||0)+(skuAPO[r.skuB]||0));
   const _pgi=r=>r.cnt*((skuGPO[r.skuA]||0)+(skuGPO[r.skuB]||0));
   // 既存テーブル（強化版）
-  fillTable('pp-cnt-table',C.prodPairs.slice(0,10).map((r,i)=>{
+  const _skn=(sku,name)=>`<div style="line-height:1.5">${_sk(sku)}<br><span style="font-size:11px;color:#1e293b">${name}</span></div>`;
+  fillTable('pp-cnt-table',C.prodPairs.slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),(r.support*100).toFixed(2)+'%',FMT.dec(r.lift),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_measure(r.lift,conf,r.cnt),_warnFlag(r.lift,r.cnt),_resellFlag(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),(r.support*100).toFixed(2)+'%',FMT.dec(r.lift),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_warnAndResell(r.lift,conf,r.cnt)];
   }));
-  fillTable('pp-lift-table',[...C.prodPairs].sort((a,b)=>b.lift-a.lift).slice(0,10).map(r=>{
+  fillTable('pp-lift-table',[...C.prodPairs].sort((a,b)=>b.lift-a.lift).slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.dec(r.lift),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_measure(r.lift,conf,r.cnt),_warnFlag(r.lift,r.cnt),_resellFlag(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.dec(r.lift),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_warnAndResell(r.lift,conf,r.cnt)];
   }));
-  fillTable('pp-conf-table',[...C.prodPairs].sort((a,b)=>Math.max(b.confAB,b.confBA)-Math.max(a.confAB,a.confBA)).slice(0,10).map(r=>{
+  fillTable('pp-conf-table',[...C.prodPairs].sort((a,b)=>Math.max(b.confAB,b.confBA)-Math.max(a.confAB,a.confBA)).slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.pct(r.confAB),FMT.pct(r.confBA),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_measure(r.lift,conf,r.cnt),_warnFlag(r.lift,r.cnt),_resellFlag(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.pct(r.confAB),FMT.pct(r.confBA),_liftBadge(r.lift),_priB(r.lift,conf,r.cnt),_warnAndResell(r.lift,conf,r.cnt)];
   }));
-  fillTable('pp-single-table',C.singleRows.slice(0,20).map((r,i)=>[_sk(r.sku),r.name,FMT.num(r.cnt),i<3?_csB('cs-great','🎯 優先候補'):'']));
+  fillTable('pp-single-table',C.singleRows.slice(0,30).map((r,i)=>[i+1,_skn(r.sku,r.name),FMT.num(r.cnt),i<3?_csB('cs-great','🎯 優先候補'):'']));
   // 施策優先ランキング
   const _priOrder=r=>{const c=Math.max(r.confAB,r.confBA);if(r.lift>=20&&c>=0.3&&r.cnt>=30)return 0;if(r.lift>=10&&c>=0.2&&r.cnt>=20)return 1;if(r.lift>=5&&c>=0.1&&r.cnt>=10)return 2;return 3;};
-  fillTable('pp-priority-table',[...C.prodPairs].sort((a,b)=>_priOrder(a)-_priOrder(b)).slice(0,20).map(r=>{
+  fillTable('pp-priority-table',[...C.prodPairs].sort((a,b)=>_priOrder(a)-_priOrder(b)).slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.dec(r.lift),FMT.pct(conf),_priB(r.lift,conf,r.cnt),_measure(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.dec(r.lift),FMT.pct(conf),_priB(r.lift,conf,r.cnt)];
   }));
   // 売上インパクト
-  fillTable('pp-sales-impact-table',[...C.prodPairs].sort((a,b)=>_psi(b)-_psi(a)).slice(0,20).map(r=>{
+  fillTable('pp-sales-impact-table',[...C.prodPairs].sort((a,b)=>_psi(b)-_psi(a)).slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.dec(r.lift),FMT.yen(_psi(r)),_priB(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.dec(r.lift),FMT.yen(_psi(r)),_priB(r.lift,conf,r.cnt)];
   }));
   // 粗利インパクト
-  fillTable('pp-gp-impact-table',[...C.prodPairs].sort((a,b)=>_pgi(b)-_pgi(a)).slice(0,20).map(r=>{
+  fillTable('pp-gp-impact-table',[...C.prodPairs].sort((a,b)=>_pgi(b)-_pgi(a)).slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.dec(r.lift),FMT.yen(_pgi(r)),_priB(r.lift,conf,r.cnt)];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.dec(r.lift),FMT.yen(_pgi(r)),_priB(r.lift,conf,r.cnt)];
   }));
   // 転売検知
   const resellPairs=C.prodPairs.filter(r=>{const c=Math.max(r.confAB,r.confBA);return(r.lift>=100&&r.cnt>=50)||(r.lift>=50&&c>=0.5&&r.cnt>=30);});
-  fillTable('pp-resell-table',resellPairs.slice(0,30).map(r=>{
+  fillTable('pp-resell-table',resellPairs.slice(0,30).map((r,i)=>{
     const conf=Math.max(r.confAB,r.confBA);
-    return[_sk(r.skuA),r.nameA,_sk(r.skuB),r.nameB,FMT.num(r.cnt),FMT.dec(r.lift),FMT.pct(conf),'<span class="resell-b">⚠ 転売・まとめ買い可能性</span>'];
+    return[i+1,_skn(r.skuA,r.nameA),_skn(r.skuB,r.nameB),FMT.num(r.cnt),FMT.dec(r.lift),FMT.pct(conf),'<span class="resell-b">⚠ 転売・まとめ買い可能性</span>'];
   }));
   // 商品別年齢
   const ageSorted=[...C.prodRows].filter(p=>p.avgAge>0).sort((a,b)=>a.avgAge-b.avgAge);
@@ -1326,6 +1491,7 @@ function renderAll(){
   fillSortable('cat-age-mid-table',[...C.catRows].filter(c=>c.mid>0).sort((a,b)=>b.mid-a.mid).slice(0,20).map(catAgeRow));
   fillSortable('cat-age-adt-table',[...C.catRows].filter(c=>c.adt>0).sort((a,b)=>b.adt-a.adt).slice(0,20).map(catAgeRow));
   renderInv();
+  if(ECRAW.length)renderEC();
 }
 
 // ===== ソート対応テーブル =====
@@ -1344,7 +1510,7 @@ function _renderSorted(id){
   const tb=t.querySelector('tbody');
   const cols=t.querySelectorAll('thead th').length||99;
   tb.innerHTML=sorted.length?sorted.map(row=>`<tr>${row.map((cell,ci)=>{
-    const s=String(cell);const isN=/^[¥\-]?\d[\d,]*(\.\d+)?%?$/.test(s);const isR=ci===0&&/^\d+$/.test(s);
+    const s=String(cell);const isN=/^[¥\-]?\d[\d,]*(\.\d+)?(%|回|日)?$/.test(s);const isR=ci===0&&/^\d+$/.test(s);
     const isNeg=/^¥?-\d/.test(s);
     return`<td class="${isR?'rank':(isN||isNeg)?'num':''}" ${isNeg?'style="color:#dc2626"':''}>${cell}</td>`;}).join('')}</tr>`).join('')
     :`<tr><td class="no-data" colspan="${cols}">データなし</td></tr>`;
@@ -1371,8 +1537,22 @@ function mkPie(id,labels,data){dc(id);const ctx=document.getElementById(id);if(!
 function mkGroupBar(id,labels,sales,gp){dc(id);const ctx=document.getElementById(id);if(!ctx)return;const fmtG=function(v,c){var d=c.chart.data.datasets[c.datasetIndex].data;var t=d.reduce(function(s,x){return s+(+x||0);},0);if(!t)return'';var p=v/t*100;return p<1?'':'('+p.toFixed(1)+'%)';};CHARTS[id]=new Chart(ctx,{type:'bar',data:{labels:labels,datasets:[{label:'売上',data:sales,backgroundColor:'rgba(2,132,199,.7)',borderRadius:3,borderSkipped:false},{label:'粗利',data:gp,backgroundColor:'rgba(5,150,105,.65)',borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},plugins:{legend:{labels:{color:'#475569',font:_tf(10),boxWidth:10}},datalabels:{color:_dl.color,font:_dl.font,padding:_dl.padding,anchor:'end',align:'top',formatter:fmtG}},scales:{y:{grid:{color:_GC},ticks:{callback:function(v){return'¥'+Math.round(v/10000)+'万';},color:_TC,font:_tf(9)}},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
 function mkTrendBar(id,labels,vals){dc(id);const ctx=document.getElementById(id);if(!ctx)return;CHARTS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'売上',data:vals,backgroundColor:'rgba(2,132,199,.7)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},plugins:{legend:{display:false},datalabels:{..._dl,anchor:'end',align:'top',formatter:_pct}},scales:{y:{grid:{color:_GC},ticks:{callback:v=>'¥'+Math.round(v/10000)+'万',color:_TC,font:_tf(9)}},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
 function mkAgeBar(id,labels,data){dc(id);const ctx=document.getElementById(id);if(!ctx)return;CHARTS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'人数',data,backgroundColor:'rgba(2,132,199,.65)',borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},plugins:{legend:{display:false},datalabels:{..._dl,anchor:'end',align:'top',formatter:_pct}},scales:{y:{grid:{color:_GC},ticks:{color:_TC,font:_tf(9)}},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
-function mkVBar(id,labels,data){dc(id);const ctx=document.getElementById(id);if(!ctx)return;CHARTS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:'rgba(2,132,199,.65)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},plugins:{legend:{display:false},datalabels:{..._dl,anchor:'end',align:'top',formatter:(v)=>_yen(v)}},scales:{y:{grid:{color:_GC},ticks:{callback:v=>'¥'+Math.round(v/1000)+'k',color:_TC,font:_tf(9)}},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
+function mkVBar(id,labels,data){dc(id);const ctx=document.getElementById(id);if(!ctx)return;CHARTS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:'rgba(2,132,199,.65)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},plugins:{legend:{display:false},datalabels:{..._dl,anchor:'end',align:'top',formatter:(v)=>'¥'+Math.round(v).toLocaleString()}},scales:{y:{grid:{color:_GC},ticks:{callback:v=>'¥'+Math.round(v).toLocaleString(),color:_TC,font:_tf(9)}},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
+function mkMixBar(id,labels,sales,gp,gpRates){dc(id);const ctx=document.getElementById(id);if(!ctx)return;CHARTS[id]=new Chart(ctx,{data:{labels,datasets:[{type:'bar',label:'売上',data:sales,backgroundColor:'rgba(2,132,199,.7)',borderRadius:3,borderSkipped:false,yAxisID:'y',datalabels:{display:false}},{type:'bar',label:'粗利',data:gp,backgroundColor:'rgba(5,150,105,.65)',borderRadius:3,borderSkipped:false,yAxisID:'y',datalabels:{display:false}},{type:'line',label:'粗利率(%)',data:gpRates,borderColor:'rgba(245,158,11,1)',backgroundColor:'rgba(245,158,11,.08)',borderWidth:2,pointRadius:4,pointBackgroundColor:'rgba(245,158,11,1)',tension:0.3,fill:false,yAxisID:'y2',datalabels:{color:'#d97706',font:{size:9,weight:'700',family:_F},anchor:'end',align:'top',formatter:v=>v.toFixed(1)+'%'}}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24}},plugins:{legend:{labels:{color:'#475569',font:_tf(10),boxWidth:10}}},scales:{y:{position:'left',grid:{color:_GC},ticks:{callback:v=>'¥'+Math.round(v/10000)+'万',color:_TC,font:_tf(9)}},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%',color:'#d97706',font:_tf(9)},min:0},x:{grid:{display:false},ticks:{color:_TC,font:_tf(9)}}}}});}
 
+const _ppRankMap={cnt:'pp-cnt-table',lift:'pp-lift-table',conf:'pp-conf-table',single:'pp-single-table',priority:'pp-priority-table','sales-impact':'pp-sales-impact-table','gp-impact':'pp-gp-impact-table',resell:'pp-resell-table'};
+function ppShowRank(v){
+  document.querySelectorAll('.pp-panel').forEach(el=>el.style.display='none');
+  const panel=document.getElementById('pp-panel-'+v);
+  if(panel)panel.style.display='';
+}
+function ppDl(){
+  const sel=document.getElementById('pp-rank-sel');
+  if(!sel)return;
+  const v=sel.value;
+  const tblId=_ppRankMap[v];
+  if(tblId)dlTable(tblId,'クロスセル_'+sel.options[sel.selectedIndex].text.replace(/[^\w　-鿿]/g,''));
+}
 function dlTable(tableId,filename){
   const t=document.getElementById(tableId);if(!t)return;
   const rows=[...t.querySelectorAll('tr')].map(tr=>[...tr.querySelectorAll('th,td')].map(c=>'"'+c.textContent.trim().replace(/"/g,'""')+'"').join(','));
@@ -1402,7 +1582,213 @@ function showPreview(){
 // ページ読込時にフィルター初期構築
 buildFilters();
 
-const TAB_LABELS={dashboard:'ダッシュボード',md:'カテゴリ販売分析','sku-analysis':'商品販売分析','cat-inv':'カテゴリ在庫分析','sku-inv':'商品在庫分析',customer:'顧客分析',basket:'バスケット分析','product-pair':'クロスセルランキング',age:'デモグラフィック分析',upload:'データ取込'};
+// ── EC閲覧データ ──
+function handleEcDrop(e){e.preventDefault();document.getElementById('ec-upload-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)handleEcFile(f);}
+function handleEcFile(file){
+  const status=document.getElementById('ec-upload-status');
+  status.innerHTML='<div style="color:#0284c7;padding:8px 12px;background:#f0f9ff;border-radius:8px;border:1px solid #bae6fd">⏳ 読込中... 大容量ファイルは少しお待ちください</div>';
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''});
+      const toN=v=>parseFloat(String(v).replace(/,/g,''))||0;
+      // ヘッダー行からカラム位置を自動検出（完全一致優先、部分一致フォールバック）
+      const hdr=rows[0]||[];
+      const ci=(exacts,partials=[])=>{
+        let idx=hdr.findIndex(h=>exacts.some(k=>String(h).trim()===k));
+        if(idx>=0)return idx;
+        idx=hdr.findIndex(h=>partials.some(k=>String(h).includes(k)));
+        return idx>=0?idx:-1;
+      };
+      const C={
+        date:    ci(['日付'],['日付','date']),
+        brand:   ci(['ショップカテゴリ（子）','ショップカテゴリ(子)'],['ショップカテゴリ','ショップ名']),
+        catP:    ci(['ZOZOTOWNカテゴリ（親）','ZOZOTOWNカテゴリ(親)'],['カテゴリ（親）','カテゴリ(親)']),
+        cat:     ci(['ZOZOTOWNカテゴリ（子）','ZOZOTOWNカテゴリ(子)'],['ZOZOTOWNカテゴリ']),
+        gender:  ci(['商品主性別','性別'],['性別','gender']),
+        sku:     ci(['ブランド品番'],['品番','SKU']),
+        name:    ci(['商品名'],['商品名','name']),
+        fav:     ci(['お気に入り数'],['お気に入り','fav']),
+        cart:    ci(['カート数','カートイン数'],['カート投入','カートイン','cart']),
+        uu:      ci(['UU数','ユーザー数（UU）'],['UU','ユニークユーザー']),
+        pv:      ci(['PV数','ページビュー数'],['PV','ページビュー']),
+        buyers:  ci(['購入者数','購入UU数'],['購入者','購入UU','buyers']),
+      };
+      if(C.date<0)C.date=0;
+      if(C.brand<0)C.brand=4;
+      if(C.catP<0)C.catP=5;
+      if(C.cat<0)C.cat=6;
+      if(C.gender<0)C.gender=7;
+      if(C.sku<0)C.sku=8;
+      if(C.name<0)C.name=10;
+      if(C.fav<0)C.fav=13;
+      if(C.cart<0)C.cart=14;
+      if(C.uu<0)C.uu=17;
+      if(C.pv<0)C.pv=18;
+      if(C.buyers<0)C.buyers=19;
+      // ExcelのDate型・シリアル値・文字列を YYYY-MM-DD に変換
+      const toDate=v=>{
+        if(!v)return'';
+        if(v instanceof Date)return v.toISOString().slice(0,10);
+        const n=Number(v);
+        if(!isNaN(n)&&n>40000){const d=new Date(Math.round((n-25569)*86400*1000));return d.toISOString().slice(0,10);}
+        return String(v).replace(/\//g,'-').slice(0,10);
+      };
+      ECRAW=[...ECRAW,...rows.slice(1).map(r=>({
+        date:   toDate(r[C.date]),
+        brand:  String(r[C.brand]||'').trim(),
+        catP:   String(r[C.catP]||'').trim(),
+        cat:    String(r[C.cat]||'').trim(),
+        gender: String(r[C.gender]||'').trim(),
+        sku:    String(r[C.sku]||'').trim(),
+        name:   String(r[C.name]||'').trim(),
+        fav:    toN(r[C.fav]),
+        cart:   toN(r[C.cart]),
+        uu:     toN(r[C.uu]),
+        pv:     toN(r[C.pv]),
+        buyers: toN(r[C.buyers]),
+      })).filter(r=>r.sku||r.cat)];
+      const detectedKeys=['date','brand','catP','cat','gender','sku','name','fav','cart','uu','pv','buyers'];
+      const detected=detectedKeys.map(k=>`${k}列${C[k]+1}(${hdr[C[k]]||'?'})`).join(' / ');
+      status.innerHTML=`<div style="color:#059669;padding:8px 12px;background:#f0fdf4;border-radius:8px;border:1px solid #86efac">✅ EC閲覧データ読込完了：${ECRAW.length.toLocaleString()}件</div><div style="font-size:10px;color:#64748b;margin-top:4px;padding:4px 8px;background:#f8fafc;border-radius:4px">列検出: ${detected}</div>`;
+      buildFilters();
+      renderEC();
+    }catch(err){
+      status.innerHTML=`<div style="color:#dc2626;padding:8px 12px;background:#fef2f2;border-radius:8px;border:1px solid #fecaca">❌ 読込エラー: ${err.message}</div>`;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+function renderEC(){
+  if(!ECRAW.length)return;
+  const start=document.getElementById('f-start').value;
+  const end=document.getElementById('f-end').value;
+  const fBrand=document.getElementById('f-brand').value;
+  const fGender=document.getElementById('f-gender').value;
+  // 日付を YYYY-MM-DD 形式に正規化（スラッシュ区切り対応）
+  const normDate=d=>d?String(d).replace(/\//g,'-').slice(0,10):'';
+  const fd=ECRAW.filter(r=>{
+    const d=normDate(r.date);
+    if(start&&d&&d<start)return false;
+    if(end&&d&&d>end)return false;
+    if(fBrand&&r.brand!==fBrand)return false;
+    if(fGender&&r.gender!==fGender)return false;
+    return true;
+  });
+  const pct=(n,d)=>d?(n/d*100).toFixed(1)+'%':'-';
+  const dec1=n=>n?n.toFixed(1):'-';
+  const el2=id=>document.getElementById(id);
+
+  // カテゴリ集計
+  const cMap={};
+  fd.forEach(r=>{
+    const k=r.cat||r.catP||'不明';
+    if(!cMap[k])cMap[k]={cat:k,uu:0,pv:0,fav:0,cart:0,buyers:0};
+    cMap[k].uu+=r.uu;cMap[k].pv+=r.pv;cMap[k].fav+=r.fav;cMap[k].cart+=r.cart;cMap[k].buyers+=r.buyers;
+  });
+  const cRows=Object.values(cMap).sort((a,b)=>b.uu-a.uu);
+  const totUU=cRows.reduce((s,r)=>s+r.uu,0);
+  const totPV=cRows.reduce((s,r)=>s+r.pv,0);
+  const totFav=cRows.reduce((s,r)=>s+r.fav,0);
+  const totCart=cRows.reduce((s,r)=>s+r.cart,0);
+  const totBuyers=cRows.reduce((s,r)=>s+r.buyers,0);
+
+  // カテゴリKPI
+  ['cat-ec-no-data','cat-ec-body'].forEach((id,i)=>{const el=el2(id);if(el)el.style.display=i?'':'none';});
+  el2('cec-uu').textContent=FMT.num(totUU);
+  el2('cec-pv').textContent='PV '+FMT.num(totPV);
+  el2('cec-cvr').textContent=pct(totBuyers,totUU);
+  el2('cec-favr').textContent=pct(totFav,totUU);
+  el2('cec-fav').textContent='お気に入り '+FMT.num(totFav);
+  el2('cec-cart').textContent=pct(totCart,totUU);
+  el2('cec-fav2buy').textContent=pct(totBuyers,totFav);
+  el2('cec-cart2buy').textContent=pct(totBuyers,totCart);
+
+  fillSortable('cat-ec-table',cRows.map((r,i)=>[
+    i+1,r.cat,FMT.num(r.uu),FMT.num(r.pv),dec1(r.uu?r.pv/r.uu:0),
+    FMT.num(r.fav),pct(r.fav,r.uu),FMT.num(r.cart),pct(r.cart,r.uu),
+    FMT.num(r.buyers),pct(r.buyers,r.uu),pct(r.buyers,r.fav),pct(r.buyers,r.cart),
+  ]));
+
+  // 商品集計
+  const sMap={};
+  fd.forEach(r=>{
+    if(!r.sku)return;
+    if(!sMap[r.sku])sMap[r.sku]={sku:r.sku,name:r.name,cat:r.cat,uu:0,pv:0,fav:0,cart:0,buyers:0};
+    sMap[r.sku].uu+=r.uu;sMap[r.sku].pv+=r.pv;sMap[r.sku].fav+=r.fav;sMap[r.sku].cart+=r.cart;sMap[r.sku].buyers+=r.buyers;
+  });
+  const sRows=Object.values(sMap).sort((a,b)=>b.uu-a.uu);
+
+  // 商品KPI
+  ['sku-ec-no-data','sku-ec-body'].forEach((id,i)=>{const el=el2(id);if(el)el.style.display=i?'':'none';});
+  el2('sec-uu').textContent=FMT.num(totUU);
+  el2('sec-pv').textContent='PV '+FMT.num(totPV);
+  el2('sec-cvr').textContent=pct(totBuyers,totUU);
+  el2('sec-favr').textContent=pct(totFav,totUU);
+  el2('sec-fav').textContent='お気に入り '+FMT.num(totFav);
+  el2('sec-cart').textContent=pct(totCart,totUU);
+  el2('sec-fav2buy').textContent=pct(totBuyers,totFav);
+  el2('sec-cart2buy').textContent=pct(totBuyers,totCart);
+
+  fillSortable('sku-ec-table',sRows.map((r,i)=>[
+    i+1,`<span class="fcat">${r.sku}</span>`,r.name,FMT.num(r.uu),FMT.num(r.pv),dec1(r.uu?r.pv/r.uu:0),
+    FMT.num(r.fav),pct(r.fav,r.uu),FMT.num(r.cart),pct(r.cart,r.uu),
+    FMT.num(r.buyers),pct(r.buyers,r.uu),pct(r.buyers,r.fav),pct(r.buyers,r.cart),
+  ]));
+
+  // 高閲覧×低CVR
+  const avgCVR=totBuyers/(totUU||1);
+  const avgUU=totUU/(sRows.length||1);
+  const lowCVR=sRows.filter(r=>r.uu>avgUU&&r.uu>0&&r.buyers/r.uu<avgCVR*0.5).sort((a,b)=>b.uu-a.uu).slice(0,30);
+  fillSortable('ec-low-cvr-table',lowCVR.map((r,i)=>[
+    i+1,`<span class="fcat">${r.sku}</span>`,r.name,FMT.num(r.uu),pct(r.buyers,r.uu),pct(r.fav,r.uu),pct(r.cart,r.uu),
+  ]));
+
+  // お気に入り高×購入低
+  const avgFavR=totFav/(totUU||1);
+  const highFav=sRows.filter(r=>r.uu>0&&r.fav/r.uu>avgFavR&&r.fav>0&&r.buyers/r.fav<0.1).sort((a,b)=>(b.fav/(b.uu||1))-(a.fav/(a.uu||1))).slice(0,30);
+  fillSortable('ec-fav-table',highFav.map((r,i)=>[
+    i+1,`<span class="fcat">${r.sku}</span>`,r.name,FMT.num(r.uu),pct(r.fav,r.uu),pct(r.buyers,r.fav),pct(r.buyers,r.uu),
+  ]));
+}
+
+// ── 列ハイライト＋ツールチップ ──
+(()=>{
+  const tip=document.createElement('div');tip.id='tbl-tip';document.body.appendChild(tip);
+  let lastTable=null,lastCol=-1;
+  const clearHL=()=>{
+    if(lastTable){lastTable.querySelectorAll('.col-hl,.col-hl-th').forEach(el=>{el.classList.remove('col-hl','col-hl-th');});}
+    lastTable=null;lastCol=-1;tip.style.display='none';
+  };
+  document.getElementById('content').addEventListener('mouseover',e=>{
+    const cell=e.target.closest('td,th');
+    if(!cell){clearHL();return;}
+    const table=cell.closest('table');
+    if(!table){clearHL();return;}
+    const col=cell.cellIndex;
+    if(table===lastTable&&col===lastCol)return;
+    clearHL();
+    lastTable=table;lastCol=col;
+    table.querySelectorAll('tr').forEach(row=>{
+      const c=row.cells[col];
+      if(c)c.classList.add(c.tagName==='TH'?'col-hl-th':'col-hl');
+    });
+    if(cell.tagName==='TD'){
+      const hrow=table.querySelector('thead tr');
+      const hcell=hrow&&hrow.cells[col];
+      const label=hcell?hcell.textContent.trim():'';
+      if(label){tip.textContent=label;tip.style.display='block';}
+    }
+  });
+  document.getElementById('content').addEventListener('mousemove',e=>{
+    tip.style.left=(e.clientX+14)+'px';
+    tip.style.top=(e.clientY-36)+'px';
+  });
+  document.getElementById('content').addEventListener('mouseleave',clearHL);
+})();
+
+const TAB_LABELS={dashboard:'ダッシュボード',md:'カテゴリ販売分析','sku-analysis':'商品販売分析','cat-inv':'カテゴリ在庫分析','sku-inv':'商品在庫分析','cat-ec':'カテゴリ閲覧分析','sku-ec':'商品閲覧分析',customer:'顧客分析',basket:'バスケット分析','product-pair':'クロスセルランキング',age:'デモグラフィック分析',upload:'データ取込'};
 
 function switchAgeAxis(){
   const v=document.getElementById('age-axis-sel').value;
@@ -1452,6 +1838,13 @@ document.getElementById('content').addEventListener('click',e=>{
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
