@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Atlas Logotype — Final Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    background: #E2E8F0;
+    padding: 40px;
+    color: #0F172A;
+  }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { font-size: 13px; color: #475569; margin: 0 0 32px; }
+  section.panel {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+  }
+  section.panel h2 { font-size: 16px; margin: 0 0 4px; }
+  .panel-note { font-size: 12px; color: #64748B; margin: 0 0 20px; }
+  .bg-block {
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .bg-block:last-child { margin-bottom: 0; }
+  .bg-block h3 { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; margin: 0 0 18px; }
+  .row { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .cell { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .cell-label { font-size: 11px; opacity: 0.7; }
+
+  /* header mockup */
+  .mock-header {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 22px;
+  }
+  .mock-header-nav { display: flex; align-items: center; gap: 20px; font-size: 13px; color: #475569; }
+  .mock-btn { background: #0F172A; color: #F8FAFC; padding: 7px 14px; border-radius: 6px; font-size: 12px; }
+
+  /* sidebar mockup */
+  .mock-sidebar {
+    width: 200px; background: #0F172A; border-radius: 10px; padding: 16px 14px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .mock-sidebar-nav { display: flex; flex-direction: column; gap: 8px; }
+  .mock-nav-item { font-size: 12px; color: #94A3B8; padding: 6px 8px; border-radius: 6px; }
+  .mock-nav-item.active { background: rgba(255,255,255,0.08); color: #F8FAFC; }
+
+  /* mobile mockup */
+  .mock-mobile {
+    width: 220px; border: 1px solid #E2E8F0; border-radius: 18px; padding: 14px 16px;
+    background: #FFFFFF;
+  }
+  .mock-mobile-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .mock-mobile-line { height: 8px; background: #E2E8F0; border-radius: 4px; margin-bottom: 8px; }
+
+  /* dashboard mockup */
+  .mock-dashboard { display: flex; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; overflow: hidden; }
+  .mock-dashboard-main { flex: 1; padding: 18px 22px; }
+  .mock-bar { height: 12px; background: #E2E8F0; border-radius: 4px; margin-bottom: 16px; width: 50%; }
+  .mock-cards { display: flex; gap: 10px; margin-bottom: 14px; }
+  .mock-card { flex: 1; height: 44px; background: #EEF2F7; border: 1px solid #E2E8F0; border-radius: 8px; }
+  .mock-chart { height: 70px; background: linear-gradient(180deg,#EEF2F7 0%,#F8FAFC 100%); border: 1px solid #E2E8F0; border-radius: 8px; }
+
+  /* login mockup */
+  .mock-login-page { background: #F1F5F9; border-radius: 10px; padding: 50px 0; display: flex; justify-content: center; }
+  .mock-login-card {
+    background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 32px 36px;
+    width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .mock-input { width: 100%; height: 36px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; }
+  .mock-login-btn { width: 100%; text-align: center; background: #0F172A; color: #F8FAFC; padding: 10px 0; border-radius: 6px; font-size: 13px; font-weight: 500; }
+
+  /* OGP mockup */
+  .mock-ogp {
+    width: 100%; aspect-ratio: 1200/630; background: radial-gradient(circle at 30% 20%, #16213E 0%, #0F172A 60%);
+    border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  }
+  .mock-ogp-tagline { font-family: 'Inter', sans-serif; font-size: 15px; color: #94A3B8; letter-spacing: 0.02em; }
+
+  /* business card mockup */
+  .biz-card {
+    width: 320px; aspect-ratio: 3.5/2; border-radius: 10px; padding: 22px 26px;
+    display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #E2E8F0; background: #FFFFFF;
+  }
+  .biz-person { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #0F172A; }
+  .biz-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #64748B; }
+
+  .measure-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .measure-panel th, .measure-panel td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #E2E8F0; }
+  .measure-panel th { color: #64748B; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <h1>Atlas Logotype — Final Review</h1>
+  <p class="sub">Primary Logo / Compact Logo / 実使用イメージの比較</p>
+
+  <section class="panel">
+    <h2>A. Primary Logo</h2>
+    <p class="panel-note">マーク40px + Atlas 32px + サブタイトル11px。White / Deep Navy 背景 × 100% / 75% / 50%</p>
+    <div class="bg-block" style="background:#FFFFFF;">
+      <h3 style="color:#334155;">White</h3>
+      <div class="row">
+        <div class="cell"><svg width="248" height="44" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-1" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-1)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#475569">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label">100%</div></div>
+        <div class="cell"><svg width="186" height="33" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-2" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-2)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#475569">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label">75%</div></div>
+        <div class="cell"><svg width="124" height="22" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-3" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-3)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#475569">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label">50%</div></div>
+      </div>
+    </div>
+    <div class="bg-block" style="background:#0F172A;">
+      <h3 style="color:#CBD5E1;">Deep Navy (#0F172A)</h3>
+      <div class="row">
+        <div class="cell"><svg width="248" height="44" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-4" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-4)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#CBD5E1">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label" style="color:#94A3B8;">100%</div></div>
+        <div class="cell"><svg width="186" height="33" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-5" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-5)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#CBD5E1">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label" style="color:#94A3B8;">75%</div></div>
+        <div class="cell"><svg width="124" height="22" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-6" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-6)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#CBD5E1">AI Merchandise Intelligence Platform</text>
+  </svg><div class="cell-label" style="color:#94A3B8;">50%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>B. Compact Logo</h2>
+    <p class="panel-note">マーク28px + Atlas 22px、サブタイトルなし。White / Deep Navy 背景 + ヘッダー・サイドバー・モバイル想定</p>
+    <div class="bg-block" style="background:#FFFFFF;">
+      <h3 style="color:#334155;">White</h3>
+      <div class="row"><div class="cell"><svg width="87" height="28" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-7" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-7)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  </svg></div></div>
+    </div>
+    <div class="bg-block" style="background:#0F172A;">
+      <h3 style="color:#CBD5E1;">Deep Navy (#0F172A)</h3>
+      <div class="row"><div class="cell"><svg width="87" height="28" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-8" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-8)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+  </svg></div></div>
+    </div>
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">ヘッダー想定</h3>
+      <div class="mock-header">
+        <svg width="75" height="24" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-9" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-9)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  </svg>
+        <div class="mock-header-nav"><span>Product</span><span>Pricing</span><span>Docs</span><span class="mock-btn">Sign in</span></div>
+      </div>
+    </div>
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">サイドバー想定</h3>
+      <div class="mock-sidebar">
+        <svg width="75" height="24" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-10" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-10)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+  </svg>
+        <div class="mock-sidebar-nav">
+          <div class="mock-nav-item active">Overview</div>
+          <div class="mock-nav-item">Inventory</div>
+          <div class="mock-nav-item">Forecasts</div>
+          <div class="mock-nav-item">Settings</div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">モバイル想定</h3>
+      <div class="mock-mobile">
+        <div class="mock-mobile-bar"><svg width="62" height="20" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-11" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-11)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  </svg><span style="font-size:11px;color:#94A3B8;">9:41</span></div>
+        <div class="mock-mobile-line" style="width:80%;"></div>
+        <div class="mock-mobile-line" style="width:60%;"></div>
+        <div class="mock-mobile-line" style="width:70%;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>C. 実使用イメージ</h2>
+    <p class="panel-note">ダッシュボードヘッダー / ログイン画面 / OGPカード / 名刺サイズ</p>
+
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">Atlasダッシュボード トップヘッダー</h3>
+      <div class="mock-header">
+        <svg width="81" height="26" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-12" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-12)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  </svg>
+        <div class="mock-header-nav"><span>Overview</span><span>Inventory</span><span>Forecasts</span><span>Reports</span><span class="mock-btn">S. Kubota</span></div>
+      </div>
+    </div>
+
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">ログイン画面</h3>
+      <div class="mock-login-page">
+        <div class="mock-login-card">
+          <svg width="211" height="37" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-13" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-13)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#475569">AI Merchandise Intelligence Platform</text>
+  </svg>
+          <div class="mock-input"></div>
+          <div class="mock-input"></div>
+          <div class="mock-login-btn">Sign in</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-block" style="background:#0F172A;">
+      <h3 style="color:#CBD5E1;">OGPカード（1200×630）</h3>
+      <div class="mock-ogp">
+        <svg width="397" height="70" viewBox="0 0 248 44" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="40" height="40" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-14" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-14)"/>
+  </svg>
+    <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+    <text x="50" y="42.9" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#CBD5E1">AI Merchandise Intelligence Platform</text>
+  </svg>
+        <div class="mock-ogp-tagline">See More. Decide Better.</div>
+      </div>
+    </div>
+
+    <div class="bg-block" style="background:#F1F5F9;">
+      <h3 style="color:#334155;">名刺サイズ（3.5 × 2 in）</h3>
+      <div class="row">
+        <div class="biz-card">
+          <svg width="68" height="22" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-15" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-15)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  </svg>
+          <div><div class="biz-person">Shinichi Kubota</div><div class="biz-role">Founder</div></div>
+        </div>
+        <div class="biz-card" style="background:#0F172A;border-color:#1E293B;">
+          <svg width="68" height="22" viewBox="0 0 87 28" xmlns="http://www.w3.org/2000/svg">
+    <svg x="0" y="0" width="28" height="28" viewBox="0 0 100 100">
+    <defs><linearGradient id="atlasGradient-lp-16" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient></defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient-lp-16)"/>
+  </svg>
+    <text x="35" y="21.7" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.01em" fill="#FFFFFF">Atlas</text>
+  </svg>
+          <div><div class="biz-person" style="color:#F8FAFC;">Shinichi Kubota</div><div class="biz-role" style="color:#94A3B8;">Founder</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel measure-panel">
+    <h2>採用した数値仕様</h2>
+    <table>
+      <tr><th>項目</th><th>Primary Logo</th><th>Compact Logo</th></tr>
+      <tr><td>マークサイズ</td><td>40px</td><td>28px</td></tr>
+      <tr><td>マーク〜Atlas間隔</td><td>10px（マーク高さの25%）</td><td>7px（マーク高さの25%）</td></tr>
+      <tr><td>Atlas文字サイズ</td><td>32px</td><td>22px</td></tr>
+      <tr><td>Atlas letter-spacing</td><td>-0.01em</td><td>-0.01em</td></tr>
+      <tr><td>Atlasベースライン位置</td><td>マーク上端から31.2px（マーク下端から8.8px上）</td><td>マーク上端から21.7px（マーク下端から6.3px上）</td></tr>
+      <tr><td>サブタイトルサイズ</td><td>11px</td><td>―</td></tr>
+      <tr><td>サブタイトル letter-spacing</td><td>0.01em</td><td>―</td></tr>
+      <tr><td>Atlas〜サブタイトル間隔</td><td>4px</td><td>―</td></tr>
+      <tr><td>White背景色</td><td>Atlas #0F172A / サブタイトル #475569</td><td>Atlas #0F172A</td></tr>
+      <tr><td>Deep Navy背景色</td><td>Atlas #FFFFFF / サブタイトル #CBD5E1</td><td>Atlas #FFFFFF</td></tr>
+    </table>
+  </section>
+</body>
+</html>

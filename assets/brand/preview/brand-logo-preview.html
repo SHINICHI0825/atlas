@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Atlas — Logotype Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Manrope:wght@700&family=Inter:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    background: #E2E8F0;
+    padding: 40px;
+    color: #0F172A;
+  }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { font-size: 13px; color: #475569; margin: 0 0 32px; }
+  section.panel {
+    border-radius: 14px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  section.panel h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin: 0;
+    padding: 20px 32px 0;
+  }
+  .compare-row {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .cell {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cell-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .cell-swatch {
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+  }
+
+  /* Header mockup */
+  .app-row { margin-bottom: 22px; }
+  .app-row:last-child { margin-bottom: 0; }
+  .app-row-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748B;
+    margin-bottom: 8px;
+  }
+  .mock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 14px 22px;
+  }
+  .mock-header-nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 13px;
+    color: #475569;
+  }
+  .mock-btn {
+    background: #0F172A;
+    color: #F8FAFC;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  /* Dashboard mockup */
+  .mock-dashboard {
+    display: flex;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 200px;
+  }
+  .mock-sidebar {
+    width: 190px;
+    background: #0F172A;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: none;
+  }
+  .mock-sidebar-nav { display: flex; flex-direction: column; gap: 8px; }
+  .mock-nav-item {
+    font-size: 12px;
+    color: #94A3B8;
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .mock-nav-item.active {
+    background: rgba(255,255,255,0.08);
+    color: #F8FAFC;
+  }
+  .mock-dashboard-main { flex: 1; padding: 18px 20px; }
+  .mock-bar {
+    height: 12px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .mock-cards { display: flex; gap: 10px; margin-bottom: 14px; }
+  .mock-card {
+    flex: 1;
+    height: 44px;
+    background: #EEF2F7;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+  }
+  .mock-chart {
+    height: 60px;
+    background: linear-gradient(180deg, #EEF2F7 0%, #F8FAFC 100%);
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+  }
+
+  /* Login mockup */
+  .mock-login-page {
+    background: #F1F5F9;
+    border-radius: 10px;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+  }
+  .mock-login-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 28px 32px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .mock-login-logo { display: flex; justify-content: center; }
+  .mock-input {
+    width: 100%;
+    height: 34px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+  }
+  .mock-login-btn {
+    width: 100%;
+    text-align: center;
+    background: #0F172A;
+    color: #F8FAFC;
+    padding: 9px 0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* OGP mockup */
+  .mock-ogp {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    background: radial-gradient(circle at 30% 20%, #16213E 0%, #0F172A 60%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .mock-ogp-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #94A3B8;
+    letter-spacing: 0.02em;
+  }
+
+  /* Business card mockup */
+  .biz-pair { display: flex; gap: 16px; }
+  .biz-card {
+    width: 260px;
+    aspect-ratio: 3.5 / 2;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #E2E8F0;
+  }
+  .biz-light { background: #FFFFFF; }
+  .biz-dark { background: #0F172A; border-color: #1E293B; }
+  .biz-person { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #0F172A; }
+  .biz-role { font-family: 'Inter', sans-serif; font-size: 11px; color: #64748B; }
+  .biz-tagline { font-family: 'Inter', sans-serif; font-size: 11px; color: #94A3B8; letter-spacing: 0.02em; }
+
+  /* Review */
+  .review-panel {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 28px;
+  }
+  .review-panel h2 {
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
+  .review-panel .rec-tag {
+    display: inline-block;
+    background: rgba(37,99,235,0.1);
+    color: #2563EB;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  table.review-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 20px 0;
+  }
+  table.review-table th, table.review-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #E2E8F0;
+    vertical-align: top;
+  }
+  table.review-table th { color: #64748B; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .review-panel p { font-size: 14px; line-height: 1.7; color: #1E293B; }
+  .review-panel ol { font-size: 14px; line-height: 1.8; color: #1E293B; padding-left: 20px; }
+</style>
+</head>
+<body>
+  <h1>Atlas — Logotype Comparison</h1>
+  <p class="sub">See More. Decide Better. / AI Merchandise Intelligence Platform</p>
+
+  <section class="panel" style="background:#FFFFFF;">
+    <h2 style="color:#334155;">① 文字組みのみ比較 — White</h2>
+    <div class="panel-body" style="padding:28px 32px;"><div class="compare-row">
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案A（推奨） — Space Grotesk 700</div>
+      <div class="cell-swatch"><span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#0F172A; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案B — Manrope 700</div>
+      <div class="cell-swatch"><span style="font-family:'Manrope', sans-serif; font-weight:700; color:#0F172A; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案C — Inter 700</div>
+      <div class="cell-swatch"><span style="font-family:'Inter', sans-serif; font-weight:700; color:#0F172A; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div></div></div>
+  </section>
+  <section class="panel" style="background:#0F172A;">
+    <h2 style="color:#CBD5E1;">① 文字組みのみ比較 — Deep Navy</h2>
+    <div class="panel-body" style="padding:28px 32px;"><div class="compare-row">
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案A（推奨） — Space Grotesk 700</div>
+      <div class="cell-swatch"><span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#F8FAFC; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案B — Manrope 700</div>
+      <div class="cell-swatch"><span style="font-family:'Manrope', sans-serif; font-weight:700; color:#F8FAFC; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案C — Inter 700</div>
+      <div class="cell-swatch"><span style="font-family:'Inter', sans-serif; font-weight:700; color:#F8FAFC; font-size:40px; letter-spacing:-0.02em; line-height:1;">Atlas</span></div>
+    </div></div></div>
+  </section>
+
+  <section class="panel" style="background:#FFFFFF;">
+    <h2 style="color:#334155;">② ロゴマーク + 文字組み — White</h2>
+    <div class="panel-body" style="padding:28px 32px;"><div class="compare-row">
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案A（推奨） — Space Grotesk 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-1" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-1)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#0F172A; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案B — Manrope 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-2" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-2)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#0F172A; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#64748B;">案C — Inter 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-3" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-3)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#0F172A; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div></div></div>
+  </section>
+  <section class="panel" style="background:#0F172A;">
+    <h2 style="color:#CBD5E1;">② ロゴマーク + 文字組み — Deep Navy</h2>
+    <div class="panel-body" style="padding:28px 32px;"><div class="compare-row">
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案A（推奨） — Space Grotesk 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-4" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-4)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#F8FAFC; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#94A3B8; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案B — Manrope 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-5" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-5)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#F8FAFC; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#94A3B8; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div>
+    <div class="cell">
+      <div class="cell-label" style="color:#94A3B8;">案C — Inter 700</div>
+      <div class="cell-swatch"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-6" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-6)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#F8FAFC; font-size:30px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#94A3B8; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+    </div></div></div>
+  </section>
+
+  <section class="panel" style="background:#F1F5F9;">
+    <h2 style="color:#334155;">③ ヘッダー表示</h2>
+    <div class="panel-body" style="padding:28px 32px;">
+    <div class="app-row">
+      <div class="app-row-label">案A（推奨） — Space Grotesk 700</div>
+      <div class="mock-header">
+    <div class="mock-header-left"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-7" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-7)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#0F172A; font-size:20px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-header-nav">
+      <span>Product</span><span>Pricing</span><span>Docs</span>
+      <span class="mock-btn">Sign in</span>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案B — Manrope 700</div>
+      <div class="mock-header">
+    <div class="mock-header-left"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-8" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-8)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#0F172A; font-size:20px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-header-nav">
+      <span>Product</span><span>Pricing</span><span>Docs</span>
+      <span class="mock-btn">Sign in</span>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案C — Inter 700</div>
+      <div class="mock-header">
+    <div class="mock-header-left"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-9" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-9)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#0F172A; font-size:20px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-header-nav">
+      <span>Product</span><span>Pricing</span><span>Docs</span>
+      <span class="mock-btn">Sign in</span>
+    </div>
+  </div>
+    </div></div>
+  </section>
+  <section class="panel" style="background:#F1F5F9;">
+    <h2 style="color:#334155;">④ ダッシュボード表示</h2>
+    <div class="panel-body" style="padding:28px 32px;">
+    <div class="app-row">
+      <div class="app-row-label">案A（推奨） — Space Grotesk 700</div>
+      <div class="mock-dashboard">
+    <div class="mock-sidebar">
+      <div class="mock-sidebar-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:7px;">
+      <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-10" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-10)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#F8FAFC; font-size:18px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+      <div class="mock-sidebar-nav">
+        <div class="mock-nav-item active">Overview</div>
+        <div class="mock-nav-item">Inventory</div>
+        <div class="mock-nav-item">Forecasts</div>
+        <div class="mock-nav-item">Reports</div>
+        <div class="mock-nav-item">Settings</div>
+      </div>
+    </div>
+    <div class="mock-dashboard-main">
+      <div class="mock-bar" style="width:60%;"></div>
+      <div class="mock-cards">
+        <div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div>
+      </div>
+      <div class="mock-chart"></div>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案B — Manrope 700</div>
+      <div class="mock-dashboard">
+    <div class="mock-sidebar">
+      <div class="mock-sidebar-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:7px;">
+      <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-11" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-11)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#F8FAFC; font-size:18px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+      <div class="mock-sidebar-nav">
+        <div class="mock-nav-item active">Overview</div>
+        <div class="mock-nav-item">Inventory</div>
+        <div class="mock-nav-item">Forecasts</div>
+        <div class="mock-nav-item">Reports</div>
+        <div class="mock-nav-item">Settings</div>
+      </div>
+    </div>
+    <div class="mock-dashboard-main">
+      <div class="mock-bar" style="width:60%;"></div>
+      <div class="mock-cards">
+        <div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div>
+      </div>
+      <div class="mock-chart"></div>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案C — Inter 700</div>
+      <div class="mock-dashboard">
+    <div class="mock-sidebar">
+      <div class="mock-sidebar-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:7px;">
+      <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-12" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-12)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#F8FAFC; font-size:18px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+      <div class="mock-sidebar-nav">
+        <div class="mock-nav-item active">Overview</div>
+        <div class="mock-nav-item">Inventory</div>
+        <div class="mock-nav-item">Forecasts</div>
+        <div class="mock-nav-item">Reports</div>
+        <div class="mock-nav-item">Settings</div>
+      </div>
+    </div>
+    <div class="mock-dashboard-main">
+      <div class="mock-bar" style="width:60%;"></div>
+      <div class="mock-cards">
+        <div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div>
+      </div>
+      <div class="mock-chart"></div>
+    </div>
+  </div>
+    </div></div>
+  </section>
+  <section class="panel" style="background:#F1F5F9;">
+    <h2 style="color:#334155;">⑤ ログイン画面表示</h2>
+    <div class="panel-body" style="padding:28px 32px;">
+    <div class="app-row">
+      <div class="app-row-label">案A（推奨） — Space Grotesk 700</div>
+      <div class="mock-login-page">
+    <div class="mock-login-card">
+      <div class="mock-login-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-13" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-13)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#0F172A; font-size:24px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+      <div class="mock-input"></div>
+      <div class="mock-input"></div>
+      <div class="mock-login-btn">Sign in</div>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案B — Manrope 700</div>
+      <div class="mock-login-page">
+    <div class="mock-login-card">
+      <div class="mock-login-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-14" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-14)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#0F172A; font-size:24px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+      <div class="mock-input"></div>
+      <div class="mock-input"></div>
+      <div class="mock-login-btn">Sign in</div>
+    </div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案C — Inter 700</div>
+      <div class="mock-login-page">
+    <div class="mock-login-card">
+      <div class="mock-login-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-15" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-15)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#0F172A; font-size:24px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    <div><span style="font-family:'Inter', sans-serif; font-weight:500; color:#64748B; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">AI Merchandise Intelligence Platform</span></div>
+  </div></div>
+      <div class="mock-input"></div>
+      <div class="mock-input"></div>
+      <div class="mock-login-btn">Sign in</div>
+    </div>
+  </div>
+    </div></div>
+  </section>
+  <section class="panel" style="background:#0F172A;">
+    <h2 style="color:#CBD5E1;">⑥ OGP表示（1200×630）</h2>
+    <div class="panel-body" style="padding:28px 32px;">
+    <div class="app-row">
+      <div class="app-row-label">案A（推奨） — Space Grotesk 700</div>
+      <div class="mock-ogp">
+    <div class="mock-ogp-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-16" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-16)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#F8FAFC; font-size:38px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-ogp-tagline">See More. Decide Better.</div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案B — Manrope 700</div>
+      <div class="mock-ogp">
+    <div class="mock-ogp-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-17" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-17)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#F8FAFC; font-size:38px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-ogp-tagline">See More. Decide Better.</div>
+  </div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案C — Inter 700</div>
+      <div class="mock-ogp">
+    <div class="mock-ogp-logo"><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-18" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-18)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#F8FAFC; font-size:38px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="mock-ogp-tagline">See More. Decide Better.</div>
+  </div>
+    </div></div>
+  </section>
+  <section class="panel" style="background:#F1F5F9;">
+    <h2 style="color:#334155;">⑦ 名刺表示</h2>
+    <div class="panel-body" style="padding:28px 32px;">
+    <div class="app-row">
+      <div class="app-row-label">案A（推奨） — Space Grotesk 700</div>
+      <div class="biz-pair"><div class="biz-card biz-light">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-19" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-19)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#0F172A; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-name">
+      <div class="biz-person">Shinichi Kubota</div>
+      <div class="biz-role">Founder</div>
+    </div>
+  </div><div class="biz-card biz-dark">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-20" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-20)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#F8FAFC; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-tagline">See More. Decide Better.</div>
+  </div></div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案B — Manrope 700</div>
+      <div class="biz-pair"><div class="biz-card biz-light">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-21" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-21)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#0F172A; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-name">
+      <div class="biz-person">Shinichi Kubota</div>
+      <div class="biz-role">Founder</div>
+    </div>
+  </div><div class="biz-card biz-dark">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-22" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-22)"/>
+  </svg>
+      <span style="font-family:'Manrope', sans-serif; font-weight:700; color:#F8FAFC; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-tagline">See More. Decide Better.</div>
+  </div></div>
+    </div>
+    <div class="app-row">
+      <div class="app-row-label">案C — Inter 700</div>
+      <div class="biz-pair"><div class="biz-card biz-light">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-23" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-23)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#0F172A; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-name">
+      <div class="biz-person">Shinichi Kubota</div>
+      <div class="biz-role">Founder</div>
+    </div>
+  </div><div class="biz-card biz-dark">
+    <div><div style="display:inline-flex; flex-direction:column; gap:6px;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <svg width="18" height="18" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex:none;">
+    <defs>
+      <linearGradient id="atlasGradient-24" x1="56" y1="9" x2="92" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563EB"/>
+        <stop offset="55%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#1B7FE4"/>
+      </linearGradient>
+    </defs>
+    <path d="M8 90 L31 90 L45 26 L30 11 Z" fill="#2563EB"/>
+    <path d="M92 90 L69.5 90 L55 26 L70 11 Z" fill="url(#atlasGradient-24)"/>
+  </svg>
+      <span style="font-family:'Inter', sans-serif; font-weight:700; color:#F8FAFC; font-size:17px; letter-spacing:-0.02em; line-height:1;">Atlas</span>
+    </div>
+    
+  </div></div>
+    <div class="biz-tagline">See More. Decide Better.</div>
+  </div></div>
+    </div></div>
+  </section>
+
+  <div class="review-panel">
+    <div class="rec-tag">推奨：案A — Space Grotesk 700</div>
+    <h2>デザインレビュー</h2>
+    <p>Apple・Stripe・Linear・Notionに共通するのは「装飾で個性を出さず、字形そのものの骨格でブランドを語る」という思想です。この観点で3案を比較すると、Space Grotesk・Manrope・Interはいずれも装飾を排したグロテスク系書体という点で条件を満たしますが、ブランドの専有性（ownability）と、AIロゴマークとの造形的な整合性で明確な差が出ました。</p>
+
+    <table class="review-table">
+      <tr><th>観点</th><th>案A: Space Grotesk</th><th>案B: Manrope</th><th>案C: Inter</th></tr>
+      <tr>
+        <td>専有性（Atlasらしさ）</td>
+        <td>高い。'a' 't' 等に幾何学的な個性があり、単体で見てもブランドの文字だと認識できる。</td>
+        <td>中程度。丸みのある終端で親しみやすいが、他の柔らかいSaaSブランドと近似しやすい。</td>
+        <td>低い。UI本文フォントとして広く使われすぎており、ロゴタイプが「アプリの地の文」に見えるリスクがある。</td>
+      </tr>
+      <tr>
+        <td>Aマークとの整合性</td>
+        <td>高い。マークの直線的で鋭い頂点と、Space Groteskの角ばったカウンター・均等な字幅が同じ幾何学言語で呼応する。</td>
+        <td>中程度。マークのシャープさに対して文字の丸みがわずかに柔らかすぎる。</td>
+        <td>中程度。中立的すぎてマークの個性を文字側が支えきれない。</td>
+      </tr>
+      <tr>
+        <td>高級感・知性の表現</td>
+        <td>高い。硬質でアナリティカルな印象があり、AI／意思決定という方向性と合う。</td>
+        <td>中程度。親しみやすさが先に立ち、Notion寄りの柔らかいトーンになる。</td>
+        <td>中程度。信頼感はあるが、無個性ゆえに「高級感」までは届きにくい。</td>
+      </tr>
+      <tr>
+        <td>長期利用（10年基準）</td>
+        <td>良好。UIフォントとして採用が増えているが、ロゴタイプとしての使用はまだ希少で陳腐化しにくい。</td>
+        <td>良好。トレンド書体だがクセが少なく寿命は長い。</td>
+        <td>要注意。すでに業界標準のUIフォントであるため、他社ロゴとの差別化が経年で難しくなる。</td>
+      </tr>
+    </table>
+
+    <p><strong>結論として、案A（Space Grotesk 700）を正式ロゴタイプとして推奨します。</strong></p>
+    <ol>
+      <li>Aシンボルマークの鋭角的・幾何学的な造形と、Space Groteskの角のある字形が同一の「デザイン言語」で語れるため、マーク単体・ロックアップ双方で一体感が出る。</li>
+      <li>Inter・Manropeに比べ、字形自体に適度な個性があり、装飾なしでも「Atlasの文字」として専有できる。これは10年単位で使うロゴタイプにとって最重要の条件。</li>
+      <li>知性・分析・意思決定という方向性に対して、硬質でアナリティカルな印象を持つ点が最も合致する。</li>
+      <li>Interは今後も本文・UIフォントとして採用を継続し、ロゴタイプとは明確に役割を分離することで、ブランド全体の一貫性を保つ。</li>
+    </ol>
+    <p>なお、いずれの案も文字間隔（トラッキング）を -0.02em で統一し、太字の詰まりを補正しています。これは装飾ではなく、可読性とブランドとしての締まりを両立させるための標準的なタイポグラフィ調整です。</p>
+  </div>
+</body>
+</html>

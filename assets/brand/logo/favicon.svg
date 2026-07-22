@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="atlasGradient" x1="55" y1="21" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#168DE0"/>
+    </linearGradient>
+  </defs>
+  <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+  <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 Z" fill="url(#atlasGradient)"/>
+</svg>
