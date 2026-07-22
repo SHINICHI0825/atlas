@@ -5,9 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas</title>
 <meta name="description" content="Atlas - AI Merchandise Intelligence Platform">
+<link rel="canonical" href="https://origencelab.jp/atlas/">
+<meta name="theme-color" content="#0F172A">
+<link rel="icon" type="image/svg+xml" href="/assets/brand/logo/favicon.svg">
+<!-- Apple Touch Icon: add /assets/brand/logo/apple-touch-icon.png (180x180) and uncomment when available -->
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/logo/apple-touch-icon.png"> -->
 <meta property="og:title" content="Atlas">
-<meta property="og:description" content="Atlas - AI Merchandise Intelligence Platform">
+<meta property="og:description" content="Atlas – AI Merchandise Intelligence Platform">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://origencelab.jp/atlas/">
+<meta property="og:image" content="https://origencelab.jp/assets/brand/ogp/atlas-ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atlas">
+<meta name="twitter:description" content="Atlas – AI Merchandise Intelligence Platform">
+<meta name="twitter:image" content="https://origencelab.jp/assets/brand/ogp/atlas-ogp.png">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -21,7 +32,12 @@ body{font-family:'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans
 #app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 /* ===== トップバー ===== */
 #topbar{background:#0c1222;padding:0 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;height:48px;border-bottom:1px solid rgba(125,209,252,.18)}
-#topbar h1{font-size:14px;font-weight:700;color:#f0f9ff;white-space:nowrap;letter-spacing:.4px}
+#topbar h1{display:flex;align-items:center;gap:8px;margin:0;font-size:inherit;font-weight:400}
+#brand-logo{display:flex;align-items:center;height:28px;text-decoration:none;flex-shrink:0}
+#brand-mark{height:28px;width:28px;display:block}
+#brand-wordmark{font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:#fff;margin-left:7px;line-height:1}
+#brand-subtitle{font-size:10px;font-weight:500;color:#cbd5e1;letter-spacing:.2px;white-space:nowrap}
+@media (max-width:640px){#brand-subtitle{display:none}}
 #topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
 /* ===== サイドバー＋ボディ ===== */
 #body{display:flex;flex:1;overflow:hidden}
@@ -139,7 +155,13 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 <div id="app">
 <!-- トップバー -->
 <div id="topbar">
-  <h1>Atlas <span style="font-size:10px;font-weight:500;color:#7dd3fc;margin-left:6px;letter-spacing:.2px">AI Merchandise Intelligence Platform</span></h1>
+  <h1>
+    <a href="/atlas/" id="brand-logo" aria-label="Atlas ホームへ戻る">
+      <img src="/assets/brand/logo/atlas-mark.svg" alt="Atlas" id="brand-mark">
+      <span id="brand-wordmark">Atlas</span>
+    </a>
+    <span id="brand-subtitle">AI Merchandise Intelligence Platform</span>
+  </h1>
   <div id="topbar-right">
     <span id="data-status" style="font-size:11px;color:#94a3b8">データ未読込</span>
     <button class="dl-btn" style="background:#fee2e2;color:#dc2626;border-color:#fca5a5" onclick="clearData()">&#128465; クリア</button>

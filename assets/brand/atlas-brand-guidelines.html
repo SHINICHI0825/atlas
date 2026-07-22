@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Atlas Brand Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F8FAFC;
+    color: #0F172A;
+    display: flex;
+  }
+  nav.toc {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    width: 220px; flex-shrink: 0;
+    background: #0F172A; padding: 28px 0;
+  }
+  nav.toc .toc-brand { padding: 0 24px 20px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:#fff; }
+  nav.toc a {
+    display: block; padding: 8px 24px; font-size: 12.5px; color: #94A3B8; text-decoration: none;
+    border-left: 2px solid transparent;
+  }
+  nav.toc a:hover { color: #F8FAFC; background: rgba(255,255,255,0.04); }
+  main { flex: 1; min-width: 0; padding: 48px 56px 120px; max-width: 980px; }
+  .doc-header { margin-bottom: 48px; }
+  .doc-header h1 { font-family:'Space Grotesk',sans-serif; font-size: 30px; margin: 0 0 8px; }
+  .doc-header p { font-size: 14px; color: #64748B; margin: 0; }
+  section.doc-section { margin-bottom: 64px; padding-top: 8px; }
+  .section-num { font-size: 12px; font-weight: 700; color: #2563EB; letter-spacing: 0.06em; margin-bottom: 6px; }
+  section.doc-section h2 { font-size: 20px; margin: 0 0 20px; }
+  section.doc-section h3 { font-size: 13px; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em; margin: 28px 0 12px; }
+  section.doc-section p { font-size: 14px; line-height: 1.7; color: #334155; }
+
+  .card-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .demo-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .demo-card.dark { background: #0F172A; border-color: #1E293B; }
+  .demo-card-label { font-size: 11px; color: #64748B; font-weight: 600; }
+  .demo-card.dark .demo-card-label { color: #94A3B8; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+  .swatch { border-radius: 10px; overflow: hidden; border: 1px solid #E2E8F0; }
+  .swatch-color { height: 72px; display: flex; align-items: flex-end; padding: 8px 10px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .swatch-name { padding: 8px 10px; font-size: 12px; background: #FFFFFF; color: #334155; }
+
+  table.spec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  table.spec-table th, table.spec-table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #E2E8F0; }
+  table.spec-table th { color: #64748B; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+  code { background: #EEF2F7; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+  .clearspace-box { position: relative; width: 220px; height: 220px; margin: 12px 0; }
+  .clearspace-guide { position: absolute; border: 1px dashed #94A3B8; }
+  .cs-top, .cs-bottom { left: 0; right: 0; height: 0; }
+  .cs-top { top: 55px; } .cs-bottom { bottom: 55px; }
+  .cs-left, .cs-right { top: 0; bottom: 0; width: 0; }
+  .cs-left { left: 55px; } .cs-right { right: 55px; }
+  .cs-mark { position: absolute; top: 55px; left: 55px; }
+
+  .size-ladder { display: flex; align-items: flex-end; gap: 28px; }
+  .size-ladder .item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .size-ladder .item span { font-size: 11px; color: #64748B; }
+
+  .dont-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .dont-card { border: 1px solid #FEE2E2; background: #FFF5F5; border-radius: 10px; padding: 20px; text-align: center; }
+  .dont-visual { height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .dont-label { font-size: 12px; color: #B91C1C; font-weight: 500; }
+  .dont-label .x { font-weight: 700; margin-right: 2px; }
+
+  .ui-btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .ui-btn-primary { background: #0F172A; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; font-family: 'Inter', sans-serif; }
+  .ui-btn-secondary { background: #fff; color: #0F172A; border: 1px solid #CBD5E1; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; font-family: 'Inter', sans-serif; }
+  .ui-input-demo { width: 220px; height: 40px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 12px; font-size: 13px; color: #94A3B8; display: flex; align-items: center; }
+  .ui-input-demo.focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.14); color: #0F172A; }
+  .status-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .status-chip { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .file-ref-table td.path { font-family: monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <div class="toc-brand">Atlas</div>
+  <a href="#s01">01. Brand Overview</a>
+  <a href="#s02">02. Logo System</a>
+  <a href="#s03">03. Clear Space</a>
+  <a href="#s04">04. Minimum Size</a>
+  <a href="#s05">05. Color Palette</a>
+  <a href="#s06">06. Typography</a>
+  <a href="#s07">07. Logo Usage</a>
+  <a href="#s08">08. Incorrect Usage</a>
+  <a href="#s09">09. UI Foundation</a>
+  <a href="#s10">10. File Reference</a>
+</nav>
+
+<main>
+  <div class="doc-header">
+    <h1>Atlas Brand Guidelines</h1>
+    <p>正式ブランドアセット運用ガイド — v1.0</p>
+  </div>
+
+  <section class="doc-section" id="s01">
+    <div class="section-num">01</div>
+    <h2>Brand Overview</h2>
+    
+    <div class="card-row">
+      <div class="demo-card dark" style="flex:1;min-width:280px;">
+        <span style="display:inline-flex;flex-direction:column;gap:0;">
+    <span style="display:inline-flex;align-items:center;">
+      <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-1" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-1)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:38px;letter-spacing:-0.01em;color:#FFFFFF;margin-left:12px;line-height:1;">Atlas</span>
+    </span>
+    <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13.2px;letter-spacing:0.01em;color:#CBD5E1;margin-top:4.8px;margin-left:60px;">AI Merchandise Intelligence Platform</span>
+  </span>
+        <p style="color:#7DB8F5;font-size:14px;margin-top:16px;">See More. Decide Better.</p>
+      </div>
+    </div>
+    <p>Atlasは「AI Merchandise Intelligence Platform」というプロダクトコンセプトのもと、知性・分析・信頼感を軸にしたミニマルなSaaSブランドとして設計されています。ブランド名・サブタイトル・タグラインは常にセットで扱い、表記や大文字小文字を変更しません。</p>
+  
+  </section>
+
+  <section class="doc-section" id="s02">
+    <div class="section-num">02</div>
+    <h2>Logo System</h2>
+    
+    <h3>Primary Logo</h3>
+    <div class="card-row">
+      <div class="demo-card"><span style="display:inline-flex;flex-direction:column;gap:0;">
+    <span style="display:inline-flex;align-items:center;">
+      <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-2" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-2)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.01em;color:#0F172A;margin-left:10px;line-height:1;">Atlas</span>
+    </span>
+    <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:11.0px;letter-spacing:0.01em;color:#475569;margin-top:4.0px;margin-left:50px;">AI Merchandise Intelligence Platform</span>
+  </span></div>
+    </div>
+    <h3>Compact Logo</h3>
+    <div class="card-row">
+      <div class="demo-card"><span style="display:inline-flex;align-items:center;">
+    <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-3" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-3)"/>
+  </svg>
+    <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.01em;color:#0F172A;margin-left:7px;line-height:1;">Atlas</span>
+  </span></div>
+    </div>
+    <h3>Brand Mark</h3>
+    <div class="card-row">
+      <div class="demo-card"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-4" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-4)"/>
+  </svg></div>
+    </div>
+    <h3>Favicon</h3>
+    <div class="card-row">
+      <div class="demo-card"><svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-5" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-5)"/>
+  </svg><span class="demo-card-label">favicon.svg（Simplified Icon — 中央の重なりを省略）</span></div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s03">
+    <div class="section-num">03</div>
+    <h2>Clear Space</h2>
+    
+    <p>ロゴの周囲には、ロゴ高さ(X)の0.5倍以上のクリアスペースを確保してください。この範囲内には他の要素・文字・罫線・背景装飾を配置しません。</p>
+    <div class="clearspace-box">
+      <div class="clearspace-guide cs-top"></div>
+      <div class="clearspace-guide cs-bottom"></div>
+      <div class="clearspace-guide cs-left"></div>
+      <div class="clearspace-guide cs-right"></div>
+      <div class="cs-mark"><svg width="110" height="110" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-6" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-6)"/>
+  </svg></div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s04">
+    <div class="section-num">04</div>
+    <h2>Minimum Size</h2>
+    
+    <div class="size-ladder">
+      <div class="item"><span style="display:inline-flex;flex-direction:column;gap:0;">
+    <span style="display:inline-flex;align-items:center;">
+      <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-7" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-7)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.01em;color:#0F172A;margin-left:10px;line-height:1;">Atlas</span>
+    </span>
+    <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:11.0px;letter-spacing:0.01em;color:#475569;margin-top:4.0px;margin-left:50px;">AI Merchandise Intelligence Platform</span>
+  </span><span>Primary Logo — 高さ40px以上推奨</span></div>
+    </div>
+    <div class="size-ladder" style="margin-top:28px;">
+      <div class="item"><span style="display:inline-flex;align-items:center;">
+    <svg width="24" height="24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-8" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-8)"/>
+  </svg>
+    <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.01em;color:#0F172A;margin-left:6px;line-height:1;">Atlas</span>
+  </span><span>Compact Logo — 高さ24px以上推奨</span></div>
+    </div>
+    <div class="size-ladder" style="margin-top:28px;">
+      <div class="item"><svg width="16" height="16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-9" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-9)"/>
+  </svg><span>Brand Mark — 16px以上</span></div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s05">
+    <div class="section-num">05</div>
+    <h2>Color Palette</h2>
+    
+    <div class="swatch-grid">
+      <div class="swatch">
+    <div class="swatch-color" style="background:#0F172A;color:#FFFFFF;">#0F172A</div>
+    <div class="swatch-name">Deep Navy</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#2563EB;color:#FFFFFF;">#2563EB</div>
+    <div class="swatch-name">Atlas Blue</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#06B6D4;color:#FFFFFF;">#06B6D4</div>
+    <div class="swatch-name">Insight Cyan</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#F8FAFC;color:#0F172A;">#F8FAFC</div>
+    <div class="swatch-name">Background</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#475569;color:#FFFFFF;">#475569</div>
+    <div class="swatch-name">Slate</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#CBD5E1;color:#0F172A;">#CBD5E1</div>
+    <div class="swatch-name">Light Slate</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#FFFFFF;color:#0F172A;">#FFFFFF</div>
+    <div class="swatch-name">White</div>
+  </div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s06">
+    <div class="section-num">06</div>
+    <h2>Typography</h2>
+    
+    <table class="spec-table">
+      <tr><th>用途</th><th>フォント</th><th>ウェイト</th><th>備考</th></tr>
+      <tr><td>ロゴタイプ／見出し</td><td>Space Grotesk</td><td>700 / 500（サブタイトル）</td><td>フォールバック: Inter, Segoe UI, sans-serif</td></tr>
+      <tr><td>本文・UI（英字）</td><td>Inter</td><td>400 / 500 / 600</td><td>数値は tabular-nums 推奨</td></tr>
+      <tr><td>本文・UI（日本語）</td><td>Noto Sans JP</td><td>400 / 500 / 700</td><td>英字と混植時はInterを優先</td></tr>
+    </table>
+    <h3>推奨設定</h3>
+    <p><strong>見出し：</strong> Space Grotesk 700、letter-spacing -0.01em<br>
+    <strong>本文：</strong> Inter 400〜500、letter-spacing 0<br>
+    <strong>数値・KPI：</strong> Inter 600、font-variant-numeric: tabular-nums</p>
+  
+  </section>
+
+  <section class="doc-section" id="s07">
+    <div class="section-num">07</div>
+    <h2>Logo Usage</h2>
+    
+    <h3>White背景</h3>
+    <div class="card-row">
+      <div class="demo-card"><span style="display:inline-flex;flex-direction:column;gap:0;">
+    <span style="display:inline-flex;align-items:center;">
+      <svg width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-10" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-10)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:29px;letter-spacing:-0.01em;color:#0F172A;margin-left:9px;line-height:1;">Atlas</span>
+    </span>
+    <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:9.9px;letter-spacing:0.01em;color:#475569;margin-top:3.6px;margin-left:45px;">AI Merchandise Intelligence Platform</span>
+  </span></div>
+      <div class="demo-card"><span style="display:inline-flex;align-items:center;">
+    <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-11" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-11)"/>
+  </svg>
+    <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.01em;color:#0F172A;margin-left:7px;line-height:1;">Atlas</span>
+  </span></div>
+      <div class="demo-card"><svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-12" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-12)"/>
+  </svg></div>
+    </div>
+    <h3>Deep Navy背景</h3>
+    <div class="card-row">
+      <div class="demo-card dark"><span style="display:inline-flex;flex-direction:column;gap:0;">
+    <span style="display:inline-flex;align-items:center;">
+      <svg width="36" height="36" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-13" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-13)"/>
+  </svg>
+      <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:29px;letter-spacing:-0.01em;color:#FFFFFF;margin-left:9px;line-height:1;">Atlas</span>
+    </span>
+    <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:9.9px;letter-spacing:0.01em;color:#CBD5E1;margin-top:3.6px;margin-left:45px;">AI Merchandise Intelligence Platform</span>
+  </span></div>
+      <div class="demo-card dark"><span style="display:inline-flex;align-items:center;">
+    <svg width="26" height="26" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-14" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-14)"/>
+  </svg>
+    <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.01em;color:#FFFFFF;margin-left:7px;line-height:1;">Atlas</span>
+  </span></div>
+      <div class="demo-card dark"><svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-15" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-15)"/>
+  </svg></div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s08">
+    <div class="section-num">08</div>
+    <h2>Incorrect Usage</h2>
+    
+    <div class="dont-grid">
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="transform:scaleX(1.5);"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-16" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-16)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 変形禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="transform:rotate(25deg);"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-17" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-17)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 回転禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="filter:hue-rotate(140deg) saturate(2);"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-18" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-18)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 色変更禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="filter:drop-shadow(4px 6px 4px rgba(0,0,0,0.45));"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-19" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-19)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 影の付与禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="transform:scaleY(0.5);"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-20" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-20)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 比率変更禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style=""><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-21" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-21)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> マーク⇔文字の間隔変更禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="filter:grayscale(1);"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-22" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-22)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> グラデーション変更禁止</div>
+  </div>
+      <div class="dont-card">
+    <div class="dont-visual">
+      <div style="background:#1e3a8a;padding:8px;border-radius:8px;"><svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-23" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-23)"/>
+  </svg></div>
+    </div>
+    <div class="dont-label"><span class="x">&times;</span> 読みにくい背景への配置禁止</div>
+  </div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s09">
+    <div class="section-num">09</div>
+    <h2>UI Foundation</h2>
+    
+    <h3>ヘッダー</h3>
+    <div class="demo-card dark" style="flex-direction:row;align-items:center;justify-content:space-between;width:100%;">
+      <span style="display:inline-flex;align-items:center;">
+    <svg width="24" height="24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ag-24" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#15328E"/>
+        <stop offset="12%" stop-color="#2563EB"/>
+        <stop offset="60%" stop-color="#2369EA"/>
+        <stop offset="100%" stop-color="#168DE0"/>
+      </linearGradient>
+    </defs>
+    <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+    <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#ag-24)"/>
+  </svg>
+    <span style="font-family:'Space Grotesk','Inter','Segoe UI',sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.01em;color:#FFFFFF;margin-left:6px;line-height:1;">Atlas</span>
+  </span>
+      <span style="color:#94A3B8;font-size:12px;">Overview&nbsp;&nbsp;Inventory&nbsp;&nbsp;Forecasts</span>
+    </div>
+    <h3>ボタン</h3>
+    <div class="ui-btn-row">
+      <button class="ui-btn-primary">Primary</button>
+      <button class="ui-btn-secondary">Secondary</button>
+    </div>
+    <h3>入力欄</h3>
+    <div class="ui-btn-row">
+      <div class="ui-input-demo">Placeholder</div>
+      <div class="ui-input-demo focus">Focus state</div>
+    </div>
+    <h3>カード</h3>
+    <div class="demo-card" style="width:220px;">
+      <div style="font-size:11px;color:#64748B;">Total Revenue</div>
+      <div style="font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;">¥12,480,300</div>
+    </div>
+    <h3>グラフカラー</h3>
+    <div class="swatch-grid">
+      <div class="swatch">
+    <div class="swatch-color" style="background:#2563EB;color:#FFFFFF;">#2563EB</div>
+    <div class="swatch-name">Series 1</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#06B6D4;color:#FFFFFF;">#06B6D4</div>
+    <div class="swatch-name">Series 2</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#94A3B8;color:#FFFFFF;">#94A3B8</div>
+    <div class="swatch-name">Series 3</div>
+  </div>
+      <div class="swatch">
+    <div class="swatch-color" style="background:#1E293B;color:#FFFFFF;">#1E293B</div>
+    <div class="swatch-name">Series 4</div>
+  </div>
+    </div>
+    <h3>成功 / 警告 / エラー</h3>
+    <div class="status-row">
+      <div class="status-chip"><span class="status-dot" style="background:#16A34A;"></span>Success #16A34A</div>
+      <div class="status-chip"><span class="status-dot" style="background:#D97706;"></span>Warning #D97706</div>
+      <div class="status-chip"><span class="status-dot" style="background:#DC2626;"></span>Error #DC2626</div>
+    </div>
+  
+  </section>
+
+  <section class="doc-section" id="s10">
+    <div class="section-num">10</div>
+    <h2>File Reference</h2>
+    
+    <table class="spec-table file-ref-table">
+      <tr><th>種別</th><th>パス</th></tr>
+      <tr><td>Brand Mark</td><td class="path">/assets/brand/logo/atlas-mark.svg</td></tr>
+      <tr><td>Primary Logo</td><td class="path">/assets/brand/logo/atlas-logo.svg</td></tr>
+      <tr><td>Compact Logo</td><td class="path">/assets/brand/logo/atlas-logo-compact.svg</td></tr>
+      <tr><td>Favicon</td><td class="path">/assets/brand/logo/favicon.svg</td></tr>
+      <tr><td>OGP画像</td><td class="path">/assets/brand/ogp/atlas-ogp.png</td></tr>
+      <tr><td>ロゴタイプ比較プレビュー</td><td class="path">/assets/brand/preview/brand-logo-preview.html</td></tr>
+      <tr><td>マーク比較プレビュー</td><td class="path">/assets/brand/preview/brand-preview.html</td></tr>
+      <tr><td>ログイン画面モックアップ</td><td class="path">/assets/brand/preview/atlas-login-preview.html</td></tr>
+      <tr><td>参考画像（マーク）</td><td class="path">/assets/brand/reference/atlas-mark-reference.png</td></tr>
+      <tr><td>参考画像（ロゴタイプ）</td><td class="path">/assets/brand/reference/atlas-logo-reference.png.png</td></tr>
+    </table>
+  
+  </section>
+</main>
+</body>
+</html>

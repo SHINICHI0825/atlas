@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas — Login (Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: #F8FAFC;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .page {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 380px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .lockup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .lockup svg { display: block; }
+  .wordmark {
+    font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    color: #0F172A;
+    margin-left: 10px;
+    line-height: 1;
+  }
+  .subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    color: #475569;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .field { width: 100%; margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #0F172A;
+    background: #FFFFFF;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field input::placeholder { color: #94A3B8; }
+  .field input:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.14);
+  }
+  .signin-btn {
+    width: 100%;
+    height: 44px;
+    margin-top: 8px;
+    background: #0F172A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .signin-btn:hover { background: #1E293B; }
+  .signin-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.35);
+  }
+  .footnote {
+    margin-top: 24px;
+    font-size: 11px;
+    color: #94A3B8;
+    text-align: center;
+  }
+  .mockup-badge {
+    position: fixed;
+    top: 16px; left: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #94A3B8;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="mockup-badge">Mockup — 実装なし</div>
+  <div class="page">
+    <div class="card">
+      <div class="lockup">
+        <svg width="40" height="40" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="atlasGradient" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#15328E"/>
+              <stop offset="12%" stop-color="#2563EB"/>
+              <stop offset="60%" stop-color="#2369EA"/>
+              <stop offset="100%" stop-color="#168DE0"/>
+            </linearGradient>
+          </defs>
+          <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+          <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
+        </svg>
+        <span class="wordmark">Atlas</span>
+      </div>
+      <div class="subtitle">AI Merchandise Intelligence Platform</div>
+
+      <form onsubmit="return false;" style="width:100%;">
+        <div class="field">
+          <label for="email">メールアドレス</label>
+          <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="password">パスワード</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="signin-btn">Sign in</button>
+      </form>
+
+      <div class="footnote">これはデザイン確認用のモックアップです。認証機能は実装されていません。</div>
+    </div>
+  </div>
+</body>
+</html>
