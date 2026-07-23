@@ -34,9 +34,13 @@ body{font-family:'Avenir Next','AvenirNext-Regular','Avenir','Noto Sans JP',sans
 #topbar{background:#0c1222;padding:0 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;height:48px;border-bottom:1px solid rgba(125,209,252,.18)}
 #topbar h1{display:flex;align-items:center;margin:0;font-size:inherit;font-weight:400}
 #brand-logo{display:block;text-decoration:none;flex-shrink:0}
-#brand-logo-mount{--atlas-text:#fff;display:block;height:28px}
-#brand-logo-mount svg{height:28px;width:auto;display:block}
+#brand-logo-mount{--atlas-text:#fff;--atlas-subtitle:#fff;display:block;height:31px}
+#brand-logo-mount svg{height:31px;width:auto;display:block}
+#brand-logo-mount>svg>text{transform:translateY(-6.5px)}
 #topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+@media (max-width:768px){
+  #brand-logo-mount>svg>text{display:none}
+}
 /* ===== サイドバー＋ボディ ===== */
 #body{display:flex;flex:1;overflow:hidden}
 #sidebar{width:176px;background:#fff;border-right:1px solid #e8edf3;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
@@ -155,7 +159,7 @@ td.rank{text-align:center;font-weight:700;color:#0284c7}
 <div id="topbar">
   <h1>
     <a href="/atlas/" id="brand-logo" aria-label="Atlas ホームへ戻る">
-      <span id="brand-logo-mount" data-brand-logo data-src="/assets/brand/logo/atlas-logo-compact.svg" role="img" aria-label="Atlas"></span>
+      <span id="brand-logo-mount" data-brand-logo data-src="/assets/brand/logo/atlas-logo.svg" role="img" aria-label="Atlas — AI Merchandise Intelligence Platform"></span>
     </a>
   </h1>
   <div id="topbar-right">
