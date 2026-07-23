@@ -12,7 +12,7 @@
     <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
   </svg>
   <g transform="translate(35,-0.08) scale(0.073333)">
-    <path d="M64 90 L125 90 Q128 90 128.8 92.9 L183 297 L6 297 L60.2 92.9 Q61 90 64 90 Z M94.5 102.4 L123 217 L66 217 Z M57 253 L132 253 L144 297 L45 297 Z" fill="#0F172A" fill-rule="evenodd"/>
-    <text x="189.3" y="297" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="300" letter-spacing="-0.01em" fill="#0F172A">tlas</text>
+    <path d="M64 90 L125 90 Q128 90 128.8 92.9 L183 297 L6 297 L60.2 92.9 Q61 90 64 90 Z M94.5 102.4 L123 217 L66 217 Z M57 253 L132 253 L144 297 L45 297 Z" fill="var(--atlas-text, #0F172A)" fill-rule="evenodd"/>
+    <text x="189.3" y="297" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="300" letter-spacing="-0.01em" fill="var(--atlas-text, #0F172A)">tlas</text>
   </g>
 </svg>

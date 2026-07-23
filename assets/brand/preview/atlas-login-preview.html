@@ -33,32 +33,9 @@
     align-items: center;
   }
   .logo-block {
-    display: inline-flex;
-    align-items: flex-end;
     margin-bottom: 32px;
   }
-  .logo-block svg { display: block; align-self: center; }
-  .wordmark {
-    font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
-    font-weight: 700;
-    font-size: 32px;
-    letter-spacing: -0.01em;
-    color: #0F172A;
-    margin-left: 10px;
-    line-height: 1;
-  }
-  .subtitle {
-    position: relative;
-    top: -3px;
-    margin-left: 6px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.01em;
-    line-height: 1;
-    color: #475569;
-    white-space: nowrap;
-  }
+  .logo-block svg { height: 40px; width: auto; display: block; }
   .field { width: 100%; margin-bottom: 16px; }
   .field label {
     display: block;
@@ -129,22 +106,7 @@
   <div class="mockup-badge">Mockup — 実装なし</div>
   <div class="page">
     <div class="card">
-      <div class="logo-block">
-        <svg width="40" height="40" viewBox="0 0 100 100">
-          <defs>
-            <linearGradient id="atlasGradient" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#15328E"/>
-              <stop offset="12%" stop-color="#2563EB"/>
-              <stop offset="60%" stop-color="#2369EA"/>
-              <stop offset="100%" stop-color="#168DE0"/>
-            </linearGradient>
-          </defs>
-          <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
-          <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
-        </svg>
-        <span class="wordmark">Atlas</span>
-        <span class="subtitle">AI Merchandise Intelligence Platform</span>
-      </div>
+      <div class="logo-block" data-brand-logo data-src="/assets/brand/logo/atlas-logo.svg" role="img" aria-label="Atlas — AI Merchandise Intelligence Platform"></div>
 
       <form onsubmit="return false;" style="width:100%;">
         <div class="field">
@@ -161,5 +123,6 @@
       <div class="footnote">これはデザイン確認用のモックアップです。認証機能は実装されていません。</div>
     </div>
   </div>
+<script src="/assets/brand/brand-loader.js"></script>
 </body>
 </html>
