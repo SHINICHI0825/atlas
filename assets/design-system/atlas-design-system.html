@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Design System v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Atlas Design System v1.0 — design tokens
+   Namespaced --ds- to stay independent of the fixed brand logo tokens
+   (--atlas-text / --atlas-subtitle), which must never be treated as themeable.
+   ========================================================================== */
+:root{
+  /* --- Primary (Atlas Blue) --- */
+  --ds-primary-50:#EFF6FF; --ds-primary-100:#DBEAFE; --ds-primary-200:#BFDBFE;
+  --ds-primary-300:#93C5FD; --ds-primary-400:#60A5FA; --ds-primary-500:#3B82F6;
+  --ds-primary-600:#2563EB; --ds-primary-700:#1D4ED8; --ds-primary-800:#1E40AF; --ds-primary-900:#1E3A8A;
+  --ds-accent-cyan:#06B6D4;
+
+  /* --- Neutral (Slate) --- */
+  --ds-neutral-0:#FFFFFF;
+  --ds-neutral-50:#F8FAFC; --ds-neutral-100:#F1F5F9; --ds-neutral-200:#E2E8F0;
+  --ds-neutral-300:#CBD5E1; --ds-neutral-400:#94A3B8; --ds-neutral-500:#64748B;
+  --ds-neutral-600:#475569; --ds-neutral-700:#334155; --ds-neutral-800:#1E293B; --ds-neutral-900:#0F172A;
+
+  /* --- Success / Warning / Danger --- */
+  --ds-success-50:#F0FDF4; --ds-success-100:#DCFCE7; --ds-success-500:#22C55E; --ds-success-600:#16A34A; --ds-success-700:#15803D;
+  --ds-warning-50:#FFFBEB; --ds-warning-100:#FEF3C7; --ds-warning-500:#F59E0B; --ds-warning-600:#D97706; --ds-warning-700:#B45309;
+  --ds-danger-50:#FEF2F2;  --ds-danger-100:#FEE2E2;  --ds-danger-500:#EF4444;  --ds-danger-600:#DC2626;  --ds-danger-700:#B91C1C;
+
+  /* --- Spacing (8px grid, 4px half-step) --- */
+  --ds-space-1:4px; --ds-space-2:8px; --ds-space-3:12px; --ds-space-4:16px; --ds-space-5:24px;
+  --ds-space-6:32px; --ds-space-7:40px; --ds-space-8:48px; --ds-space-9:64px; --ds-space-10:96px;
+
+  /* --- Radius --- */
+  --ds-radius-sm:4px; --ds-radius-md:6px; --ds-radius-lg:8px; --ds-radius-xl:12px; --ds-radius-2xl:16px; --ds-radius-full:999px;
+
+  /* --- Shadow --- */
+  --ds-shadow-xs:0 1px 2px rgba(15,23,42,.04);
+  --ds-shadow-sm:0 1px 2px rgba(15,23,42,.04), 0 1px 6px rgba(15,23,42,.04);
+  --ds-shadow-md:0 4px 12px rgba(15,23,42,.08);
+  --ds-shadow-lg:0 8px 24px rgba(15,23,42,.10);
+  --ds-shadow-xl:0 16px 48px rgba(15,23,42,.14);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ds-neutral-900);
+  background:var(--ds-neutral-50);
+  font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
+code, .mono{font-family:'JetBrains Mono','SF Mono',Consolas,monospace;}
+
+/* ===== Shell layout ===== */
+.ds-shell{display:flex;min-height:100vh}
+.ds-sidebar{
+  width:248px;flex-shrink:0;background:var(--ds-neutral-0);border-right:1px solid var(--ds-neutral-200);
+  position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 16px 40px;
+}
+.ds-brand{display:flex;align-items:center;gap:9px;padding:4px 8px 18px;border-bottom:1px solid var(--ds-neutral-100);margin-bottom:14px}
+.ds-brand [data-brand-logo]{display:block;height:20px}
+.ds-brand [data-brand-logo] svg{display:block;height:20px;width:auto}
+.ds-brand-meta{display:flex;flex-direction:column;line-height:1.25}
+.ds-brand-meta .name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:var(--ds-neutral-900)}
+.ds-brand-meta .ver{font-size:10.5px;font-weight:600;color:var(--ds-primary-600);letter-spacing:.02em}
+.ds-nav{display:flex;flex-direction:column;gap:1px}
+.ds-nav a{
+  display:flex;align-items:baseline;gap:8px;padding:7px 10px;border-radius:var(--ds-radius-md);
+  color:var(--ds-neutral-600);text-decoration:none;font-size:12.5px;font-weight:500;
+  transition:background .12s,color .12s;
+}
+.ds-nav a:hover{background:var(--ds-neutral-50);color:var(--ds-neutral-900)}
+.ds-nav a .num{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ds-neutral-400);width:16px;flex-shrink:0}
+.ds-nav a:hover .num{color:var(--ds-primary-600)}
+
+.ds-main{flex:1;min-width:0;max-width:1180px;padding:56px 64px 120px}
+.ds-hero{margin-bottom:64px}
+.ds-hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ds-primary-600);margin:0 0 10px}
+.ds-hero h1{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;letter-spacing:-.01em;margin:0 0 12px}
+.ds-hero p{font-size:15px;color:var(--ds-neutral-600);max-width:640px;line-height:1.7;margin:0}
+.ds-hero .tags{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.ds-hero .tag{font-size:11px;font-weight:600;color:var(--ds-neutral-500);background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);padding:4px 11px;border-radius:var(--ds-radius-full)}
+
+/* ===== Section chrome ===== */
+.ds-section{padding-top:88px;margin-top:-88px}
+.ds-section+.ds-section{border-top:1px solid var(--ds-neutral-200);margin-top:64px;padding-top:64px}
+.ds-section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.ds-section-head .idx{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ds-neutral-400);font-weight:500}
+.ds-section-head h2{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
+.ds-section-note{font-size:13.5px;color:var(--ds-neutral-500);max-width:640px;line-height:1.65;margin:0 0 28px}
+
+/* ===== Reusable primitives ===== */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+.grid-6{grid-template-columns:repeat(6,1fr)}
+
+.panel{background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-lg);padding:24px;box-shadow:var(--ds-shadow-xs)}
+.panel-dark{background:var(--ds-neutral-900);border-color:var(--ds-neutral-800)}
+
+.spec-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:12.5px}
+.spec-table th{text-align:left;padding:8px 12px;color:var(--ds-neutral-400);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--ds-neutral-200)}
+.spec-table td{padding:9px 12px;border-bottom:1px solid var(--ds-neutral-100);color:var(--ds-neutral-700)}
+.spec-table tr:last-child td{border-bottom:none}
+.spec-table td.tok{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ds-primary-700)}
+.spec-table td.val{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ds-neutral-500)}
+
+/* ===== 01 Colors ===== */
+.swatch{border-radius:var(--ds-radius-lg);overflow:hidden;border:1px solid var(--ds-neutral-200)}
+.swatch .fill{height:64px}
+.swatch .meta{padding:9px 11px;background:var(--ds-neutral-0)}
+.swatch .meta .step{font-size:11.5px;font-weight:700;color:var(--ds-neutral-800)}
+.swatch .meta .hex{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ds-neutral-400);margin-top:2px}
+.color-row{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;margin-bottom:8px}
+.color-row.short{grid-template-columns:repeat(5,1fr)}
+.color-group-label{font-size:12px;font-weight:700;color:var(--ds-neutral-800);margin:24px 0 10px}
+.color-group-label:first-child{margin-top:0}
+
+/* ===== 02 Typography ===== */
+.type-row{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:18px 0;border-bottom:1px solid var(--ds-neutral-100)}
+.type-row:last-child{border-bottom:none}
+.type-sample{color:var(--ds-neutral-900)}
+.type-meta{flex-shrink:0;text-align:right;font-size:11.5px;color:var(--ds-neutral-400);font-family:'JetBrains Mono',monospace;line-height:1.6}
+.t-display{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:40px;letter-spacing:-.01em}
+.t-h1{font-weight:700;font-size:28px;letter-spacing:-.01em}
+.t-h2{font-weight:700;font-size:22px;letter-spacing:-.008em}
+.t-h3{font-weight:600;font-size:18px}
+.t-h4{font-weight:600;font-size:16px}
+.t-h5{font-weight:600;font-size:14px}
+.t-h6{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ds-neutral-500)}
+.t-body{font-weight:400;font-size:14px;line-height:1.7;color:var(--ds-neutral-700)}
+.t-body-sm{font-weight:400;font-size:13px;line-height:1.6;color:var(--ds-neutral-600)}
+.t-caption{font-weight:500;font-size:11px;color:var(--ds-neutral-400);letter-spacing:.02em}
+
+/* ===== 03 Spacing ===== */
+.space-row{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.space-bar{background:var(--ds-primary-600);border-radius:2px;height:16px}
+.space-label{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ds-neutral-500);width:120px;flex-shrink:0}
+
+/* ===== 04 Radius ===== */
+.radius-demo{width:100%;height:72px;background:var(--ds-primary-50);border:1.5px solid var(--ds-primary-200)}
+.radius-label{margin-top:10px;font-size:12px;color:var(--ds-neutral-600)}
+.radius-label .mono{color:var(--ds-neutral-400);font-size:11px}
+
+/* ===== 05 Shadow ===== */
+.shadow-demo{width:100%;height:88px;background:var(--ds-neutral-0);border-radius:var(--ds-radius-lg);display:flex;align-items:center;justify-content:center;color:var(--ds-neutral-400);font-size:11.5px;font-family:'JetBrains Mono',monospace}
+
+/* ===== 06 Button ===== */
+.btn{
+  appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+  border-radius:var(--ds-radius-md);transition:background .12s,box-shadow .12s,border-color .12s,color .12s,opacity .12s;
+}
+.btn-lg{height:44px;padding:0 22px;font-size:14px}
+.btn-md{height:38px;padding:0 18px;font-size:13.5px}
+.btn-sm{height:32px;padding:0 13px;font-size:12.5px}
+.btn-primary{background:var(--ds-primary-600);color:#fff}
+.btn-primary:hover{background:var(--ds-primary-700)}
+.btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(37,99,235,.28)}
+.btn-primary:disabled{background:var(--ds-neutral-200);color:var(--ds-neutral-400);cursor:not-allowed}
+.btn-secondary{background:var(--ds-neutral-0);color:var(--ds-neutral-800);border:1px solid var(--ds-neutral-300)}
+.btn-secondary:hover{background:var(--ds-neutral-50);border-color:var(--ds-neutral-400)}
+.btn-ghost{background:transparent;color:var(--ds-neutral-600)}
+.btn-ghost:hover{background:var(--ds-neutral-100);color:var(--ds-neutral-900)}
+.btn-danger{background:var(--ds-danger-600);color:#fff}
+.btn-danger:hover{background:var(--ds-danger-700)}
+.btn-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+/* ===== 07 Input ===== */
+.f-group{display:flex;flex-direction:column;gap:6px;max-width:280px}
+.f-label{font-size:12px;font-weight:600;color:var(--ds-neutral-700)}
+.f-input{height:38px;padding:0 12px;border:1px solid var(--ds-neutral-300);border-radius:var(--ds-radius-md);font-size:13.5px;font-family:inherit;color:var(--ds-neutral-900);background:var(--ds-neutral-0);outline:none;transition:border-color .12s,box-shadow .12s}
+.f-input::placeholder{color:var(--ds-neutral-400)}
+.f-input:focus{border-color:var(--ds-primary-600);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.f-input.is-error{border-color:var(--ds-danger-500)}
+.f-input.is-error:focus{box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.f-input:disabled{background:var(--ds-neutral-100);color:var(--ds-neutral-400);cursor:not-allowed}
+.f-help{font-size:11.5px;color:var(--ds-neutral-400)}
+.f-help.err{color:var(--ds-danger-600)}
+
+/* ===== 08 Card ===== */
+.card-demo{background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-xs);padding:20px}
+.card-demo h4{margin:0 0 6px;font-size:14.5px;font-weight:600}
+.card-demo p{margin:0;font-size:12.5px;color:var(--ds-neutral-500);line-height:1.6}
+.card-interactive{cursor:pointer;transition:box-shadow .15s,transform .15s}
+.card-interactive:hover{box-shadow:var(--ds-shadow-md);transform:translateY(-1px)}
+
+/* ===== 09 Table ===== */
+.ds-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.ds-table th{background:var(--ds-neutral-50);color:var(--ds-neutral-500);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.03em;text-align:left;padding:10px 12px;border-bottom:1px solid var(--ds-neutral-200);border-top:1px solid var(--ds-neutral-200)}
+.ds-table td{padding:10px 12px;border-bottom:1px solid var(--ds-neutral-100);color:var(--ds-neutral-700)}
+.ds-table tr:hover td{background:var(--ds-neutral-50)}
+.ds-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono',monospace}
+
+/* ===== 10 KPI Card ===== */
+.kpi-demo{background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-lg);padding:18px 20px;box-shadow:var(--ds-shadow-xs);border-top:3px solid var(--ds-primary-600)}
+.kpi-label{font-size:10.5px;font-weight:700;color:var(--ds-neutral-400);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.kpi-value{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em;color:var(--ds-neutral-900)}
+.kpi-trend{display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;margin-top:8px}
+.kpi-trend.up{color:var(--ds-success-600)}
+.kpi-trend.down{color:var(--ds-danger-600)}
+.kpi-trend .base{color:var(--ds-neutral-400);font-weight:500}
+
+/* ===== 11 Badge ===== */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--ds-radius-full);line-height:1.5}
+.badge .dot{width:6px;height:6px;border-radius:50%}
+.badge-neutral{background:var(--ds-neutral-100);color:var(--ds-neutral-600)}
+.badge-neutral .dot{background:var(--ds-neutral-400)}
+.badge-info{background:var(--ds-primary-50);color:var(--ds-primary-700)}
+.badge-info .dot{background:var(--ds-primary-600)}
+.badge-success{background:var(--ds-success-50);color:var(--ds-success-700)}
+.badge-success .dot{background:var(--ds-success-500)}
+.badge-warning{background:var(--ds-warning-50);color:var(--ds-warning-700)}
+.badge-warning .dot{background:var(--ds-warning-500)}
+.badge-danger{background:var(--ds-danger-50);color:var(--ds-danger-700)}
+.badge-danger .dot{background:var(--ds-danger-500)}
+
+/* ===== 12 Modal ===== */
+.modal-frame{background:var(--ds-neutral-800);border-radius:var(--ds-radius-lg);padding:40px;display:flex;align-items:center;justify-content:center}
+.modal-demo{width:100%;max-width:400px;background:var(--ds-neutral-0);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xl);overflow:hidden}
+.modal-demo .m-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--ds-neutral-100)}
+.modal-demo .m-head h4{margin:0;font-size:15px;font-weight:700}
+.modal-demo .m-close{width:26px;height:26px;border-radius:var(--ds-radius-md);border:none;background:transparent;color:var(--ds-neutral-400);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-demo .m-close:hover{background:var(--ds-neutral-100);color:var(--ds-neutral-700)}
+.modal-demo .m-body{padding:22px;font-size:13px;color:var(--ds-neutral-600);line-height:1.7}
+.modal-demo .m-foot{padding:16px 22px;border-top:1px solid var(--ds-neutral-100);display:flex;justify-content:flex-end;gap:10px}
+
+/* ===== 13 Empty State ===== */
+.empty-demo{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 24px;border:1.5px dashed var(--ds-neutral-200);border-radius:var(--ds-radius-lg);background:var(--ds-neutral-50)}
+.empty-demo .icon-wrap{width:48px;height:48px;border-radius:50%;background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);display:flex;align-items:center;justify-content:center;color:var(--ds-neutral-400);margin-bottom:16px}
+.empty-demo h4{margin:0 0 6px;font-size:14.5px;font-weight:600;color:var(--ds-neutral-800)}
+.empty-demo p{margin:0 0 18px;font-size:12.5px;color:var(--ds-neutral-500);max-width:280px;line-height:1.6}
+
+/* ===== 14 Loading ===== */
+.spinner{width:28px;height:28px;border-radius:50%;border:3px solid var(--ds-neutral-200);border-top-color:var(--ds-primary-600);animation:ds-spin .7s linear infinite}
+@keyframes ds-spin{to{transform:rotate(360deg)}}
+.skel{border-radius:var(--ds-radius-md);background:linear-gradient(90deg,var(--ds-neutral-100) 25%,var(--ds-neutral-200) 37%,var(--ds-neutral-100) 63%);background-size:400% 100%;animation:ds-shimmer 1.4s ease infinite}
+@keyframes ds-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.progress-track{height:6px;border-radius:var(--ds-radius-full);background:var(--ds-neutral-200);overflow:hidden}
+.progress-fill{height:100%;width:62%;background:var(--ds-primary-600);border-radius:var(--ds-radius-full)}
+
+/* ===== 15 Chart color ===== */
+.chart-swatch{display:flex;flex-direction:column;gap:8px;align-items:center}
+.chart-swatch .sw{width:100%;height:40px;border-radius:var(--ds-radius-md)}
+.chart-swatch .lbl{font-size:11px;color:var(--ds-neutral-500);text-align:center}
+.chart-mini{display:flex;align-items:flex-end;gap:6px;height:96px;padding:12px;background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-lg)}
+.chart-mini .bar{flex:1;border-radius:3px 3px 0 0}
+
+/* ===== 16 Icon size ===== */
+.icon-demo{display:flex;flex-direction:column;align-items:center;gap:10px}
+.icon-demo .box{display:flex;align-items:center;justify-content:center;color:var(--ds-neutral-700);background:var(--ds-neutral-50);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-md)}
+.icon-demo .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ds-neutral-400)}
+
+/* ===== 17 Responsive ===== */
+.bp-bar{display:flex;height:40px;border-radius:var(--ds-radius-md);overflow:hidden;margin-bottom:16px}
+.bp-bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11.5px;font-weight:600;font-family:'JetBrains Mono',monospace}
+
+footer.ds-foot{margin-top:80px;padding-top:28px;border-top:1px solid var(--ds-neutral-200);font-size:12px;color:var(--ds-neutral-400)}
+
+@media (max-width:960px){
+  .ds-sidebar{display:none}
+  .ds-main{padding:32px 24px 100px}
+  .grid-6,.grid-5,.grid-4{grid-template-columns:repeat(3,1fr)}
+  .color-row{grid-template-columns:repeat(5,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="ds-shell">
+
+  <aside class="ds-sidebar">
+    <div class="ds-brand">
+      <span data-brand-logo data-src="/assets/brand/logo/atlas-logo-compact.svg" role="img" aria-label="Atlas"></span>
+      <div class="ds-brand-meta">
+        <span class="name">Design System</span>
+        <span class="ver">v1.0</span>
+      </div>
+    </div>
+    <nav class="ds-nav">
+      <a href="#colors"><span class="num">01</span>Colors</a>
+      <a href="#typography"><span class="num">02</span>Typography</a>
+      <a href="#spacing"><span class="num">03</span>Spacing</a>
+      <a href="#radius"><span class="num">04</span>Border Radius</a>
+      <a href="#shadow"><span class="num">05</span>Shadow</a>
+      <a href="#button"><span class="num">06</span>Button</a>
+      <a href="#input"><span class="num">07</span>Input</a>
+      <a href="#card"><span class="num">08</span>Card</a>
+      <a href="#table"><span class="num">09</span>Table</a>
+      <a href="#kpi-card"><span class="num">10</span>KPI Card</a>
+      <a href="#badge"><span class="num">11</span>Badge</a>
+      <a href="#modal"><span class="num">12</span>Modal</a>
+      <a href="#empty-state"><span class="num">13</span>Empty State</a>
+      <a href="#loading"><span class="num">14</span>Loading</a>
+      <a href="#chart-color"><span class="num">15</span>Chart Color</a>
+      <a href="#icon-size"><span class="num">16</span>Icon Size</a>
+      <a href="#responsive"><span class="num">17</span>Responsive Rule</a>
+    </nav>
+  </aside>
+
+  <main class="ds-main">
+
+    <div class="ds-hero">
+      <p class="eyebrow">Atlas Product UI · Reference</p>
+      <h1>Atlas Design System</h1>
+      <p>Atlas全体のUIを統一し、今後どの画面を追加してもブランド品質を維持するための共通言語です。ブランドガイドライン（ロゴ・タイポグラフィ・マーク）とは独立した、プロダクトUIのためのトークンとコンポーネント仕様集です。</p>
+      <div class="tags">
+        <span class="tag">Minimal</span>
+        <span class="tag">Token-driven</span>
+        <span class="tag">Apple / Stripe / Linear / Notion / Vercel 参考</span>
+      </div>
+    </div>
+
+    <!-- 01 COLORS ============================================================ -->
+    <section class="ds-section" id="colors">
+      <div class="ds-section-head"><span class="idx">01</span><h2>Colors</h2></div>
+      <p class="ds-section-note">PrimaryはAtlas Blue、Neutralは既存ブランドのSlateスケールに準拠。Success / Warning / Dangerはステータス表現専用で、装飾目的では使用しません。</p>
+
+      <div class="color-group-label">Primary — Atlas Blue</div>
+      <div class="color-row" id="sw-primary"></div>
+
+      <div class="color-group-label">Neutral — Slate</div>
+      <div class="color-row" id="sw-neutral"></div>
+
+      <div class="color-group-label">Success / Warning / Danger</div>
+      <div class="grid grid-3">
+        <div class="color-row short" id="sw-success" style="grid-template-columns:repeat(3,1fr)"></div>
+        <div class="color-row short" id="sw-warning" style="grid-template-columns:repeat(3,1fr)"></div>
+        <div class="color-row short" id="sw-danger" style="grid-template-columns:repeat(3,1fr)"></div>
+      </div>
+
+      <table class="spec-table">
+        <tr><th>Token</th><th>Value</th><th>用途</th></tr>
+        <tr><td class="tok">--ds-primary-600</td><td class="val">#2563EB</td><td>プライマリボタン・リンク・フォーカスリング・強調</td></tr>
+        <tr><td class="tok">--ds-accent-cyan</td><td class="val">#06B6D4</td><td>チャート補助色・アクセント（多用しない）</td></tr>
+        <tr><td class="tok">--ds-neutral-900</td><td class="val">#0F172A</td><td>本文最重要テキスト・見出し</td></tr>
+        <tr><td class="tok">--ds-neutral-50</td><td class="val">#F8FAFC</td><td>ページ背景</td></tr>
+        <tr><td class="tok">--ds-success-600 / warning-600 / danger-600</td><td class="val">#16A34A / #D97706 / #DC2626</td><td>ステータスバッジ・アラート・トレンド表示</td></tr>
+      </table>
+    </section>
+
+    <!-- 02 TYPOGRAPHY ======================================================== -->
+    <section class="ds-section" id="typography">
+      <div class="ds-section-head"><span class="idx">02</span><h2>Typography</h2></div>
+      <p class="ds-section-note">見出し・本文はInter、Displayのみブランドの重心に合わせてSpace Grotesk（ワードマークと同一ファミリー）。日本語はNoto Sans JPをフォールバックとして併用します。</p>
+
+      <div class="panel">
+        <div class="type-row"><div class="t-display type-sample">Display 40 / 48</div><div class="type-meta">Space Grotesk 700<br>-0.01em</div></div>
+        <div class="type-row"><div class="t-h1 type-sample">H1 見出し 28 / 36</div><div class="type-meta">Inter 700<br>-0.01em</div></div>
+        <div class="type-row"><div class="t-h2 type-sample">H2 見出し 22 / 30</div><div class="type-meta">Inter 700</div></div>
+        <div class="type-row"><div class="t-h3 type-sample">H3 見出し 18 / 26</div><div class="type-meta">Inter 600</div></div>
+        <div class="type-row"><div class="t-h4 type-sample">H4 見出し 16 / 24</div><div class="type-meta">Inter 600</div></div>
+        <div class="type-row"><div class="t-h5 type-sample">H5 見出し 14 / 20</div><div class="type-meta">Inter 600</div></div>
+        <div class="type-row"><div class="t-h6 type-sample">H6 ラベル 12 / 16</div><div class="type-meta">Inter 600<br>uppercase · .06em</div></div>
+        <div class="type-row"><div class="t-body type-sample">Body 本文テキスト。数値や説明文などプロダクト全体の標準サイズ 14 / 22。</div><div class="type-meta">Inter 400</div></div>
+        <div class="type-row"><div class="t-body-sm type-sample">Body Small — テーブルやフィルターなど高密度UIでの本文 13 / 20。</div><div class="type-meta">Inter 400</div></div>
+        <div class="type-row"><div class="t-caption type-sample">CAPTION — 補足・タイムスタンプ・単位 11</div><div class="type-meta">Inter 500</div></div>
+      </div>
+    </section>
+
+    <!-- 03 SPACING =========================================================== -->
+    <section class="ds-section" id="spacing">
+      <div class="ds-section-head"><span class="idx">03</span><h2>Spacing</h2></div>
+      <p class="ds-section-note">8pxグリッドを基準とし、4pxのハーフステップのみ許可します。すべての padding / gap / margin はこのスケールから選択します。</p>
+      <div class="panel" id="space-rows"></div>
+    </section>
+
+    <!-- 04 RADIUS ============================================================ -->
+    <section class="ds-section" id="radius">
+      <div class="ds-section-head"><span class="idx">04</span><h2>Border Radius</h2></div>
+      <p class="ds-section-note">角丸は要素の階層と大きさに応じて6段階。ピル型（full）はバッジ・アバターのみに使用します。</p>
+      <div class="grid grid-6" id="radius-grid"></div>
+    </section>
+
+    <!-- 05 SHADOW ============================================================ -->
+    <section class="ds-section" id="shadow">
+      <div class="ds-section-head"><span class="idx">05</span><h2>Shadow</h2></div>
+      <p class="ds-section-note">影は最小限に留め、階層の区別のみに使用します（装飾目的の強い影は使用しません）。</p>
+      <div class="grid grid-5" id="shadow-grid" style="background:var(--ds-neutral-100);padding:20px;border-radius:12px"></div>
+    </section>
+
+    <!-- 06 BUTTON ============================================================ -->
+    <section class="ds-section" id="button">
+      <div class="ds-section-head"><span class="idx">06</span><h2>Button</h2></div>
+      <p class="ds-section-note">Primary は1画面につき1箇所を目安に。Secondary / Ghost は併用可能。Danger は破壊的操作専用。</p>
+      <div class="panel" style="display:flex;flex-direction:column;gap:24px">
+        <div class="btn-row">
+          <button class="btn btn-primary btn-lg">Primary Large</button>
+          <button class="btn btn-primary btn-md">Primary Medium</button>
+          <button class="btn btn-primary btn-sm">Primary Small</button>
+          <button class="btn btn-primary btn-md" disabled>Disabled</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary btn-md">Secondary</button>
+          <button class="btn btn-ghost btn-md">Ghost</button>
+          <button class="btn btn-danger btn-md">Danger</button>
+        </div>
+      </div>
+      <table class="spec-table">
+        <tr><th>Variant</th><th>用途</th><th>Height</th></tr>
+        <tr><td class="tok">.btn-primary</td><td>主要アクション（送信・保存・検索実行）</td><td class="val">44 / 38 / 32px</td></tr>
+        <tr><td class="tok">.btn-secondary</td><td>並列の副次アクション</td><td class="val">38px</td></tr>
+        <tr><td class="tok">.btn-ghost</td><td>ツールバー・低優先度操作</td><td class="val">38px</td></tr>
+        <tr><td class="tok">.btn-danger</td><td>削除・破棄など破壊的操作</td><td class="val">38px</td></tr>
+      </table>
+    </section>
+
+    <!-- 07 INPUT ============================================================= -->
+    <section class="ds-section" id="input">
+      <div class="ds-section-head"><span class="idx">07</span><h2>Input</h2></div>
+      <p class="ds-section-note">ラベル・フィールド・ヘルプテキストを1セットとして扱います。エラー時はボーダーとヘルプテキストの色のみ変化させます。</p>
+      <div class="panel">
+        <div class="grid grid-3">
+          <div class="f-group">
+            <label class="f-label">メールアドレス</label>
+            <input class="f-input" placeholder="you@company.com">
+            <span class="f-help">会社ドメインのメールを使用してください</span>
+          </div>
+          <div class="f-group">
+            <label class="f-label">パスワード</label>
+            <input class="f-input is-error" type="password" value="••••">
+            <span class="f-help err">8文字以上で入力してください</span>
+          </div>
+          <div class="f-group">
+            <label class="f-label">無効状態</label>
+            <input class="f-input" disabled value="Disabled">
+            <span class="f-help">編集できません</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 CARD ============================================================== -->
+    <section class="ds-section" id="card">
+      <div class="ds-section-head"><span class="idx">08</span><h2>Card</h2></div>
+      <p class="ds-section-note">白背景・1pxボーダー・shadow-xsを基本形とします。クリック可能なカードのみhoverでshadow-mdへ遷移します。</p>
+      <div class="grid grid-3">
+        <div class="card-demo"><h4>標準カード</h4><p>border + shadow-xs。情報のグルーピングに使用する最も基本的な単位です。</p></div>
+        <div class="card-demo card-interactive"><h4>インタラクティブカード</h4><p>hoverで浮き上がり、クリック可能であることを示します。</p></div>
+        <div class="card-demo" style="border-top:3px solid var(--ds-primary-600)"><h4>アクセントカード</h4><p>上部にPrimaryのアクセントラインを添えた強調バリエーション。</p></div>
+      </div>
+    </section>
+
+    <!-- 09 TABLE ============================================================= -->
+    <section class="ds-section" id="table">
+      <div class="ds-section-head"><span class="idx">09</span><h2>Table</h2></div>
+      <p class="ds-section-note">ヘッダーは neutral-50 背景・大文字小さめラベル。数値列は右寄せ・tabular-numsで桁を揃えます。</p>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <table class="ds-table">
+          <tr><th>商品名</th><th>カテゴリ</th><th>ステータス</th><th style="text-align:right">売上</th></tr>
+          <tr><td>Atlas Sneaker Pro</td><td>Footwear</td><td><span class="badge badge-success"><span class="dot"></span>好調</span></td><td class="num">¥1,284,000</td></tr>
+          <tr><td>Nimbus Jacket</td><td>Outerwear</td><td><span class="badge badge-warning"><span class="dot"></span>要注意</span></td><td class="num">¥612,300</td></tr>
+          <tr><td>Cascade Backpack</td><td>Accessories</td><td><span class="badge badge-danger"><span class="dot"></span>欠品</span></td><td class="num">¥88,900</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10 KPI CARD ========================================================== -->
+    <section class="ds-section" id="kpi-card">
+      <div class="ds-section-head"><span class="idx">10</span><h2>KPI Card</h2></div>
+      <p class="ds-section-note">ラベル（caption）・値（Display寄りの太字）・トレンドの3段構成で統一します。</p>
+      <div class="grid grid-4">
+        <div class="kpi-demo"><div class="kpi-label">総売上</div><div class="kpi-value">¥42.8M</div><div class="kpi-trend up">▲ 8.2% <span class="base">前月比</span></div></div>
+        <div class="kpi-demo" style="border-top-color:var(--ds-danger-500)"><div class="kpi-label">返品率</div><div class="kpi-value">3.4%</div><div class="kpi-trend down">▼ 1.1pt <span class="base">前月比</span></div></div>
+        <div class="kpi-demo" style="border-top-color:var(--ds-accent-cyan)"><div class="kpi-label">アクティブSKU</div><div class="kpi-value">1,204</div><div class="kpi-trend up">▲ 32 <span class="base">今週</span></div></div>
+        <div class="kpi-demo" style="border-top-color:var(--ds-neutral-300)"><div class="kpi-label">在庫回転日数</div><div class="kpi-value">18.6日</div><div class="kpi-trend"><span class="base">変動なし</span></div></div>
+      </div>
+    </section>
+
+    <!-- 11 BADGE ============================================================= -->
+    <section class="ds-section" id="badge">
+      <div class="ds-section-head"><span class="idx">11</span><h2>Badge</h2></div>
+      <p class="ds-section-note">ステータスは色でのみ区別せず、必ずラベルテキストを併記します（色覚多様性への配慮）。</p>
+      <div class="panel btn-row">
+        <span class="badge badge-neutral"><span class="dot"></span>下書き</span>
+        <span class="badge badge-info"><span class="dot"></span>処理中</span>
+        <span class="badge badge-success"><span class="dot"></span>完了</span>
+        <span class="badge badge-warning"><span class="dot"></span>要確認</span>
+        <span class="badge badge-danger"><span class="dot"></span>エラー</span>
+      </div>
+    </section>
+
+    <!-- 12 MODAL ============================================================= -->
+    <section class="ds-section" id="modal">
+      <div class="ds-section-head"><span class="idx">12</span><h2>Modal</h2></div>
+      <p class="ds-section-note">オーバーレイは neutral-900 の50%。フッターのアクションは常に右寄せ、Primaryを右端に配置します。</p>
+      <div class="modal-frame">
+        <div class="modal-demo">
+          <div class="m-head"><h4>在庫データを削除しますか？</h4><button class="m-close">✕</button></div>
+          <div class="m-body">この操作は取り消せません。アップロード済みの在庫データがすべて削除されます。</div>
+          <div class="m-foot"><button class="btn btn-secondary btn-md">キャンセル</button><button class="btn btn-danger btn-md">削除する</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 EMPTY STATE ======================================================= -->
+    <section class="ds-section" id="empty-state">
+      <div class="ds-section-head"><span class="idx">13</span><h2>Empty State</h2></div>
+      <p class="ds-section-note">アイコン・見出し・説明・任意のCTAの4段構成。否定的な表現を避け、次のアクションを提示します。</p>
+      <div class="grid grid-2">
+        <div class="empty-demo">
+          <div class="icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+          </div>
+          <h4>データがまだありません</h4>
+          <p>CSVをアップロードすると、ここに分析結果が表示されます。</p>
+          <button class="btn btn-primary btn-sm">CSVをアップロード</button>
+        </div>
+        <div class="empty-demo">
+          <div class="icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <h4>該当する結果がありません</h4>
+          <p>フィルター条件を変更して再検索してください。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 LOADING =========================================================== -->
+    <section class="ds-section" id="loading">
+      <div class="ds-section-head"><span class="idx">14</span><h2>Loading</h2></div>
+      <p class="ds-section-note">初回読込はSkeleton、部分更新やボタン内の待機はSpinner、進捗が明確な処理はProgress Barを使用します。</p>
+      <div class="panel">
+        <div class="grid grid-3">
+          <div>
+            <div class="t-caption" style="margin-bottom:12px">Spinner</div>
+            <div class="spinner"></div>
+          </div>
+          <div>
+            <div class="t-caption" style="margin-bottom:12px">Skeleton</div>
+            <div class="skel" style="height:14px;width:80%;margin-bottom:8px"></div>
+            <div class="skel" style="height:14px;width:55%;margin-bottom:8px"></div>
+            <div class="skel" style="height:14px;width:65%"></div>
+          </div>
+          <div>
+            <div class="t-caption" style="margin-bottom:12px">Progress Bar</div>
+            <div class="progress-track"><div class="progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 CHART COLOR ======================================================= -->
+    <section class="ds-section" id="chart-color">
+      <div class="ds-section-head"><span class="idx">15</span><h2>Chart Color</h2></div>
+      <p class="ds-section-note">系列順にPrimary → Cyan → 補助色の順で割り当てます。ステータス色（success/warning/danger）はチャートの系列色としては使用せず、意味づけが必要な場合のみ使用します。</p>
+      <div class="grid grid-6" id="chart-swatches" style="margin-bottom:20px"></div>
+      <div class="chart-mini" id="chart-mini-demo"></div>
+    </section>
+
+    <!-- 16 ICON SIZE ========================================================= -->
+    <section class="ds-section" id="icon-size">
+      <div class="ds-section-head"><span class="idx">16</span><h2>Icon Size</h2></div>
+      <p class="ds-section-note">Line icon（stroke-width 2）で統一。ボタン内はsm、単体アクションはmd、空状態やモーダル見出しはlg〜xlを使用します。</p>
+      <div class="grid grid-5" id="icon-grid"></div>
+    </section>
+
+    <!-- 17 RESPONSIVE RULE =================================================== -->
+    <section class="ds-section" id="responsive">
+      <div class="ds-section-head"><span class="idx">17</span><h2>Responsive Rule</h2></div>
+      <p class="ds-section-note">3ブレークポイント制。Mobileではサイドバー非表示・ヘッダーサブタイトル非表示など、情報密度を段階的に落とします。</p>
+      <div class="bp-bar">
+        <div style="flex:1;background:var(--ds-neutral-400)">Mobile &lt;768</div>
+        <div style="flex:1;background:var(--ds-primary-500)">Tablet 768–1023</div>
+        <div style="flex:1.4;background:var(--ds-primary-700)">Desktop ≥1024</div>
+      </div>
+      <table class="spec-table">
+        <tr><th>要素</th><th>Mobile</th><th>Tablet</th><th>Desktop</th></tr>
+        <tr><td>サイドバーナビ</td><td>非表示（ハンバーガー化）</td><td>折りたたみ表示</td><td>常時表示 176px</td></tr>
+        <tr><td>ヘッダーサブタイトル</td><td>非表示</td><td>表示</td><td>表示</td></tr>
+        <tr><td>KPIカードグリッド</td><td>2列</td><td>3列</td><td>6列</td></tr>
+        <tr><td>テーブル</td><td>横スクロール</td><td>横スクロール</td><td>全列表示</td></tr>
+        <tr><td>モーダル</td><td>フルスクリーン</td><td>中央ダイアログ</td><td>中央ダイアログ</td></tr>
+      </table>
+    </section>
+
+    <footer class="ds-foot">Atlas Design System v1.0 — Internal reference. ブランドロゴ・カラー・マークは <a href="/assets/brand/preview/atlas-brand-guidelines.html" style="color:var(--ds-neutral-500)">Atlas Brand Guidelines</a> を参照してください。</footer>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  // ---- 01 Colors: generate swatch rows from CSS custom properties ----
+  function steps10(){return ['50','100','200','300','400','500','600','700','800','900'];}
+  function steps5(){return ['50','100','500','600','700'];}
+
+  function buildRow(containerId, prefix, steps, labelPrefix){
+    var el = document.getElementById(containerId);
+    var cs = getComputedStyle(document.documentElement);
+    steps.forEach(function(s){
+      var varName = '--ds-'+prefix+'-'+s;
+      var hex = cs.getPropertyValue(varName).trim();
+      var div = document.createElement('div');
+      div.className = 'swatch';
+      div.innerHTML = '<div class="fill" style="background:'+hex+'"></div><div class="meta"><div class="step">'+(labelPrefix||'')+s+'</div><div class="hex">'+hex+'</div></div>';
+      el.appendChild(div);
+    });
+  }
+  buildRow('sw-primary','primary',steps10());
+  buildRow('sw-neutral','neutral',steps10());
+  buildRow('sw-success','success',steps5());
+  buildRow('sw-warning','warning',steps5());
+  buildRow('sw-danger','danger',steps5());
+
+  // ---- 03 Spacing ----
+  (function(){
+    var el = document.getElementById('space-rows');
+    var scale = [4,8,12,16,24,32,40,48,64,96];
+    scale.forEach(function(px,i){
+      var row = document.createElement('div');
+      row.className = 'space-row';
+      row.innerHTML = '<span class="space-label">--ds-space-'+(i+1)+'</span><div class="space-bar" style="width:'+px+'px"></div><span class="mono" style="font-size:11.5px;color:var(--ds-neutral-400)">'+px+'px</span>';
+      el.appendChild(row);
+    });
+  })();
+
+  // ---- 04 Radius ----
+  (function(){
+    var el = document.getElementById('radius-grid');
+    var items = [['sm','4px'],['md','6px'],['lg','8px'],['xl','12px'],['2xl','16px'],['full','999px']];
+    items.forEach(function(it){
+      var wrap = document.createElement('div');
+      wrap.innerHTML = '<div class="radius-demo" style="border-radius:'+it[1]+'"></div><div class="radius-label">radius-'+it[0]+'<br><span class="mono">'+it[1]+'</span></div>';
+      el.appendChild(wrap);
+    });
+  })();
+
+  // ---- 05 Shadow ----
+  (function(){
+    var el = document.getElementById('shadow-grid');
+    var items = ['xs','sm','md','lg','xl'];
+    var cs = getComputedStyle(document.documentElement);
+    items.forEach(function(k){
+      var val = cs.getPropertyValue('--ds-shadow-'+k).trim();
+      var wrap = document.createElement('div');
+      wrap.innerHTML = '<div class="shadow-demo" style="box-shadow:'+val+'">shadow-'+k+'</div>';
+      el.appendChild(wrap);
+    });
+  })();
+
+  // ---- 15 Chart colors ----
+  (function(){
+    var el = document.getElementById('chart-swatches');
+    var mini = document.getElementById('chart-mini-demo');
+    var series = [
+      ['Series 1','var(--ds-primary-600)'],
+      ['Series 2','var(--ds-accent-cyan)'],
+      ['Series 3','#8B5CF6'],
+      ['Series 4','#F59E0B'],
+      ['Series 5','#F43F5E'],
+      ['Series 6','var(--ds-neutral-400)']
+    ];
+    var heights = [70,45,88,30,60,20];
+    series.forEach(function(s,i){
+      var wrap = document.createElement('div');
+      wrap.className = 'chart-swatch';
+      wrap.innerHTML = '<div class="sw" style="background:'+s[1]+'"></div><div class="lbl">'+s[0]+'</div>';
+      el.appendChild(wrap);
+      var bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = heights[i]+'%';
+      bar.style.background = s[1];
+      mini.appendChild(bar);
+    });
+  })();
+
+  // ---- 16 Icon sizes ----
+  (function(){
+    var el = document.getElementById('icon-grid');
+    var sizes = [['xs',12],['sm',16],['md',20],['lg',24],['xl',32]];
+    var path = '<path d="M20 6 9 17l-5-5"/>';
+    sizes.forEach(function(s){
+      var boxSize = s[1] + 24;
+      var wrap = document.createElement('div');
+      wrap.className = 'icon-demo';
+      wrap.innerHTML = '<div class="box" style="width:'+boxSize+'px;height:'+boxSize+'px"><svg width="'+s[1]+'" height="'+s[1]+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></div><div class="lbl">'+s[0]+' / '+s[1]+'px</div>';
+      el.appendChild(wrap);
+    });
+  })();
+})();
+</script>
+<script src="/assets/brand/brand-loader.js"></script>
+</body>
+</html>
