@@ -32,12 +32,18 @@
     flex-direction: column;
     align-items: center;
   }
-  .lockup {
+  .logo-block {
+    position: relative;
+    width: 254px;
+    height: 45px;
+    margin-bottom: 32px;
+  }
+  .lockup-row {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
+    height: 40px;
   }
-  .lockup svg { display: block; }
+  .lockup-row svg { display: block; }
   .wordmark {
     font-family: 'Space Grotesk', 'Inter', 'Segoe UI', sans-serif;
     font-weight: 700;
@@ -48,14 +54,16 @@
     line-height: 1;
   }
   .subtitle {
+    position: absolute;
+    left: 53px;
+    top: 36.2px;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.01em;
-    line-height: 1.2;
+    line-height: 1;
     color: #475569;
-    margin-bottom: 32px;
-    text-align: center;
+    white-space: nowrap;
   }
   .field { width: 100%; margin-bottom: 16px; }
   .field label {
@@ -127,22 +135,24 @@
   <div class="mockup-badge">Mockup — 実装なし</div>
   <div class="page">
     <div class="card">
-      <div class="lockup">
-        <svg width="40" height="40" viewBox="0 0 100 100">
-          <defs>
-            <linearGradient id="atlasGradient" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#15328E"/>
-              <stop offset="12%" stop-color="#2563EB"/>
-              <stop offset="60%" stop-color="#2369EA"/>
-              <stop offset="100%" stop-color="#168DE0"/>
-            </linearGradient>
-          </defs>
-          <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
-          <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
-        </svg>
-        <span class="wordmark">Atlas</span>
+      <div class="logo-block">
+        <div class="lockup-row">
+          <svg width="40" height="40" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="atlasGradient" x1="53" y1="46" x2="89" y2="90" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#15328E"/>
+                <stop offset="12%" stop-color="#2563EB"/>
+                <stop offset="60%" stop-color="#2369EA"/>
+                <stop offset="100%" stop-color="#168DE0"/>
+              </linearGradient>
+            </defs>
+            <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
+            <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
+          </svg>
+          <span class="wordmark">Atlas</span>
+        </div>
+        <div class="subtitle">AI Merchandise Intelligence Platform</div>
       </div>
-      <div class="subtitle">AI Merchandise Intelligence Platform</div>
 
       <form onsubmit="return false;" style="width:100%;">
         <div class="field">
