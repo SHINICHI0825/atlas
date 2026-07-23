@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard v2 Preview — Atlas</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/assets/brand/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Dashboard v2 — built on Atlas Design System v1.0 tokens (--ds-*)
+   UI prototype only — all data below is mocked, no live wiring.
+   ========================================================================== */
+:root{
+  --ds-primary-50:#EFF6FF; --ds-primary-100:#DBEAFE; --ds-primary-200:#BFDBFE;
+  --ds-primary-300:#93C5FD; --ds-primary-400:#60A5FA; --ds-primary-500:#3B82F6;
+  --ds-primary-600:#2563EB; --ds-primary-700:#1D4ED8; --ds-primary-800:#1E40AF; --ds-primary-900:#1E3A8A;
+  --ds-accent-cyan:#06B6D4; --ds-accent-violet:#8B5CF6; --ds-accent-rose:#F43F5E;
+
+  --ds-neutral-0:#FFFFFF;
+  --ds-neutral-50:#F8FAFC; --ds-neutral-100:#F1F5F9; --ds-neutral-200:#E2E8F0;
+  --ds-neutral-300:#CBD5E1; --ds-neutral-400:#94A3B8; --ds-neutral-500:#64748B;
+  --ds-neutral-600:#475569; --ds-neutral-700:#334155; --ds-neutral-800:#1E293B; --ds-neutral-900:#0F172A;
+
+  --ds-success-50:#F0FDF4; --ds-success-100:#DCFCE7; --ds-success-500:#22C55E; --ds-success-600:#16A34A; --ds-success-700:#15803D;
+  --ds-warning-50:#FFFBEB; --ds-warning-100:#FEF3C7; --ds-warning-500:#F59E0B; --ds-warning-600:#D97706; --ds-warning-700:#B45309;
+  --ds-danger-50:#FEF2F2;  --ds-danger-100:#FEE2E2;  --ds-danger-500:#EF4444;  --ds-danger-600:#DC2626;  --ds-danger-700:#B91C1C;
+
+  --ds-space-1:4px; --ds-space-2:8px; --ds-space-3:12px; --ds-space-4:16px; --ds-space-5:24px;
+  --ds-space-6:32px; --ds-space-7:40px; --ds-space-8:48px; --ds-space-9:64px; --ds-space-10:96px;
+
+  --ds-radius-sm:4px; --ds-radius-md:6px; --ds-radius-lg:8px; --ds-radius-xl:12px; --ds-radius-2xl:16px; --ds-radius-full:999px;
+
+  --ds-shadow-xs:0 1px 2px rgba(15,23,42,.04);
+  --ds-shadow-sm:0 1px 2px rgba(15,23,42,.04), 0 1px 6px rgba(15,23,42,.04);
+  --ds-shadow-md:0 4px 12px rgba(15,23,42,.08);
+  --ds-shadow-lg:0 8px 24px rgba(15,23,42,.10);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter','Noto Sans JP',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ds-neutral-900);
+  background:var(--ds-neutral-50);
+  font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'JetBrains Mono','SF Mono',Consolas,monospace}
+button{font-family:inherit}
+
+/* ===== Top bar ===== */
+#v2-topbar{
+  position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--ds-neutral-200);
+  display:flex;align-items:center;gap:16px;padding:0 32px;height:60px;
+}
+#v2-topbar [data-brand-logo]{display:block;height:22px}
+#v2-topbar [data-brand-logo] svg{display:block;height:22px;width:auto}
+.v2-preview-tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--ds-primary-700);background:var(--ds-primary-50);border:1px solid var(--ds-primary-200);padding:3px 9px;border-radius:var(--ds-radius-full)}
+.v2-top-title{font-size:13px;color:var(--ds-neutral-400);font-weight:500}
+.v2-top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.v2-daterange{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ds-neutral-700);background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);padding:7px 13px;border-radius:var(--ds-radius-md)}
+.v2-daterange svg{color:var(--ds-neutral-400)}
+.v2-iconbtn{width:34px;height:34px;border-radius:var(--ds-radius-md);border:1px solid var(--ds-neutral-200);background:var(--ds-neutral-0);color:var(--ds-neutral-500);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s}
+.v2-iconbtn:hover{border-color:var(--ds-neutral-300);color:var(--ds-neutral-800);background:var(--ds-neutral-50)}
+.v2-avatar{width:30px;height:30px;border-radius:50%;background:var(--ds-neutral-900);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+
+/* ===== Shell ===== */
+.v2-shell{max-width:1440px;margin:0 auto;padding:36px 32px 100px}
+.v2-page-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.v2-page-head h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0}
+.v2-page-head .sub{font-size:13px;color:var(--ds-neutral-500);margin-top:4px}
+.v2-concept{font-size:12px;color:var(--ds-neutral-400);text-align:right;line-height:1.6;max-width:280px}
+.v2-concept b{color:var(--ds-neutral-600);font-weight:600}
+
+.v2-section{margin-bottom:40px}
+.v2-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.v2-section-head h2{font-size:15px;font-weight:700;margin:0;letter-spacing:-.005em;display:flex;align-items:center;gap:8px}
+.v2-section-head h2 .n{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--ds-neutral-300)}
+.v2-section-head .hint{font-size:12px;color:var(--ds-neutral-400)}
+
+.v2-panel{background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xs)}
+
+/* ===== 1. Hero Summary ===== */
+.v2-hero-grid{display:grid;grid-template-columns:1.15fr 1fr 0.9fr;gap:16px;align-items:stretch}
+.v2-hero-card{padding:26px 28px}
+.v2-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ds-neutral-400);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.v2-hero-eyebrow svg{color:var(--ds-neutral-300)}
+
+.v2-overview .v2-hero-figure{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;letter-spacing:-.015em;line-height:1.05;color:var(--ds-neutral-900)}
+.v2-overview .v2-hero-delta{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;margin-top:10px}
+.v2-overview .v2-hero-delta.up{color:var(--ds-success-600)}
+.v2-overview .v2-hero-delta .vs{color:var(--ds-neutral-400);font-weight:500;margin-left:2px}
+.v2-mini-stats{display:flex;gap:22px;margin-top:22px;padding-top:20px;border-top:1px solid var(--ds-neutral-100)}
+.v2-mini-stat .k{font-size:10.5px;color:var(--ds-neutral-400);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.v2-mini-stat .v{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--ds-neutral-800)}
+.v2-mini-stat .v span{font-size:11px;font-weight:600;margin-left:4px}
+.v2-mini-stat .v span.up{color:var(--ds-success-600)}
+.v2-mini-stat .v span.down{color:var(--ds-danger-600)}
+
+.v2-ai-summary{background:linear-gradient(165deg,var(--ds-neutral-900),#132038);color:#fff;position:relative;overflow:hidden}
+.v2-ai-summary::after{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.28),transparent 70%);pointer-events:none}
+.v2-ai-summary .v2-hero-eyebrow{color:#93C5FD}
+.v2-ai-summary .v2-hero-eyebrow svg{color:#7DD3FC}
+.v2-ai-text{font-size:14.5px;line-height:1.85;color:#EAF2FF;position:relative;z-index:1}
+.v2-ai-text b{color:#fff;font-weight:700}
+.v2-ai-foot{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.5)}
+.v2-ai-foot .refresh{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.75);cursor:pointer}
+
+.v2-alerts .alert-list{display:flex;flex-direction:column;gap:2px}
+.alert-row{display:flex;align-items:flex-start;gap:10px;padding:11px 4px;border-bottom:1px solid var(--ds-neutral-100)}
+.alert-row:last-child{border-bottom:none}
+.alert-dot{width:7px;height:7px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.alert-dot.critical{background:var(--ds-danger-500);box-shadow:0 0 0 3px var(--ds-danger-50)}
+.alert-dot.warning{background:var(--ds-warning-500);box-shadow:0 0 0 3px var(--ds-warning-50)}
+.alert-dot.info{background:var(--ds-primary-500);box-shadow:0 0 0 3px var(--ds-primary-50)}
+.alert-body .t{font-size:12.5px;font-weight:600;color:var(--ds-neutral-800);line-height:1.5}
+.alert-body .m{font-size:11.5px;color:var(--ds-neutral-400);margin-top:2px}
+
+/* ===== 2. KPI Cards ===== */
+.v2-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.v2-kpi-card{padding:18px 18px 16px;border-top:3px solid var(--kpi-accent, var(--ds-primary-600));position:relative}
+.v2-kpi-label{font-size:10.5px;font-weight:700;color:var(--ds-neutral-400);letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px}
+.v2-kpi-value{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.01em;color:var(--ds-neutral-900);display:flex;align-items:baseline;gap:4px}
+.v2-kpi-value .unit{font-size:13px;color:var(--ds-neutral-400);font-weight:600}
+.v2-kpi-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.v2-kpi-trend{display:flex;align-items:center;gap:3px;font-size:11.5px;font-weight:700}
+.v2-kpi-trend.up{color:var(--ds-success-600)}
+.v2-kpi-trend.down{color:var(--ds-danger-600)}
+.v2-kpi-trend .base{color:var(--ds-neutral-400);font-weight:500;margin-left:2px}
+.v2-spark{width:56px;height:22px;display:block}
+.v2-kpi-status{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;margin-top:2px}
+
+/* ===== 3. AI Insights ===== */
+.v2-insight-list{display:flex;flex-direction:column;gap:12px}
+.v2-insight{display:flex;gap:0;overflow:hidden}
+.v2-insight .prio{width:5px;flex-shrink:0}
+.v2-insight .prio.S{background:var(--ds-danger-500)}
+.v2-insight .prio.A{background:var(--ds-warning-500)}
+.v2-insight .prio.B{background:var(--ds-neutral-300)}
+.v2-insight-body{flex:1;padding:20px 22px}
+.v2-insight-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.v2-insight-badges{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.v2-prio-chip{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:4px;border:1px solid}
+.v2-prio-chip.S{color:var(--ds-danger-700);border-color:var(--ds-danger-100);background:var(--ds-danger-50)}
+.v2-prio-chip.A{color:var(--ds-warning-700);border-color:var(--ds-warning-100);background:var(--ds-warning-50)}
+.v2-prio-chip.B{color:var(--ds-neutral-500);border-color:var(--ds-neutral-200);background:var(--ds-neutral-50)}
+.v2-insight-action{font-size:14.5px;font-weight:600;color:var(--ds-neutral-900);line-height:1.5;margin-bottom:10px}
+.v2-insight-impact{font-size:12.5px;color:var(--ds-neutral-600);display:flex;align-items:center;gap:6px}
+.v2-insight-impact .lbl{color:var(--ds-neutral-400);font-weight:600}
+.v2-insight-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.v2-confidence{text-align:right}
+.v2-confidence .lbl{font-size:10px;color:var(--ds-neutral-400);font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+.v2-conf-row{display:flex;align-items:center;gap:8px}
+.v2-conf-track{width:88px;height:5px;border-radius:var(--ds-radius-full);background:var(--ds-neutral-100);overflow:hidden}
+.v2-conf-fill{height:100%;border-radius:var(--ds-radius-full)}
+.v2-conf-num{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;color:var(--ds-neutral-800)}
+.v2-evidence-btn{font-size:11.5px;font-weight:600;color:var(--ds-primary-600);background:var(--ds-primary-50);border:1px solid var(--ds-primary-100);padding:6px 12px;border-radius:var(--ds-radius-md);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .12s}
+.v2-evidence-btn:hover{background:var(--ds-primary-100)}
+.v2-evidence-btn svg{transition:transform .18s}
+.v2-evidence-btn.open svg{transform:rotate(180deg)}
+.v2-evidence{max-height:0;overflow:hidden;transition:max-height .22s ease}
+.v2-evidence.open{max-height:220px}
+.v2-evidence-inner{margin-top:16px;padding-top:16px;border-top:1px solid var(--ds-neutral-100);display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.v2-evidence-item{font-size:12px;color:var(--ds-neutral-600);line-height:1.6;padding-left:14px;position:relative}
+.v2-evidence-item::before{content:'';position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:var(--ds-primary-400)}
+.v2-evidence-item b{display:block;color:var(--ds-neutral-800);font-weight:600;margin-bottom:2px}
+
+/* ===== 4. Trend Analytics ===== */
+.v2-trend-panel{padding:22px 24px 24px}
+.v2-trend-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.v2-tabs{display:inline-flex;background:var(--ds-neutral-100);border-radius:var(--ds-radius-md);padding:3px;gap:2px}
+.v2-tab{border:none;background:transparent;padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--ds-neutral-500);border-radius:5px;cursor:pointer;transition:all .12s;white-space:nowrap}
+.v2-tab.active{background:var(--ds-neutral-0);color:var(--ds-neutral-900);box-shadow:var(--ds-shadow-xs)}
+.v2-subtoggle{display:none;align-items:center;gap:2px;background:var(--ds-neutral-100);border-radius:var(--ds-radius-full);padding:3px}
+.v2-subtoggle.show{display:inline-flex}
+.v2-subtoggle button{border:none;background:transparent;padding:5px 13px;font-size:11.5px;font-weight:700;color:var(--ds-neutral-500);border-radius:var(--ds-radius-full);cursor:pointer}
+.v2-subtoggle button.active{background:var(--ds-neutral-900);color:#fff}
+.v2-trend-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.v2-trend-value{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--ds-neutral-900);letter-spacing:-.01em}
+.v2-trend-delta{font-size:12.5px;font-weight:700}
+.v2-trend-delta.up{color:var(--ds-success-600)}
+.v2-trend-delta.down{color:var(--ds-danger-600)}
+.v2-chart-wrap{position:relative;margin-top:14px}
+.v2-chart-wrap svg{display:block;width:100%;height:240px;overflow:visible}
+.v2-tooltip{position:absolute;pointer-events:none;background:var(--ds-neutral-900);color:#fff;font-size:11.5px;padding:7px 10px;border-radius:6px;transform:translate(-50%,-115%);white-space:nowrap;opacity:0;transition:opacity .1s;z-index:5;box-shadow:var(--ds-shadow-md)}
+.v2-tooltip .d{color:rgba(255,255,255,.55);font-size:10.5px;margin-bottom:2px}
+.v2-tooltip .v{font-family:'JetBrains Mono',monospace;font-weight:700}
+.v2-chart-foot{display:flex;justify-content:flex-end;margin-top:10px}
+.v2-table-toggle{font-size:11.5px;color:var(--ds-neutral-400);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.v2-table-toggle:hover{color:var(--ds-neutral-600)}
+.v2-data-table{display:none;margin-top:12px;border-top:1px solid var(--ds-neutral-100);padding-top:12px;max-height:160px;overflow-y:auto}
+.v2-data-table.show{display:block}
+.v2-data-table table{width:100%;border-collapse:collapse;font-size:11.5px}
+.v2-data-table td,.v2-data-table th{padding:5px 8px;text-align:right;color:var(--ds-neutral-600);font-family:'JetBrains Mono',monospace}
+.v2-data-table th{color:var(--ds-neutral-400);font-weight:600;text-align:right}
+.v2-data-table td:first-child,.v2-data-table th:first-child{text-align:left;font-family:'Inter',sans-serif}
+
+/* ===== 5. Product Performance ===== */
+.v2-pp-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.v2-pp-tab{border:1px solid var(--ds-neutral-200);background:var(--ds-neutral-0);padding:6px 13px;font-size:12px;font-weight:600;color:var(--ds-neutral-500);border-radius:var(--ds-radius-full);cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:6px}
+.v2-pp-tab .dot{width:6px;height:6px;border-radius:50%}
+.v2-pp-tab.active{background:var(--ds-neutral-900);border-color:var(--ds-neutral-900);color:#fff}
+.v2-pp-grid{display:none;padding:6px 24px 20px}
+.v2-pp-grid.show{display:block}
+.pp-row{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--ds-neutral-100)}
+.pp-row:last-child{border-bottom:none}
+.pp-rank{width:20px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ds-neutral-300);font-weight:600;flex-shrink:0}
+.pp-name{flex:1;min-width:0}
+.pp-name .n{font-size:13px;font-weight:600;color:var(--ds-neutral-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-name .c{font-size:11px;color:var(--ds-neutral-400);margin-top:2px}
+.pp-bar-wrap{width:120px;flex-shrink:0}
+.pp-bar-track{height:5px;border-radius:var(--ds-radius-full);background:var(--ds-neutral-100);overflow:hidden}
+.pp-bar-fill{height:100%;border-radius:var(--ds-radius-full)}
+.pp-val{width:96px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ds-neutral-800);flex-shrink:0}
+.pp-delta{width:64px;text-align:right;font-size:11.5px;font-weight:700;flex-shrink:0}
+.pp-delta.up{color:var(--ds-success-600)}
+.pp-delta.down{color:var(--ds-danger-600)}
+.pp-delta.flat{color:var(--ds-neutral-400)}
+
+/* ===== 6. Inventory Heatmap ===== */
+.v2-heatmap-wrap{padding:22px 24px 24px;overflow-x:auto}
+.v2-heatmap{border-collapse:separate;border-spacing:3px;font-size:11.5px}
+.v2-heatmap th{font-weight:600;color:var(--ds-neutral-400);font-size:10.5px;padding:0 4px 6px;text-align:center;font-family:'JetBrains Mono',monospace}
+.v2-heatmap th.cat-h{text-align:left;font-family:'Inter',sans-serif}
+.v2-heatmap td.cat{font-size:12px;font-weight:600;color:var(--ds-neutral-700);padding-right:14px;white-space:nowrap}
+.v2-cell{width:46px;height:32px;border-radius:6px;text-align:center;vertical-align:middle;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;cursor:default;position:relative;transition:transform .1s}
+.v2-cell:hover{transform:scale(1.08);z-index:2}
+.v2-heat-legend{display:flex;align-items:center;gap:18px;margin-top:18px;padding-top:16px;border-top:1px solid var(--ds-neutral-100);flex-wrap:wrap}
+.v2-heat-legend .item{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ds-neutral-500)}
+.v2-heat-legend .sw{width:12px;height:12px;border-radius:3px}
+
+/* ===== 7. Recommended Actions ===== */
+.v2-actions-list{display:flex;flex-direction:column}
+.action-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--ds-neutral-100)}
+.action-row:last-child{border-bottom:none}
+.action-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ds-neutral-300);flex-shrink:0;cursor:pointer;transition:all .12s}
+.action-check:hover{border-color:var(--ds-primary-500)}
+.action-prio{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0;width:20px;text-align:center}
+.action-prio.S{background:var(--ds-danger-50);color:var(--ds-danger-700)}
+.action-prio.A{background:var(--ds-warning-50);color:var(--ds-warning-700)}
+.action-prio.B{background:var(--ds-neutral-100);color:var(--ds-neutral-500)}
+.action-text{flex:1;min-width:0}
+.action-text .t{font-size:13px;font-weight:600;color:var(--ds-neutral-900)}
+.action-text .m{font-size:11.5px;color:var(--ds-neutral-400);margin-top:2px}
+.action-tag{font-size:10.5px;font-weight:600;color:var(--ds-neutral-500);background:var(--ds-neutral-100);padding:3px 9px;border-radius:var(--ds-radius-full);flex-shrink:0;white-space:nowrap}
+.action-impact{width:150px;text-align:right;font-size:12px;color:var(--ds-neutral-600);flex-shrink:0}
+.action-impact b{color:var(--ds-success-600);font-weight:700;display:block;font-size:12.5px}
+.action-cta{font-size:12px;font-weight:600;color:var(--ds-neutral-700);background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-300);padding:7px 15px;border-radius:var(--ds-radius-md);cursor:pointer;white-space:nowrap;transition:all .12s;flex-shrink:0}
+.action-cta:hover{background:var(--ds-neutral-900);border-color:var(--ds-neutral-900);color:#fff}
+
+footer.v2-foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--ds-neutral-200);font-size:11.5px;color:var(--ds-neutral-400);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:1200px){
+  .v2-hero-grid{grid-template-columns:1fr 1fr}
+  .v2-hero-grid .v2-alerts{grid-column:span 2}
+  .v2-kpi-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:760px){
+  .v2-hero-grid{grid-template-columns:1fr}
+  .v2-hero-grid .v2-alerts{grid-column:span 1}
+  .v2-kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .v2-evidence-inner{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="v2-topbar">
+  <a href="/atlas/" style="display:flex;align-items:center" aria-label="Atlas ホームへ戻る">
+    <span data-brand-logo data-src="/assets/brand/logo/atlas-logo-compact.svg" role="img" aria-label="Atlas"></span>
+  </a>
+  <span class="v2-preview-tag">DASHBOARD V2 · PREVIEW</span>
+  <span class="v2-top-title">UIプロトタイプ — 実データ未接続</span>
+  <div class="v2-top-right">
+    <div class="v2-daterange">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      2026年7月23日（木）
+    </div>
+    <button class="v2-iconbtn" title="更新" aria-label="更新">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+    </button>
+    <div class="v2-avatar">SK</div>
+  </div>
+</div>
+
+<div class="v2-shell">
+
+  <div class="v2-page-head">
+    <div>
+      <h1>Dashboard v2</h1>
+      <div class="sub">5秒で状況が分かり、30秒で意思決定できるAIダッシュボード</div>
+    </div>
+    <div class="v2-concept"><b>Design System v1.0</b> 準拠 · Atlas Blue / Space Grotesk / 8pxグリッドを適用したUIプロトタイプです。</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 1. HERO SUMMARY -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-hero-grid">
+
+      <div class="v2-panel v2-hero-card v2-overview">
+        <div class="v2-hero-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+          Today's Overview
+        </div>
+        <div class="v2-hero-figure">¥128.4<span style="font-size:26px">M</span></div>
+        <div class="v2-hero-delta up">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          +6.2% <span class="vs">前日比 · 予測比 +2.1%</span>
+        </div>
+        <div class="v2-mini-stats">
+          <div class="v2-mini-stat"><div class="k">注文数</div><div class="v">1,842<span class="up">+4.8%</span></div></div>
+          <div class="v2-mini-stat"><div class="k">客単価</div><div class="v">¥6,970<span class="up">+1.2%</span></div></div>
+          <div class="v2-mini-stat"><div class="k">CVR</div><div class="v">3.24%<span class="down">-0.3pt</span></div></div>
+        </div>
+      </div>
+
+      <div class="v2-panel v2-hero-card v2-ai-summary">
+        <div class="v2-hero-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+          AI Summary
+        </div>
+        <p class="v2-ai-text">売上は好調で、前日比 <b>+6.2%</b>・予測を <b>2.1pt</b> 上回っています。牽引しているのは「スニーカー新作」で単品売上が前週比 <b>+18%</b>。一方で「デニムジャケット」は在庫が残り<b>2日分</b>まで低下し、欠品による機会損失リスクがあります。粗利率は値下げ施策の効果で先週から <b>+0.6pt</b> 改善しました。</p>
+        <div class="v2-ai-foot">
+          <span>最終更新 3分前 · モデル Atlas-Insight v2</span>
+          <span class="refresh"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>再生成</span>
+        </div>
+      </div>
+
+      <div class="v2-panel v2-hero-card v2-alerts">
+        <div class="v2-hero-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
+          Today's Alerts
+        </div>
+        <div class="alert-list">
+          <div class="alert-row">
+            <span class="alert-dot critical"></span>
+            <div class="alert-body">
+              <div class="t">「デニムジャケット」在庫切れまで残り2日</div>
+              <div class="m">在庫管理 · Critical</div>
+            </div>
+          </div>
+          <div class="alert-row">
+            <span class="alert-dot warning"></span>
+            <div class="alert-body">
+              <div class="t">予測乖離 -12%（トップス カテゴリ）</div>
+              <div class="m">需要予測 · Warning</div>
+            </div>
+          </div>
+          <div class="alert-row">
+            <span class="alert-dot info"></span>
+            <div class="alert-body">
+              <div class="t">新商品「サマーサンダル」のPVが急上昇 +340%</div>
+              <div class="m">閲覧分析 · Info</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 2. KPI CARDS -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-section-head">
+      <h2><span class="n">02</span>KPI Cards</h2>
+      <span class="hint">本日実績 · 前日比</span>
+    </div>
+    <div class="v2-kpi-grid" id="kpi-grid"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. AI INSIGHTS -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-section-head">
+      <h2><span class="n">03</span>AI Insights</h2>
+      <span class="hint">優先度の高い順に3件を表示</span>
+    </div>
+    <div class="v2-insight-list" id="insight-list"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 4. TREND ANALYTICS -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-section-head">
+      <h2><span class="n">04</span>Trend Analytics</h2>
+      <span class="hint">過去30日間</span>
+    </div>
+    <div class="v2-panel v2-trend-panel">
+      <div class="v2-trend-head">
+        <div class="v2-tabs" id="trend-tabs">
+          <button class="v2-tab active" data-metric="revenue">売上推移</button>
+          <button class="v2-tab" data-metric="margin">粗利推移</button>
+          <button class="v2-tab" data-metric="inventory">在庫推移</button>
+          <button class="v2-tab" data-metric="traffic">PV / CVR</button>
+        </div>
+        <div class="v2-subtoggle" id="traffic-subtoggle">
+          <button class="active" data-sub="pv">PV</button>
+          <button data-sub="cvr">CVR</button>
+        </div>
+      </div>
+      <div class="v2-trend-meta">
+        <span class="v2-trend-value" id="trend-value">¥128.4M</span>
+        <span class="v2-trend-delta up" id="trend-delta">▲ 6.2%</span>
+      </div>
+      <div class="v2-chart-wrap">
+        <svg id="trend-svg" viewBox="0 0 900 240" preserveAspectRatio="none"></svg>
+        <div class="v2-tooltip" id="trend-tooltip"><div class="d"></div><div class="v"></div></div>
+      </div>
+      <div class="v2-chart-foot">
+        <button class="v2-table-toggle" id="table-toggle">表で見る</button>
+      </div>
+      <div class="v2-data-table" id="trend-data-table"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 5. PRODUCT PERFORMANCE -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-section-head">
+      <h2><span class="n">05</span>Product Performance</h2>
+    </div>
+    <div class="v2-panel">
+      <div style="padding:18px 24px 0">
+        <div class="v2-pp-tabs" id="pp-tabs">
+          <button class="v2-pp-tab active" data-pp="top"><span class="dot" style="background:var(--ds-primary-500)"></span>Top Products</button>
+          <button class="v2-pp-tab" data-pp="growing"><span class="dot" style="background:var(--ds-success-500)"></span>Growing Products</button>
+          <button class="v2-pp-tab" data-pp="slow"><span class="dot" style="background:var(--ds-warning-500)"></span>Slow Movers</button>
+          <button class="v2-pp-tab" data-pp="dead"><span class="dot" style="background:var(--ds-danger-500)"></span>Dead Stock</button>
+        </div>
+      </div>
+      <div id="pp-panels"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 6. INVENTORY HEATMAP -->
+  <!-- ============================================================ -->
+  <section class="v2-section">
+    <div class="v2-section-head">
+      <h2><span class="n">06</span>Inventory Heatmap</h2>
+      <span class="hint">カテゴリ × 週 — 在庫健全度スコア</span>
+    </div>
+    <div class="v2-panel v2-heatmap-wrap">
+      <table class="v2-heatmap" id="heatmap-table"></table>
+      <div class="v2-heat-legend">
+        <div class="item"><span class="sw" style="background:var(--ds-success-500)"></span>健全（80+）</div>
+        <div class="item"><span class="sw" style="background:var(--ds-warning-500)"></span>注意（60–79）</div>
+        <div class="item"><span class="sw" style="background:var(--ds-danger-600)"></span>リスク（60未満）</div>
+        <div class="item"><span class="sw" style="background:var(--ds-neutral-200)"></span>データなし</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 7. RECOMMENDED ACTIONS -->
+  <!-- ============================================================ -->
+  <section class="v2-section" style="margin-bottom:0">
+    <div class="v2-section-head">
+      <h2><span class="n">07</span>Recommended Actions</h2>
+      <span class="hint">今日やるべき施策 · 6件</span>
+    </div>
+    <div class="v2-panel v2-actions-list" id="actions-list"></div>
+  </section>
+
+  <footer class="v2-foot">
+    <span>Dashboard v2 Preview — Atlas Design System v1.0 準拠 · すべてのデータはモックです</span>
+    <span>Internal review build · 2026-07-23</span>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   Mock data + rendering. UI prototype only — no live data.
+   ============================================================ */
+
+/* ---------- 2. KPI Cards ---------- */
+var kpis = [
+  {label:'Revenue', value:'¥128.4', unit:'M', accent:'var(--ds-primary-600)', trend:'up', trendVal:'+6.2%', base:'前日比', spark:[62,58,66,70,64,74,80,78,86,92]},
+  {label:'Gross Margin', value:'34.8', unit:'%', accent:'var(--ds-accent-violet)', trend:'up', trendVal:'+0.6pt', base:'前週比', spark:[70,68,72,69,74,73,76,75,78,80]},
+  {label:'Inventory Health', value:'78', unit:'/100', accent:'var(--ds-warning-500)', trend:'down', trendVal:'-4pt', base:'前週比', spark:[88,86,84,82,83,80,79,80,78,78], status:{c:'var(--ds-warning-600)', bg:'var(--ds-warning-50)', t:'やや注意'}},
+  {label:'Forecast Accuracy', value:'91.2', unit:'%', accent:'var(--ds-accent-cyan)', trend:'up', trendVal:'+1.4pt', base:'前週比', spark:[84,85,87,86,88,89,88,90,91,91]},
+  {label:'Sell-through', value:'62.4', unit:'%', accent:'var(--ds-accent-rose)', trend:'down', trendVal:'-3.1pt', base:'前週比', spark:[74,72,70,71,68,66,65,64,63,62]},
+  {label:'GMROI', value:'3.4', unit:'x', accent:'var(--ds-primary-800)', trend:'up', trendVal:'+0.2', base:'前月比', spark:[52,55,54,58,60,59,63,65,68,70]}
+];
+
+function sparkPath(vals, w, h){
+  var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+  var range = (max - min) || 1;
+  var step = w / (vals.length - 1);
+  return vals.map(function(v,i){
+    var x = i*step, y = h - ((v-min)/range) * (h-4) - 2;
+    return (i===0?'M':'L') + x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+}
+
+(function renderKpis(){
+  var el = document.getElementById('kpi-grid');
+  kpis.forEach(function(k){
+    var card = document.createElement('div');
+    card.className = 'v2-panel v2-kpi-card';
+    card.style.setProperty('--kpi-accent', k.accent);
+    var sparkColor = k.trend === 'up' ? 'var(--ds-success-500)' : 'var(--ds-danger-500)';
+    var statusHtml = k.status ? '<div class="v2-kpi-status" style="color:'+k.status.c+'"><span style="width:5px;height:5px;border-radius:50%;background:'+k.status.c+';display:inline-block"></span>'+k.status.t+'</div>' : '';
+    card.innerHTML =
+      '<div class="v2-kpi-label">'+k.label+'</div>'+
+      '<div class="v2-kpi-value">'+k.value+'<span class="unit">'+k.unit+'</span></div>'+
+      statusHtml +
+      '<div class="v2-kpi-foot">'+
+        '<div class="v2-kpi-trend '+k.trend+'">'+(k.trend==='up'?'▲':'▼')+' '+k.trendVal+'<span class="base">'+k.base+'</span></div>'+
+        '<svg class="v2-spark" viewBox="0 0 56 22" preserveAspectRatio="none"><path d="'+sparkPath(k.spark,56,22)+'" fill="none" stroke="'+sparkColor+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '</div>';
+    el.appendChild(card);
+  });
+})();
+
+/* ---------- 3. AI Insights ---------- */
+var insights = [
+  {
+    prio:'S', action:'「アウター」カテゴリを今週中に12%値下げして在庫を圧縮する',
+    impact:'在庫日数 -8日 ・ 機会損失回避 +¥620K', confidence:92, color:'var(--ds-danger-500)',
+    evidence:[
+      {t:'在庫回転', d:'回転日数が目標の1.6倍（48日）に悪化中。放置で追加値下げ幅が拡大する見込み。'},
+      {t:'季節性', d:'類似カテゴリの過去3シーズン平均で、この時期の12%値下げは粗利率を0.4pt以内の悪化に抑制。'},
+      {t:'競合価格', d:'主要競合3社が既に10-15%値下げを実施済み。価格差が購買比較で不利に働いている。'}
+    ]
+  },
+  {
+    prio:'A', action:'「スニーカー新作」の在庫を大阪倉庫から東京倉庫へ追加補充する',
+    impact:'欠品リスク回避 ・ 売上機会 +¥340K', confidence:81, color:'var(--ds-warning-500)',
+    evidence:[
+      {t:'需要予測', d:'東京エリアのPVが直近7日で+45%。現在庫では3日以内に欠品する予測。'},
+      {t:'倉庫在庫', d:'大阪倉庫は同SKUを180点保有し、稼働率に余裕あり。'},
+      {t:'過去実績', d:'類似の緊急補充施策で、平均して欠品による機会損失を72%回避できている。'}
+    ]
+  },
+  {
+    prio:'B', action:'「バッグ」カテゴリのメール施策をリピーター向けに絞り込む',
+    impact:'CVR +0.4pt想定 ・ 粗利への影響は軽微', confidence:68, color:'var(--ds-neutral-400)',
+    evidence:[
+      {t:'セグメント効果', d:'過去施策でリピーター限定配信はCVRが新規混合配信より+0.3〜0.5pt高い傾向。'},
+      {t:'配信疲労', d:'直近の全体配信の開封率が緩やかに低下（-2pt/月）。セグメント化で改善余地あり。'},
+      {t:'信頼度に関する注記', d:'サンプル数が少なく、確度は他施策よりやや低め。小規模テストでの検証を推奨。'}
+    ]
+  }
+];
+
+(function renderInsights(){
+  var el = document.getElementById('insight-list');
+  insights.forEach(function(ins, idx){
+    var wrap = document.createElement('div');
+    wrap.className = 'v2-panel v2-insight';
+    var evId = 'evidence-'+idx;
+    wrap.innerHTML =
+      '<div class="prio '+ins.prio+'"></div>'+
+      '<div class="v2-insight-body">'+
+        '<div class="v2-insight-top">'+
+          '<div>'+
+            '<div class="v2-insight-badges"><span class="v2-prio-chip '+ins.prio+'">PRIORITY '+ins.prio+'</span></div>'+
+            '<div class="v2-insight-action">'+ins.action+'</div>'+
+            '<div class="v2-insight-impact"><span class="lbl">期待効果</span>'+ins.impact+'</div>'+
+          '</div>'+
+          '<div class="v2-insight-right">'+
+            '<div class="v2-confidence"><div class="lbl">Confidence</div>'+
+              '<div class="v2-conf-row"><div class="v2-conf-track"><div class="v2-conf-fill" style="width:'+ins.confidence+'%;background:'+ins.color+'"></div></div><span class="v2-conf-num">'+ins.confidence+'%</span></div>'+
+            '</div>'+
+            '<button class="v2-evidence-btn" data-target="'+evId+'">根拠を見る <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>'+
+          '</div>'+
+        '</div>'+
+        '<div class="v2-evidence" id="'+evId+'"><div class="v2-evidence-inner">'+
+          ins.evidence.map(function(e){ return '<div class="v2-evidence-item"><b>'+e.t+'</b>'+e.d+'</div>'; }).join('')+
+        '</div></div>'+
+      '</div>';
+    el.appendChild(wrap);
+  });
+
+  el.addEventListener('click', function(e){
+    var btn = e.target.closest('.v2-evidence-btn');
+    if(!btn) return;
+    var panel = document.getElementById(btn.getAttribute('data-target'));
+    panel.classList.toggle('open');
+    btn.classList.toggle('open');
+    btn.firstChild.textContent = panel.classList.contains('open') ? '根拠を閉じる ' : '根拠を見る ';
+  });
+})();
+
+/* ---------- 4. Trend Analytics ---------- */
+function genSeries(base, amp, trendSlope, n, seed){
+  var vals = [];
+  var v = base;
+  for(var i=0;i<n;i++){
+    var noise = Math.sin(i*0.7+seed)*amp*0.5 + Math.sin(i*0.31+seed*2)*amp*0.3;
+    v = base + trendSlope*i + noise;
+    vals.push(Math.max(0, v));
+  }
+  return vals;
+}
+var days = Array.from({length:30}, function(_,i){ var d = new Date(2026,5,24+i); return (d.getMonth()+1)+'/'+d.getDate(); });
+
+var trendData = {
+  revenue: {vals: genSeries(98,7,1.0,30,1), fmt:function(v){return '¥'+v.toFixed(1)+'M';}, color:'var(--ds-primary-600)', label:'売上'},
+  margin:  {vals: genSeries(30,1.5,0.16,30,2), fmt:function(v){return v.toFixed(1)+'%';}, color:'var(--ds-accent-violet)', label:'粗利率'},
+  inventory: {vals: genSeries(46,4,-0.25,30,3), fmt:function(v){return v.toFixed(0)+'日';}, color:'var(--ds-accent-cyan)', label:'在庫回転日数'},
+  pv: {vals: genSeries(18000,2200,140,30,4), fmt:function(v){return (v/1000).toFixed(1)+'K';}, color:'var(--ds-warning-500)', label:'PV'},
+  cvr: {vals: genSeries(3.1,0.35,0.01,30,5), fmt:function(v){return v.toFixed(2)+'%';}, color:'var(--ds-accent-rose)', label:'CVR'}
+};
+
+var currentMetric = 'revenue';
+var currentSub = 'pv';
+
+function activeSeriesKey(){ return currentMetric === 'traffic' ? currentSub : currentMetric; }
+
+function drawTrendChart(){
+  var key = activeSeriesKey();
+  var series = trendData[key];
+  var vals = series.vals;
+  var W = 900, H = 240, padL = 4, padR = 4, padT = 16, padB = 26;
+  var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+  var range = (max - min) || 1;
+  min -= range*0.12; max += range*0.12; range = max - min;
+  var innerW = W - padL - padR, innerH = H - padT - padB;
+  var step = innerW / (vals.length - 1);
+
+  function xy(i){
+    var x = padL + i*step;
+    var y = padT + innerH - ((vals[i]-min)/range)*innerH;
+    return [x,y];
+  }
+
+  var linePath = vals.map(function(v,i){ var p = xy(i); return (i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1); }).join(' ');
+  var last = xy(vals.length-1), first = xy(0);
+  var areaPath = linePath + ' L'+last[0].toFixed(1)+','+(padT+innerH)+' L'+first[0].toFixed(1)+','+(padT+innerH)+' Z';
+
+  var gridLines = '';
+  for(var g=0; g<=3; g++){
+    var gy = padT + (innerH/3)*g;
+    gridLines += '<line x1="'+padL+'" y1="'+gy+'" x2="'+(W-padR)+'" y2="'+gy+'" stroke="var(--ds-neutral-100)" stroke-width="1"/>';
+  }
+
+  var dots = '';
+  vals.forEach(function(v,i){
+    var p = xy(i);
+    dots += '<circle class="trend-pt" data-i="'+i+'" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="9" fill="transparent"/>';
+  });
+
+  var lastP = xy(vals.length-1);
+  var endLabel = series.fmt(vals[vals.length-1]);
+
+  var svg = document.getElementById('trend-svg');
+  svg.innerHTML =
+    gridLines +
+    '<path d="'+areaPath+'" fill="'+series.color+'" opacity="0.08" stroke="none"/>'+
+    '<path d="'+linePath+'" fill="none" stroke="'+series.color+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'+
+    '<circle cx="'+lastP[0].toFixed(1)+'" cy="'+lastP[1].toFixed(1)+'" r="4.5" fill="'+series.color+'" stroke="#fff" stroke-width="2"/>'+
+    '<text x="'+(lastP[0]-6).toFixed(1)+'" y="'+(lastP[1]-12).toFixed(1)+'" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="var(--ds-neutral-800)">'+endLabel+'</text>'+
+    dots;
+
+  // header value/delta
+  var deltaPct = ((vals[vals.length-1] - vals[0]) / (vals[0]||1)) * 100;
+  document.getElementById('trend-value').textContent = endLabel;
+  var deltaEl = document.getElementById('trend-delta');
+  deltaEl.textContent = (deltaPct>=0?'▲ ':'▼ ') + Math.abs(deltaPct).toFixed(1) + '%';
+  deltaEl.className = 'v2-trend-delta ' + (deltaPct>=0?'up':'down');
+
+  buildDataTable(key, series, vals);
+  wireTooltip(vals, series, xy);
+}
+
+function buildDataTable(key, series, vals){
+  var el = document.getElementById('trend-data-table');
+  var rows = vals.map(function(v,i){ return '<tr><td>'+days[i]+'</td><td>'+series.fmt(v)+'</td></tr>'; }).reverse().join('');
+  el.innerHTML = '<table><thead><tr><th>日付</th><th>'+series.label+'</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+function wireTooltip(vals, series, xy){
+  var svg = document.getElementById('trend-svg');
+  var tip = document.getElementById('trend-tooltip');
+  var pts = svg.querySelectorAll('.trend-pt');
+  pts.forEach(function(pt){
+    pt.addEventListener('mouseenter', function(){
+      var i = +pt.getAttribute('data-i');
+      var p = xy(i);
+      var rect = svg.getBoundingClientRect();
+      var scaleX = rect.width / 900, scaleY = rect.height / 240;
+      tip.style.left = (p[0]*scaleX) + 'px';
+      tip.style.top = (p[1]*scaleY) + 'px';
+      tip.querySelector('.d').textContent = days[i];
+      tip.querySelector('.v').textContent = series.fmt(vals[i]);
+      tip.style.opacity = '1';
+    });
+    pt.addEventListener('mouseleave', function(){ tip.style.opacity = '0'; });
+  });
+}
+
+document.getElementById('trend-tabs').addEventListener('click', function(e){
+  var btn = e.target.closest('.v2-tab');
+  if(!btn) return;
+  document.querySelectorAll('#trend-tabs .v2-tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentMetric = btn.getAttribute('data-metric');
+  document.getElementById('traffic-subtoggle').classList.toggle('show', currentMetric === 'traffic');
+  drawTrendChart();
+});
+document.getElementById('traffic-subtoggle').addEventListener('click', function(e){
+  var btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#traffic-subtoggle button').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentSub = btn.getAttribute('data-sub');
+  drawTrendChart();
+});
+document.getElementById('table-toggle').addEventListener('click', function(){
+  var t = document.getElementById('trend-data-table');
+  var open = t.classList.toggle('show');
+  this.textContent = open ? '表を閉じる' : '表で見る';
+});
+
+drawTrendChart();
+
+/* ---------- 5. Product Performance ---------- */
+var ppData = {
+  top: {color:'var(--ds-primary-500)', unit:'sales', items:[
+    {n:'スニーカー新作 “Cascade”', c:'Footwear', val:'¥8.2M', pct:92, delta:'+18.4%', dir:'up'},
+    {n:'ライトダウンジャケット', c:'Outerwear', val:'¥6.1M', pct:74, delta:'+5.2%', dir:'up'},
+    {n:'ワイドデニムパンツ', c:'Bottoms', val:'¥5.4M', pct:66, delta:'+2.1%', dir:'up'},
+    {n:'ロゴトートバッグ', c:'Bags', val:'¥4.8M', pct:59, delta:'-1.0%', dir:'down'},
+    {n:'サマーサンダル', c:'Footwear', val:'¥4.1M', pct:50, delta:'+9.6%', dir:'up'}
+  ]},
+  growing: {color:'var(--ds-success-500)', unit:'growth', items:[
+    {n:'サマーサンダル', c:'Footwear', val:'+340%', pct:100, delta:'PV急伸', dir:'up'},
+    {n:'リネンシャツ', c:'Tops', val:'+128%', pct:74, delta:'週次加速', dir:'up'},
+    {n:'ミニショルダーバッグ', c:'Bags', val:'+96%', pct:58, delta:'SNS流入', dir:'up'},
+    {n:'キャンバススニーカー', c:'Footwear', val:'+61%', pct:38, delta:'再入荷後', dir:'up'},
+    {n:'UVカットパーカー', c:'Outerwear', val:'+44%', pct:28, delta:'季節要因', dir:'up'}
+  ]},
+  slow: {color:'var(--ds-warning-500)', unit:'sellthrough', items:[
+    {n:'ウールコート', c:'Outerwear', val:'消化 24%', pct:24, delta:'-12日', dir:'down'},
+    {n:'レザーグローブ', c:'Accessories', val:'消化 29%', pct:29, delta:'-8日', dir:'down'},
+    {n:'ニットベスト', c:'Tops', val:'消化 33%', pct:33, delta:'-6日', dir:'down'},
+    {n:'フォーマルシューズ', c:'Footwear', val:'消化 37%', pct:37, delta:'-4日', dir:'down'},
+    {n:'ツイードスカート', c:'Bottoms', val:'消化 41%', pct:41, delta:'-3日', dir:'down'}
+  ]},
+  dead: {color:'var(--ds-danger-500)', unit:'daysnosales', items:[
+    {n:'ベルベットジャケット', c:'Outerwear', val:'92日 無動', pct:100, delta:'在庫68点', dir:'flat'},
+    {n:'ロングマフラー(冬柄)', c:'Accessories', val:'81日 無動', pct:88, delta:'在庫54点', dir:'flat'},
+    {n:'キッズレインブーツ', c:'Footwear', val:'76日 無動', pct:82, delta:'在庫40点', dir:'flat'},
+    {n:'柄シャツ(廃盤色)', c:'Tops', val:'70日 無動', pct:76, delta:'在庫33点', dir:'flat'},
+    {n:'装飾ベルト', c:'Accessories', val:'65日 無動', pct:70, delta:'在庫22点', dir:'flat'}
+  ]}
+};
+
+(function renderProductPerformance(){
+  var container = document.getElementById('pp-panels');
+  Object.keys(ppData).forEach(function(key, idx){
+    var group = ppData[key];
+    var panel = document.createElement('div');
+    panel.className = 'v2-pp-grid' + (idx===0?' show':'');
+    panel.id = 'pp-'+key;
+    panel.innerHTML = group.items.map(function(it, i){
+      return '<div class="pp-row">'+
+        '<div class="pp-rank">'+(i+1).toString().padStart(2,'0')+'</div>'+
+        '<div class="pp-name"><div class="n">'+it.n+'</div><div class="c">'+it.c+'</div></div>'+
+        '<div class="pp-bar-wrap"><div class="pp-bar-track"><div class="pp-bar-fill" style="width:'+it.pct+'%;background:'+group.color+'"></div></div></div>'+
+        '<div class="pp-val">'+it.val+'</div>'+
+        '<div class="pp-delta '+it.dir+'">'+(it.dir==='up'?'▲ ':it.dir==='down'?'▼ ':'')+it.delta+'</div>'+
+      '</div>';
+    }).join('');
+    container.appendChild(panel);
+  });
+
+  document.getElementById('pp-tabs').addEventListener('click', function(e){
+    var btn = e.target.closest('.v2-pp-tab');
+    if(!btn) return;
+    document.querySelectorAll('.v2-pp-tab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.v2-pp-grid').forEach(function(g){ g.classList.remove('show'); });
+    document.getElementById('pp-'+btn.getAttribute('data-pp')).classList.add('show');
+  });
+})();
+
+/* ---------- 6. Inventory Heatmap ---------- */
+var heatCategories = ['アウター','トップス','ボトムス','シューズ','バッグ','アクセサリー','スニーカー','ルームウェア'];
+var heatWeeks = 10;
+var heatSeed = [
+  [88,85,80,76,70,64,58,52,48,44],
+  [82,84,86,85,83,81,79,80,82,84],
+  [90,89,91,88,86,87,85,83,81,79],
+  [76,78,74,71,68,72,75,73,70,68],
+  [64,60,58,55,52,50,48,46,44,42],
+  [92,91,90,92,93,91,89,90,88,87],
+  [95,94,96,93,90,88,85,82,80,78],
+  [null,null,58,55,60,62,59,57,55,53]
+];
+
+function heatColor(v){
+  if(v===null) return {bg:'var(--ds-neutral-200)', fg:'var(--ds-neutral-400)'};
+  if(v>=80) return {bg:'var(--ds-success-500)', fg:'#0b3b1e'};
+  if(v>=60) return {bg:'var(--ds-warning-500)', fg:'#4a2c02'};
+  return {bg:'var(--ds-danger-600)', fg:'#ffffff'};
+}
+
+(function renderHeatmap(){
+  var table = document.getElementById('heatmap-table');
+  var thead = '<tr><th class="cat-h">カテゴリ</th>' + Array.from({length:heatWeeks},function(_,i){return '<th>W'+(i+1)+'</th>';}).join('') + '</tr>';
+  var rows = heatCategories.map(function(cat, r){
+    var cells = heatSeed[r].map(function(v, c){
+      var col = heatColor(v);
+      var label = v===null ? '–' : v;
+      var title = cat+' / W'+(c+1)+' — ' + (v===null ? 'データなし' : ('健全度 '+v+'/100'));
+      return '<td class="v2-cell" style="background:'+col.bg+';color:'+col.fg+'" title="'+title+'">'+label+'</td>';
+    }).join('');
+    return '<tr><td class="cat">'+cat+'</td>'+cells+'</tr>';
+  }).join('');
+  table.innerHTML = thead + rows;
+})();
+
+/* ---------- 7. Recommended Actions ---------- */
+var actions = [
+  {prio:'S', t:'「アウター」カテゴリを12%値下げする', m:'値下げ施策 · 在庫圧縮', tag:'Pricing', impact:'+¥620K', sub:'機会損失回避'},
+  {prio:'S', t:'「デニムジャケット」を東京倉庫へ緊急補充', m:'在庫移動 · 欠品防止', tag:'Inventory', impact:'+¥340K', sub:'売上機会'},
+  {prio:'A', t:'「トップス」カテゴリの需要予測モデルを再学習', m:'予測乖離 -12% の是正', tag:'Forecast', impact:'精度 +5pt想定', sub:''},
+  {prio:'A', t:'「サマーサンダル」の広告予算を追加投下', m:'PV急伸 +340% を売上へ転換', tag:'Marketing', impact:'+¥210K', sub:'見込み'},
+  {prio:'B', t:'「バッグ」カテゴリのメールをリピーター限定に絞る', m:'配信セグメントの最適化', tag:'CRM', impact:'CVR +0.4pt', sub:'想定'},
+  {prio:'B', t:'デッドストック5品番のアウトレット出品を検討', m:'90日以上動きなしの在庫を精査', tag:'Inventory', impact:'在庫圧縮', sub:''}
+];
+
+(function renderActions(){
+  var el = document.getElementById('actions-list');
+  el.innerHTML = actions.map(function(a){
+    return '<div class="action-row">'+
+      '<span class="action-check"></span>'+
+      '<span class="action-prio '+a.prio+'">'+a.prio+'</span>'+
+      '<div class="action-text"><div class="t">'+a.t+'</div><div class="m">'+a.m+'</div></div>'+
+      '<span class="action-tag">'+a.tag+'</span>'+
+      '<div class="action-impact"><b>'+a.impact+'</b>'+a.sub+'</div>'+
+      '<button class="action-cta">実行する</button>'+
+    '</div>';
+  }).join('');
+
+  el.addEventListener('click', function(e){
+    var check = e.target.closest('.action-check');
+    if(!check) return;
+    var row = check.closest('.action-row');
+    var done = row.style.opacity === '0.45';
+    row.style.opacity = done ? '1' : '0.45';
+    check.style.background = done ? 'transparent' : 'var(--ds-neutral-900)';
+    check.style.borderColor = done ? 'var(--ds-neutral-300)' : 'var(--ds-neutral-900)';
+  });
+})();
+</script>
+<script src="/assets/brand/brand-loader.js"></script>
+</body>
+</html>
