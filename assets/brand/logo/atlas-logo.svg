@@ -11,6 +11,9 @@
     <path d="M45 21 L9 90 L25.5 87 L49.5 52.5 L53 46 L55 21 Q50.1 11.1 45 21 Z" fill="#2563EB"/>
     <path d="M55 21 L89 90 L72.5 87 L59 70 L49.5 52.5 L53 46 Z" fill="url(#atlasGradient)"/>
   </svg>
-  <text x="50" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="32" letter-spacing="-0.01em" fill="#0F172A">Atlas</text>
+  <g transform="translate(50,-0.48) scale(0.106667)">
+    <path d="M64 90 L125 90 Q128 90 128.8 92.9 L183 297 L6 297 L60.2 92.9 Q61 90 64 90 Z M94.5 102.4 L123 217 L66 217 Z M57 253 L132 253 L144 297 L45 297 Z" fill="#0F172A" fill-rule="evenodd"/>
+    <text x="189.3" y="297" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="700" font-size="300" letter-spacing="-0.01em" fill="#0F172A">tlas</text>
+  </g>
   <text x="130" y="31.2" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-weight="500" font-size="11" letter-spacing="0.01em" fill="#475569">AI Merchandise Intelligence Platform</text>
 </svg>
