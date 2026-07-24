@@ -52,18 +52,34 @@ button,select{font-family:inherit}
 .v2-avatar{width:30px;height:30px;border-radius:50%;background:var(--ds-neutral-900);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif}
 
 .v2-shell{max-width:1440px;margin:0 auto;padding:36px 32px 100px}
-.v2-page-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:20px;flex-wrap:wrap}
-.v2-page-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ds-primary-600);margin-bottom:8px}
-.v2-page-head h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0}
-.v2-page-head .sub{font-size:13px;color:var(--ds-neutral-500);margin-top:4px}
-.v2-pillar-row{display:flex;gap:6px;margin-top:12px}
-.v2-pillar{font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--ds-neutral-500);background:var(--ds-neutral-100);border:1px solid var(--ds-neutral-200);padding:3px 9px;border-radius:var(--ds-radius-full)}
-.v2-pillar.ai{color:var(--ds-primary-700);background:var(--ds-primary-50);border-color:var(--ds-primary-200)}
+.v2-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;gap:20px;flex-wrap:wrap;padding:28px 4px 32px}
+.v2-hero-title{font-family:'Space Grotesk',sans-serif;font-size:42px;font-weight:700;letter-spacing:-.02em;margin:0;color:var(--ds-neutral-900);line-height:1.05}
+.v2-hero-sub{font-size:15px;font-weight:600;color:var(--ds-neutral-500);margin-top:10px;letter-spacing:-.005em}
+.v2-hero-tagline{font-size:12.5px;color:var(--ds-neutral-400);margin-top:6px}
 .v2-pending-banner{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--ds-neutral-700);background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);padding:10px 16px;border-radius:var(--ds-radius-lg);cursor:pointer;transition:all .12s;text-decoration:none;box-shadow:var(--ds-shadow-xs)}
 .v2-pending-banner:hover{border-color:var(--ds-neutral-300);box-shadow:var(--ds-shadow-sm)}
 .v2-pending-banner .dot{width:8px;height:8px;border-radius:50%;background:var(--ds-danger-500);box-shadow:0 0 0 3px var(--ds-danger-50);flex-shrink:0}
 .v2-pending-banner b{font-family:'JetBrains Mono',monospace;color:var(--ds-neutral-900);font-size:13.5px}
 .v2-pending-banner svg{color:var(--ds-neutral-400)}
+
+/* Global Filter — Business Scope */
+.v2-scope-bar{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:14px 22px;background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-xs);margin-bottom:40px}
+.v2-scope-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ds-neutral-400);flex-shrink:0}
+.v2-scope-controls{display:flex;gap:10px;flex-wrap:wrap;flex:1}
+.v2-scope-field{position:relative;display:flex;align-items:center;gap:7px;background:var(--ds-neutral-50);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-full);padding:6px 26px 6px 14px;transition:all .12s}
+.v2-scope-field:hover{border-color:var(--ds-neutral-300)}
+.v2-scope-field.is-active{border-color:var(--ds-primary-300);background:var(--ds-primary-50)}
+.v2-scope-field label{font-size:9.5px;font-weight:700;color:var(--ds-neutral-400);text-transform:uppercase;letter-spacing:.03em;pointer-events:none}
+.v2-scope-field.is-active label{color:var(--ds-primary-500)}
+.v2-scope-field select{border:none;background:transparent;font-size:12.5px;font-weight:700;color:var(--ds-neutral-800);cursor:pointer;appearance:none;-webkit-appearance:none;padding:0}
+.v2-scope-field select:focus{outline:none}
+.v2-scope-field::after{content:'';position:absolute;right:11px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--ds-neutral-400);border-bottom:1.5px solid var(--ds-neutral-400);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.v2-scope-note{font-size:11px;color:var(--ds-neutral-300);flex-shrink:0;white-space:nowrap}
+
+/* Showing tag (reflects Global Filter in each connected section) */
+.v2-section-head-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.v2-showing-tag{font-size:10.5px;font-weight:600;color:var(--ds-neutral-400);font-family:'JetBrains Mono',monospace;background:var(--ds-neutral-100);padding:2px 9px;border-radius:var(--ds-radius-full)}
+.v2-showing-tag::before{content:'Showing: '}
 
 .v2-section{margin-bottom:44px;scroll-margin-top:80px}
 .v2-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
@@ -163,28 +179,41 @@ button,select{font-family:inherit}
 .v2-viewall-btn svg{transition:transform .18s}
 .v2-viewall-btn.open svg{transform:rotate(180deg)}
 
-/* 04. Brand Health */
-.v2-brand-grid{display:flex;flex-direction:column;gap:10px}
-.v2-brand-card{display:flex;align-items:center;gap:0;padding:0;cursor:pointer;transition:all .14s;position:relative}
-.v2-brand-card:hover{box-shadow:var(--ds-shadow-md)}
-.v2-brand-card.active{border-color:var(--ds-primary-400);box-shadow:0 0 0 2px var(--ds-primary-100)}
-.v2-brand-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:16px 22px;flex:1}
-.v2-brand-id{display:flex;align-items:center;gap:14px;min-width:190px}
-.v2-brand-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.v2-brand-name{font-size:14px;font-weight:700;color:var(--ds-neutral-900)}
-.v2-brand-stats{display:flex;gap:22px;flex-wrap:wrap;flex:1}
-.v2-brand-stat{display:flex;flex-direction:column;gap:2px;min-width:66px}
-.v2-brand-stat .k{font-size:9.5px;color:var(--ds-neutral-400);text-transform:uppercase;letter-spacing:.03em;font-weight:700}
-.v2-brand-stat .v{font-size:13px;font-weight:700;color:var(--ds-neutral-800);font-family:'JetBrains Mono',monospace}
-.v2-brand-tail{display:flex;align-items:center;gap:16px;flex-shrink:0}
-.v2-brand-wow{font-size:11.5px;font-weight:700}
-.v2-brand-wow.up{color:var(--ds-success-600)}
-.v2-brand-wow.down{color:var(--ds-danger-600)}
-.v2-brand-filter-banner{display:none;align-items:center;gap:10px;font-size:12.5px;font-weight:600;color:var(--ds-primary-700);background:var(--ds-primary-50);border:1px solid var(--ds-primary-200);padding:9px 16px;border-radius:var(--ds-radius-lg);margin-bottom:12px}
-.v2-brand-filter-banner.show{display:flex}
-.v2-brand-filter-banner button{margin-left:auto;background:none;border:none;color:var(--ds-primary-600);cursor:pointer;font-weight:700;font-size:14px;line-height:1}
+/* 04. Brand Health (single-scope diagnosis) */
+.v2-brandhealth-panel{padding:24px 26px}
+.v2-bh-head{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--ds-neutral-100)}
+.v2-bh-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ds-neutral-400)}
+.v2-bh-brand{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--ds-neutral-900);letter-spacing:-.01em}
+.v2-bh-head .v2-score-wrap{margin-left:auto}
+.v2-bh-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.v2-bh-cat{padding:16px 16px 14px;border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-lg);background:var(--ds-neutral-50)}
+.v2-bh-cat .head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.v2-bh-cat .k{font-size:11px;font-weight:700;color:var(--ds-neutral-600);letter-spacing:.02em}
+.v2-bh-cat .score{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--ds-neutral-900)}
+.v2-bh-cat ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.v2-bh-cat ul li{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--ds-neutral-500)}
+.v2-bh-cat ul li b{color:var(--ds-neutral-700);font-weight:700;font-family:'JetBrains Mono',monospace}
+.v2-bh-calc{text-align:right;font-size:10.5px;color:var(--ds-neutral-400);margin-top:16px}
+.v2-bh-calc b{color:var(--ds-neutral-600);font-weight:700}
 
-/* 05. Business Health */
+/* 05. Brand Comparison */
+.v2-cmp-wrap{padding:8px 8px;overflow-x:auto}
+.v2-cmp-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.v2-cmp-table th{text-align:left;font-size:10px;font-weight:700;color:var(--ds-neutral-400);text-transform:uppercase;letter-spacing:.03em;padding:12px 14px;border-bottom:1px solid var(--ds-neutral-100)}
+.v2-cmp-table th.num,.v2-cmp-table td.num{text-align:right}
+.v2-cmp-table td{padding:13px 14px;border-bottom:1px solid var(--ds-neutral-100);color:var(--ds-neutral-700)}
+.v2-cmp-row{cursor:pointer;transition:background .12s}
+.v2-cmp-row:hover{background:var(--ds-neutral-50)}
+.v2-cmp-row:last-child td{border-bottom:none}
+.v2-cmp-row.current{background:var(--ds-primary-50)}
+.v2-cmp-brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ds-neutral-900)}
+.v2-cmp-brand .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.v2-cmp-table td.num,.v2-cmp-table td.health{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ds-neutral-800)}
+.v2-cmp-current-tag{font-size:9.5px;font-weight:700;color:var(--ds-primary-600);background:var(--ds-primary-100);padding:1px 7px;border-radius:var(--ds-radius-full);margin-left:8px}
+.v2-cmp-action{font-size:11.5px;font-weight:600;color:var(--ds-primary-600);background:none;border:none;cursor:pointer;padding:0}
+.v2-cmp-action:hover{text-decoration:underline}
+
+/* 06. Business Health */
 .v2-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .v2-kpi-card{padding:18px 18px 16px;border-top:3px solid var(--kpi-accent, var(--ds-primary-600));position:relative;display:flex;flex-direction:column}
 .v2-kpi-label{font-size:10.5px;font-weight:700;color:var(--ds-neutral-400);letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px}
@@ -206,7 +235,7 @@ button,select{font-family:inherit}
 .v2-kpi-mix .row .cnt{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ds-neutral-900)}
 .v2-kpi-ai{margin-top:10px;padding-top:10px;border-top:1px dashed var(--ds-neutral-200)}
 
-/* 06. Customer & Traffic */
+/* 07. Customer & Traffic */
 .v2-tt-primary{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:14px}
 .v2-tt-card{padding:18px 18px 16px;display:flex;flex-direction:column}
 .v2-tt-label{font-size:10.5px;font-weight:700;color:var(--ds-neutral-400);letter-spacing:.03em;text-transform:uppercase;margin-bottom:9px}
@@ -227,7 +256,7 @@ button,select{font-family:inherit}
 .v2-tt-mini .v2-tt-delta{font-size:10.5px;margin-top:4px}
 .v2-tt-mini .v2-tt-ai p{font-size:10px}
 
-/* 07. Customer Funnel */
+/* 08. Customer Funnel */
 .v2-funnel-panel{padding:28px 26px 24px}
 .v2-funnel{display:flex;align-items:stretch}
 .v2-funnel-stage{flex:1;text-align:center;padding:6px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -255,7 +284,7 @@ button,select{font-family:inherit}
 .v2-dropoff-diag .conf{font-size:10.5px;color:var(--ds-neutral-400);font-weight:600}
 .v2-dropoff-diag .conf b{color:var(--ds-warning-700);font-family:'JetBrains Mono',monospace}
 
-/* 08. AI Diagnosis / Business Flow */
+/* 09. AI Diagnosis / Business Flow */
 .v2-flow-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}
 .v2-flow-panel{padding:24px 22px;display:flex;flex-direction:column;justify-content:center;min-height:100%}
 .v2-flow-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 0;row-gap:22px}
@@ -287,7 +316,7 @@ button,select{font-family:inherit}
 .v2-diagnosis-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);position:relative;z-index:1;font-size:11px;color:rgba(255,255,255,.5)}
 .v2-diagnosis-foot b{color:#93C5FD;font-family:'JetBrains Mono',monospace}
 
-/* 09. Opportunity Ranking */
+/* 10. Opportunity Ranking */
 .v2-opp-grid{display:flex;flex-direction:column;gap:12px}
 .v2-opp-card{display:flex;overflow:hidden}
 .v2-opp-rank{width:64px;flex-shrink:0;background:var(--ds-neutral-900);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 6px}
@@ -309,7 +338,7 @@ button,select{font-family:inherit}
 .v2-opp-tag.high{background:var(--ds-danger-50);color:var(--ds-danger-700)}
 .v2-opp-actionwrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;margin-left:auto}
 
-/* 10. AI Insights */
+/* 11. AI Insights */
 .v2-insight-list{display:flex;flex-direction:column;gap:12px}
 .v2-insight{display:flex;gap:0;overflow:hidden}
 .v2-insight .prio{width:5px;flex-shrink:0}
@@ -347,7 +376,7 @@ button,select{font-family:inherit}
 .v2-evidence-item::before{content:'';position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:var(--ds-primary-400)}
 .v2-evidence-item b{display:block;color:var(--ds-neutral-800);font-weight:600;margin-bottom:2px}
 
-/* 11. Trend Analytics */
+/* 12. Trend Analytics */
 .v2-trend-panel{padding:22px 24px 24px}
 .v2-trend-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
 .v2-tabs{display:inline-flex;background:var(--ds-neutral-100);border-radius:var(--ds-radius-md);padding:3px;gap:2px;flex-wrap:wrap}
@@ -385,7 +414,7 @@ button,select{font-family:inherit}
 .v2-trend-note{margin-top:14px;padding:12px 14px;background:var(--ds-neutral-50);border:1px solid var(--ds-neutral-100);border-radius:var(--ds-radius-lg);font-size:12px;color:var(--ds-neutral-600);line-height:1.6;display:flex;gap:8px}
 .v2-trend-note svg{flex-shrink:0;color:var(--ds-primary-400);margin-top:2px}
 
-/* 12. Product Performance */
+/* 13. Product Performance */
 .v2-pp-tabs{display:flex;gap:6px;flex-wrap:wrap}
 .v2-pp-tab{border:1px solid var(--ds-neutral-200);background:var(--ds-neutral-0);padding:6px 13px;font-size:12px;font-weight:600;color:var(--ds-neutral-500);border-radius:var(--ds-radius-full);cursor:pointer;transition:all .12s;display:flex;align-items:center;gap:6px}
 .v2-pp-tab .dot{width:6px;height:6px;border-radius:50%}
@@ -410,7 +439,7 @@ button,select{font-family:inherit}
 .pp2-status-chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:var(--ds-radius-full);white-space:nowrap}
 .pp2-lifecycle-chip{font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.02em}
 
-/* 13. Product Lifecycle */
+/* 14. Product Lifecycle */
 .v2-lifecycle-board{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .v2-lc-col{display:flex;flex-direction:column;gap:10px}
 .v2-lc-col-head{display:flex;align-items:center;gap:7px;padding:2px 4px 4px}
@@ -432,7 +461,7 @@ button,select{font-family:inherit}
 .v2-lc-reco b{color:var(--ds-neutral-800)}
 .v2-lc-conf{font-size:9.5px;color:var(--ds-neutral-400);margin-top:6px;font-weight:600}
 
-/* 14. Inventory Heatmap */
+/* 15. Inventory Heatmap */
 .v2-heat-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
 .v2-select{font-size:12px;font-weight:600;color:var(--ds-neutral-700);background:var(--ds-neutral-0);border:1px solid var(--ds-neutral-200);border-radius:var(--ds-radius-md);padding:7px 10px;cursor:pointer}
 .v2-select:hover{border-color:var(--ds-neutral-300)}
@@ -456,7 +485,7 @@ button,select{font-family:inherit}
 .v2-heat-pop .reco{margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.14);color:#DCE7F7}
 .v2-heat-pop .reco b{color:#fff}
 
-/* 15. Recommended Actions */
+/* 16. Recommended Actions */
 .v2-actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .v2-action2{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
 .v2-action2-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -490,9 +519,22 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
   .v2-flow-grid{grid-template-columns:1fr}
   .v2-dropoff-card{grid-template-columns:1fr}
   .v2-lifecycle-board{grid-template-columns:repeat(3,1fr)}
+  .v2-bh-cats{grid-template-columns:1fr 1fr}
 }
 @media (max-width:760px){
-  .v2-page-head{flex-direction:column}
+  .v2-page-head{flex-direction:column;align-items:flex-start}
+  .v2-hero-title{font-size:34px}
+  .v2-scope-bar{flex-direction:column;align-items:flex-start;gap:12px}
+  .v2-scope-note{white-space:normal}
+  .v2-bh-cats{grid-template-columns:1fr}
+  .v2-bh-head{gap:10px}
+  .v2-bh-head .v2-score-wrap{margin-left:0}
+  .v2-cmp-table thead{display:none}
+  .v2-cmp-table,.v2-cmp-table tbody,.v2-cmp-row,.v2-cmp-table td{display:block;width:100%}
+  .v2-cmp-row{border:1px solid var(--ds-neutral-100);border-radius:var(--ds-radius-lg);margin:10px;padding:6px 4px;width:auto}
+  .v2-cmp-table td{border-bottom:none;padding:6px 14px;display:flex;justify-content:space-between;align-items:center}
+  .v2-cmp-table td::before{content:attr(data-label);font-size:10px;font-weight:700;color:var(--ds-neutral-400);text-transform:uppercase}
+  .v2-cmp-table td.brand-cell::before{display:none}
   .v2-kpi-grid{grid-template-columns:repeat(2,1fr)}
   .v2-tt-primary{grid-template-columns:repeat(2,1fr)}
   .v2-tt-secondary{grid-template-columns:repeat(2,1fr)}
@@ -511,8 +553,6 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
   .v2-funnel-stage{width:100%}
   .v2-funnel-arrow{width:100%;flex-direction:row}
   .v2-funnel-arrow svg{transform:rotate(90deg)}
-  .v2-brand-row{flex-direction:column;align-items:flex-start;gap:12px}
-  .v2-brand-stats{width:100%}
   .v2-lifecycle-board{grid-template-columns:1fr 1fr}
   .v2-opp-body{flex-direction:column;align-items:flex-start}
   .v2-opp-id{flex:none;width:100%}
@@ -552,20 +592,59 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
 
   <div class="v2-page-head">
     <div>
-      <div class="v2-page-eyebrow">AI Merchandise Intelligence Platform</div>
-      <h1>Dashboard v2</h1>
-      <div class="sub">今日、何をすれば利益を最大化できるかを教えるZOZO専用AIプラットフォーム</div>
-      <div class="v2-pillar-row">
-        <span class="v2-pillar">MD</span>
-        <span class="v2-pillar">EC Marketing</span>
-        <span class="v2-pillar ai">AI</span>
-      </div>
+      <div class="v2-hero-title">Atlas</div>
+      <div class="v2-hero-sub">AI Merchandise Intelligence Platform</div>
+      <div class="v2-hero-tagline">Turn merchandising data into better decisions.</div>
     </div>
     <a class="v2-pending-banner" href="#actions">
       <span class="dot"></span>
       <b id="pending-count">6</b>件の未対応アクション
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
+  </div>
+
+  <div class="v2-scope-bar" id="scope-bar">
+    <div class="v2-scope-label">Business Scope</div>
+    <div class="v2-scope-controls">
+      <div class="v2-scope-field" data-field="brand">
+        <label for="scope-brand">Brand</label>
+        <select id="scope-brand">
+          <option value="ALL">ALL</option>
+          <option value="MONO-MART">MONO-MART</option>
+          <option value="forksy" selected>forksy</option>
+          <option value="Aunely">Aunely</option>
+          <option value="EASENCE">EASENCE</option>
+          <option value="Snap Club">Snap Club</option>
+        </select>
+      </div>
+      <div class="v2-scope-field" data-field="season">
+        <label for="scope-season">Season</label>
+        <select id="scope-season">
+          <option value="26SS">26SS</option>
+          <option value="26AW" selected>26AW</option>
+          <option value="25AW">25AW</option>
+          <option value="25SS">25SS</option>
+        </select>
+      </div>
+      <div class="v2-scope-field" data-field="channel">
+        <label for="scope-channel">Channel</label>
+        <select id="scope-channel">
+          <option value="ZOZO" selected>ZOZO</option>
+          <option value="自社EC">自社EC</option>
+          <option value="全チャネル">全チャネル</option>
+        </select>
+      </div>
+      <div class="v2-scope-field" data-field="period">
+        <label for="scope-period">Period</label>
+        <select id="scope-period">
+          <option value="7d">7 Days</option>
+          <option value="30d" selected>30 Days</option>
+          <option value="13w">13 Weeks</option>
+          <option value="season">Season</option>
+        </select>
+      </div>
+    </div>
+    <div class="v2-scope-note">変更すると、ダッシュボード全体の表示対象が切り替わります（プロトタイプ）</div>
   </div>
 
   <!-- 02. AI EXECUTIVE SUMMARY -->
@@ -639,40 +718,59 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
   <section class="v2-section" id="brands">
     <div class="v2-section-head">
       <h2><span class="n">04</span>Brand Health</h2>
-      <span class="hint">クリックでそのブランドに絞り込み（モック）</span>
+      <div class="v2-section-head-meta">
+        <span class="hint">選択中の対象の健康診断</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
-    <div class="v2-brand-filter-banner" id="brand-filter-banner">
-      <span id="brand-filter-text"></span>
-      <button id="brand-filter-clear" aria-label="フィルター解除">✕</button>
-    </div>
-    <div class="v2-brand-grid" id="brand-grid"></div>
+    <div class="v2-panel v2-brandhealth-panel" id="brand-health-panel"></div>
   </section>
 
-  <!-- 05. BUSINESS HEALTH -->
+  <!-- 05. BRAND COMPARISON -->
+  <section class="v2-section" id="brand-comparison">
+    <div class="v2-section-head">
+      <h2><span class="n">05</span>Brand Comparison</h2>
+      <span class="hint">クリックでBusiness ScopeのBrandを切り替え</span>
+    </div>
+    <div class="v2-panel v2-cmp-wrap">
+      <table class="v2-cmp-table" id="cmp-table"></table>
+    </div>
+  </section>
+
+  <!-- 06. BUSINESS HEALTH -->
   <section class="v2-section" id="health">
     <div class="v2-section-head">
-      <h2><span class="n">05</span>Business Health</h2>
-      <span class="hint">MD KPI · 本日実績 · 目標 · AI評価</span>
+      <h2><span class="n">06</span>Business Health</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">MD KPI · 本日実績 · 目標 · AI評価</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-kpi-grid" id="kpi-grid"></div>
   </section>
 
-  <!-- 06. CUSTOMER & TRAFFIC -->
+  <!-- 07. CUSTOMER & TRAFFIC -->
   <section class="v2-section" id="traffic">
     <div class="v2-section-head">
-      <h2><span class="n">06</span>Customer & Traffic</h2>
-      <span class="hint">EC KPI · AIコメント付き</span>
+      <h2><span class="n">07</span>Customer & Traffic</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">EC KPI · AIコメント付き</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-tt-primary" id="traffic-primary"></div>
     <div class="v2-tt-secondary-label">補助指標</div>
     <div class="v2-tt-secondary" id="traffic-secondary"></div>
   </section>
 
-  <!-- 07. CUSTOMER FUNNEL -->
+  <!-- 08. CUSTOMER FUNNEL -->
   <section class="v2-section" id="funnel">
     <div class="v2-section-head">
-      <h2><span class="n">07</span>Customer Funnel</h2>
-      <span class="hint">UU → PV → お気に入り → カート → 購入</span>
+      <h2><span class="n">08</span>Customer Funnel</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">UU → PV → お気に入り → カート → 購入</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-panel v2-funnel-panel">
       <div class="v2-funnel" id="funnel-row"></div>
@@ -680,11 +778,14 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
     </div>
   </section>
 
-  <!-- 08. AI DIAGNOSIS / BUSINESS FLOW -->
+  <!-- 09. AI DIAGNOSIS / BUSINESS FLOW -->
   <section class="v2-section" id="flow">
     <div class="v2-section-head">
-      <h2><span class="n">08</span>Today's Business Flow</h2>
-      <span class="hint">KPI同士の因果関係を可視化</span>
+      <h2><span class="n">09</span>Today's Business Flow</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">KPI同士の因果関係を可視化</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-flow-grid">
       <div class="v2-panel v2-flow-panel">
@@ -695,29 +796,35 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
     </div>
   </section>
 
-  <!-- 09. OPPORTUNITY RANKING -->
+  <!-- 10. OPPORTUNITY RANKING -->
   <section class="v2-section" id="opportunities">
     <div class="v2-section-head">
-      <h2><span class="n">09</span>Today's Opportunities</h2>
-      <span class="hint">期待効果 × 実行難易度で優先順位付け</span>
+      <h2><span class="n">10</span>Today's Opportunities</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">期待効果 × 実行難易度で優先順位付け</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-opp-grid" id="opp-grid"></div>
   </section>
 
-  <!-- 10. AI INSIGHTS -->
+  <!-- 11. AI INSIGHTS -->
   <section class="v2-section" id="insights">
     <div class="v2-section-head">
-      <h2><span class="n">10</span>AI Insights</h2>
+      <h2><span class="n">11</span>AI Insights</h2>
       <span class="hint">何が・なぜ起きている可能性があるかを3件に絞って表示</span>
     </div>
     <div class="v2-insight-list" id="insight-list"></div>
   </section>
 
-  <!-- 11. TREND ANALYTICS -->
+  <!-- 12. TREND ANALYTICS -->
   <section class="v2-section" id="trend">
     <div class="v2-section-head">
-      <h2><span class="n">11</span>Trend Analytics</h2>
-      <span class="hint">実績 · 前年 · 予算 · AI予測の差を一目で</span>
+      <h2><span class="n">12</span>Trend Analytics</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">実績 · 前年 · 予算 · AI予測の差を一目で</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-panel v2-trend-panel">
       <div class="v2-trend-head">
@@ -763,10 +870,11 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
     </div>
   </section>
 
-  <!-- 12. PRODUCT PERFORMANCE -->
+  <!-- 13. PRODUCT PERFORMANCE -->
   <section class="v2-section" id="products">
     <div class="v2-section-head">
-      <h2><span class="n">12</span>Product Performance</h2>
+      <h2><span class="n">13</span>Product Performance</h2>
+      <span class="v2-showing-tag" data-showing></span>
     </div>
     <div class="v2-panel">
       <div style="padding:18px 24px 0">
@@ -782,20 +890,23 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
     </div>
   </section>
 
-  <!-- 13. PRODUCT LIFECYCLE -->
+  <!-- 14. PRODUCT LIFECYCLE -->
   <section class="v2-section" id="lifecycle">
     <div class="v2-section-head">
-      <h2><span class="n">13</span>Product Lifecycle</h2>
+      <h2><span class="n">14</span>Product Lifecycle</h2>
       <span class="hint">AIによる次フェーズ予測 · Confidence付き</span>
     </div>
     <div class="v2-lifecycle-board" id="lifecycle-board"></div>
   </section>
 
-  <!-- 14. INVENTORY HEATMAP -->
+  <!-- 15. INVENTORY HEATMAP -->
   <section class="v2-section" id="heatmap">
     <div class="v2-section-head">
-      <h2><span class="n">14</span>Inventory Heatmap</h2>
-      <span class="hint">カテゴリ × 週 — セルをクリック／ホバーで詳細表示</span>
+      <h2><span class="n">15</span>Inventory Heatmap</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">カテゴリ × 週 — セルをクリック／ホバーで詳細表示</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-panel v2-heatmap-wrap">
       <div class="v2-heat-filters">
@@ -826,11 +937,14 @@ footer.v2-foot .devnote b{color:var(--ds-neutral-500);font-weight:600}
     </div>
   </section>
 
-  <!-- 15. RECOMMENDED ACTIONS -->
+  <!-- 16. RECOMMENDED ACTIONS -->
   <section class="v2-section" id="actions" style="margin-bottom:0">
     <div class="v2-section-head">
-      <h2><span class="n">15</span>Recommended Actions</h2>
-      <span class="hint">実行管理 · 担当・期限・進捗で管理 · <span id="actions-total">6</span>件</span>
+      <h2><span class="n">16</span>Recommended Actions</h2>
+      <div class="v2-section-head-meta">
+        <span class="hint">実行管理 · 担当・期限・進捗で管理 · <span id="actions-total">6</span>件</span>
+        <span class="v2-showing-tag" data-showing></span>
+      </div>
     </div>
     <div class="v2-actions-grid" id="actions-grid"></div>
   </section>
@@ -957,66 +1071,143 @@ function alertCardHtml(a){
   });
 })();
 
-/* ---------- 04. Brand Health ---------- */
-var brandHealth = [
-  {name:'MONO-MART', score:92, sales:'108%', margin:'43.1%', cvr:'3.8%', inv:88, proper:'44%', pending:1, status:'Excellent', wow:'+2'},
-  {name:'forksy', score:84, sales:'104%', margin:'39.8%', cvr:'3.1%', inv:72, proper:'36%', pending:3, status:'要注意', wow:'-3'},
-  {name:'Aunely', score:89, sales:'112%', margin:'44.2%', cvr:'4.4%', inv:81, proper:'41%', pending:2, status:'機会あり', wow:'+4'},
-  {name:'EASENCE', score:76, sales:'96%', margin:'37.5%', cvr:'2.9%', inv:68, proper:'33%', pending:4, status:'要注意', wow:'-1'},
-  {name:'Snap Club', score:95, sales:'121%', margin:'46.0%', cvr:'5.2%', inv:90, proper:'48%', pending:0, status:'Excellent', wow:'+6'}
+/* ---------- Global Filter (Business Scope) ---------- */
+var scopeState = { brand:'forksy', season:'26AW', channel:'ZOZO', period:'30d' };
+var PERIOD_LABEL = {'7d':'Last 7 Days','30d':'Last 30 Days','13w':'Last 13 Weeks','season':'This Season'};
+
+/* ---------- 04. Brand Health (single-scope diagnosis) ---------- */
+var brandHealthDetail = {
+  'MONO-MART': {overall:92, eval:'Excellent',
+    sales:{score:96, items:[{k:'売上進捗',v:'108%'},{k:'粗利率',v:'43.1%'},{k:'プロパー消化率',v:'44%'}]},
+    inventory:{score:88, items:[{k:'在庫健全度',v:'88'},{k:'欠品リスク',v:'1品番'},{k:'在庫日数',v:'22日'}]},
+    marketing:{score:90, items:[{k:'UU',v:'18.2K'},{k:'PV',v:'76.4K'},{k:'CVR',v:'3.8%'},{k:'お気に入り率',v:'7.4%'}]},
+    forecast:{score:93, items:[{k:'予測精度',v:'91%'},{k:'AI Confidence',v:'94%'},{k:'需要予測',v:'安定'}]}},
+  'forksy': {overall:84, eval:'Excellent',
+    sales:{score:92, items:[{k:'売上進捗',v:'104%'},{k:'粗利率',v:'39.8%'},{k:'プロパー消化率',v:'36%'}]},
+    inventory:{score:72, items:[{k:'在庫健全度',v:'72'},{k:'欠品リスク',v:'2品番'},{k:'在庫日数',v:'34日'}]},
+    marketing:{score:81, items:[{k:'UU',v:'12.4K'},{k:'PV',v:'52.1K'},{k:'CVR',v:'3.1%'},{k:'お気に入り率',v:'6.2%'}]},
+    forecast:{score:89, items:[{k:'予測精度',v:'87%'},{k:'AI Confidence',v:'91%'},{k:'需要予測',v:'安定'}]}},
+  'Aunely': {overall:89, eval:'Excellent',
+    sales:{score:94, items:[{k:'売上進捗',v:'112%'},{k:'粗利率',v:'44.2%'},{k:'プロパー消化率',v:'41%'}]},
+    inventory:{score:81, items:[{k:'在庫健全度',v:'81'},{k:'欠品リスク',v:'1品番'},{k:'在庫日数',v:'27日'}]},
+    marketing:{score:91, items:[{k:'UU',v:'9.8K'},{k:'PV',v:'48.7K'},{k:'CVR',v:'4.4%'},{k:'お気に入り率',v:'8.1%'}]},
+    forecast:{score:88, items:[{k:'予測精度',v:'86%'},{k:'AI Confidence',v:'90%'},{k:'需要予測',v:'やや変動'}]}},
+  'EASENCE': {overall:76, eval:'Good',
+    sales:{score:80, items:[{k:'売上進捗',v:'96%'},{k:'粗利率',v:'37.5%'},{k:'プロパー消化率',v:'33%'}]},
+    inventory:{score:68, items:[{k:'在庫健全度',v:'68'},{k:'欠品リスク',v:'4品番'},{k:'在庫日数',v:'41日'}]},
+    marketing:{score:72, items:[{k:'UU',v:'6.1K'},{k:'PV',v:'24.3K'},{k:'CVR',v:'2.9%'},{k:'お気に入り率',v:'5.1%'}]},
+    forecast:{score:83, items:[{k:'予測精度',v:'80%'},{k:'AI Confidence',v:'84%'},{k:'需要予測',v:'変動あり'}]}},
+  'Snap Club': {overall:81, eval:'Excellent',
+    sales:{score:85, items:[{k:'売上進捗',v:'121%'},{k:'粗利率',v:'46.0%'},{k:'プロパー消化率',v:'48%'}]},
+    inventory:{score:76, items:[{k:'在庫健全度',v:'76'},{k:'欠品リスク',v:'0品番'},{k:'在庫日数',v:'30日'}]},
+    marketing:{score:79, items:[{k:'UU',v:'5.4K'},{k:'PV',v:'21.9K'},{k:'CVR',v:'5.2%'},{k:'お気に入り率',v:'6.8%'}]},
+    forecast:{score:82, items:[{k:'予測精度',v:'84%'},{k:'AI Confidence',v:'86%'},{k:'需要予測',v:'安定'}]}}
+};
+var brandCompareRows = [
+  {name:'MONO-MART', health:92, sales:'108%', gm:'43.1%', inv:88, cvr:'3.8%'},
+  {name:'forksy', health:84, sales:'104%', gm:'39.8%', inv:72, cvr:'3.1%'},
+  {name:'Aunely', health:89, sales:'112%', gm:'44.2%', inv:81, cvr:'4.4%'},
+  {name:'EASENCE', health:76, sales:'96%', gm:'37.5%', inv:68, cvr:'2.9%'},
+  {name:'Snap Club', health:81, sales:'121%', gm:'46.0%', inv:76, cvr:'5.2%'}
 ];
-var brandStatusColor = {'Excellent':'var(--ds-success-700)','要注意':'var(--ds-warning-700)','機会あり':'var(--ds-primary-700)'};
-var brandStatusBg = {'Excellent':'var(--ds-success-50)','要注意':'var(--ds-warning-50)','機会あり':'var(--ds-primary-50)'};
-var activeBrandFilter = null;
 
-(function renderBrandHealth(){
-  var el = document.getElementById('brand-grid');
-  el.innerHTML = brandHealth.map(function(b, idx){
-    return '<div class="v2-panel v2-brand-card" data-brand="'+b.name+'">'+
-      '<div class="v2-brand-row">'+
-        '<div class="v2-brand-id"><span class="v2-brand-dot" style="background:'+BRAND_COLOR[b.name]+'"></span><span class="v2-brand-name">'+b.name+'</span></div>'+
-        '<div class="v2-score-wrap" style="min-width:110px"><span class="v2-score-num">'+b.score+'</span><span class="v2-score-max">/100</span></div>'+
-        '<div class="v2-brand-stats">'+
-          '<div class="v2-brand-stat"><span class="k">売上進捗</span><span class="v">'+b.sales+'</span></div>'+
-          '<div class="v2-brand-stat"><span class="k">粗利率</span><span class="v">'+b.margin+'</span></div>'+
-          '<div class="v2-brand-stat"><span class="k">CVR</span><span class="v">'+b.cvr+'</span></div>'+
-          '<div class="v2-brand-stat"><span class="k">在庫健全度</span><span class="v">'+b.inv+'</span></div>'+
-          '<div class="v2-brand-stat"><span class="k">プロパー消化率</span><span class="v">'+b.proper+'</span></div>'+
-          '<div class="v2-brand-stat"><span class="k">未対応</span><span class="v">'+b.pending+'件</span></div>'+
-        '</div>'+
-        '<div class="v2-brand-tail">'+
-          '<span class="v2-eval-chip" style="background:'+brandStatusBg[b.status]+';color:'+brandStatusColor[b.status]+'">'+b.status+'</span>'+
-          '<span class="v2-brand-wow '+(b.wow[0]==='+'?'up':'down')+'">'+(b.wow[0]==='+'?'▲':'▼')+' '+b.wow.replace('-','')+' 前週差</span>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  }).join('') + '<div class="v2-score-breakdown" style="padding:2px 4px">Health Score 算出要素：<b>売上進捗 25%</b> ・ <b>粗利 25%</b> ・ <b>在庫 20%</b> ・ <b>EC指標 20%</b> ・ <b>アクション対応状況 10%</b></div>';
+function blendedBrandHealth(){
+  var keys = Object.keys(brandHealthDetail);
+  function avg(sel){ return Math.round(keys.reduce(function(s,k){ return s+sel(brandHealthDetail[k]); },0)/keys.length); }
+  function catAvg(cat){ return {score:avg(function(b){return b[cat].score;}), items:[{k:'対象',v:keys.length+'ブランドの平均'}]}; }
+  return { overall: avg(function(b){return b.overall;}), eval:'Good',
+    sales: catAvg('sales'), inventory: catAvg('inventory'), marketing: catAvg('marketing'), forecast: catAvg('forecast') };
+}
 
-  el.addEventListener('click', function(e){
-    var card = e.target.closest('.v2-brand-card');
-    if(!card) return;
-    var name = card.getAttribute('data-brand');
-    var banner = document.getElementById('brand-filter-banner');
-    if(activeBrandFilter === name){
-      activeBrandFilter = null;
-      card.classList.remove('active');
-      banner.classList.remove('show');
-    } else {
-      document.querySelectorAll('.v2-brand-card').forEach(function(c){ c.classList.remove('active'); });
-      activeBrandFilter = name;
-      card.classList.add('active');
-      document.getElementById('brand-filter-text').textContent = '🔵 '+name+' でダッシュボード全体をフィルター中（UIモック — 表示内容は変わりません）';
-      banner.classList.add('show');
-    }
+var BH_CATS = [
+  {key:'sales', label:'Sales', color:'var(--ds-primary-600)'},
+  {key:'inventory', label:'Inventory', color:'var(--ds-accent-cyan)'},
+  {key:'marketing', label:'Marketing', color:'var(--ds-accent-violet)'},
+  {key:'forecast', label:'Forecast', color:'var(--ds-success-600)'}
+];
+
+function renderBrandHealth(){
+  var brand = scopeState.brand;
+  var data = brand === 'ALL' ? blendedBrandHealth() : brandHealthDetail[brand];
+  var label = brand === 'ALL' ? 'All Brands（Blended）' : brand;
+  var html =
+    '<div class="v2-bh-head">'+
+      '<div><div class="v2-bh-eyebrow">Brand Health</div><div class="v2-bh-brand">'+label+'</div></div>'+
+      '<div class="v2-score-wrap"><span class="v2-score-num">'+data.overall+'</span><span class="v2-score-max">/100</span></div>'+
+      evalChip(data.eval)+
+    '</div>'+
+    '<div class="v2-bh-cats">'+
+      BH_CATS.map(function(c){
+        var d = data[c.key];
+        return '<div class="v2-bh-cat" style="border-top:3px solid '+c.color+'">'+
+          '<div class="head"><span class="k">'+c.label+'</span><span class="score">'+d.score+'</span></div>'+
+          '<ul>'+d.items.map(function(it){ return '<li><span>'+it.k+'</span><b>'+it.v+'</b></li>'; }).join('')+'</ul>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+    '<div class="v2-bh-calc">Score Calculation： <b>Sales 30%</b> ・ <b>Inventory 25%</b> ・ <b>Marketing 25%</b> ・ <b>Forecast 20%</b></div>';
+  document.getElementById('brand-health-panel').innerHTML = html;
+}
+
+/* ---------- 05. Brand Comparison ---------- */
+function renderBrandComparison(){
+  var rows = brandCompareRows.map(function(b){
+    var isCurrent = b.name === scopeState.brand;
+    return '<tr class="v2-cmp-row'+(isCurrent?' current':'')+'" data-brand="'+b.name+'">'+
+      '<td class="brand-cell" data-label="Brand"><span class="v2-cmp-brand"><span class="dot" style="background:'+BRAND_COLOR[b.name]+'"></span>'+b.name+(isCurrent?'<span class="v2-cmp-current-tag">選択中</span>':'')+'</span></td>'+
+      '<td class="num health" data-label="Health">'+b.health+'</td>'+
+      '<td class="num" data-label="Sales">'+b.sales+'</td>'+
+      '<td class="num" data-label="GM">'+b.gm+'</td>'+
+      '<td class="num" data-label="Inventory">'+b.inv+'</td>'+
+      '<td class="num" data-label="CVR">'+b.cvr+'</td>'+
+      '<td data-label="Action"><button class="v2-cmp-action">'+(isCurrent?'選択中':'これを見る')+'</button></td>'+
+    '</tr>';
+  }).join('');
+  document.getElementById('cmp-table').innerHTML =
+    '<thead><tr><th>Brand</th><th class="num">Health</th><th class="num">Sales</th><th class="num">GM</th><th class="num">Inventory</th><th class="num">CVR</th><th>Action</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody>';
+}
+document.getElementById('cmp-table').addEventListener('click', function(e){
+  var row = e.target.closest('.v2-cmp-row');
+  if(!row) return;
+  var name = row.getAttribute('data-brand');
+  document.getElementById('scope-brand').value = name;
+  onScopeChange();
+  scrollToId('brands');
+});
+
+/* ---------- Global Filter wiring ---------- */
+function updateShowingTags(){
+  var text = scopeState.brand+' · '+scopeState.season+' · '+scopeState.channel+' · '+PERIOD_LABEL[scopeState.period];
+  document.querySelectorAll('[data-showing]').forEach(function(el){ el.textContent = text; });
+}
+function applyScopeVisual(){
+  var defaults = {brand:'ALL', season:'26AW', channel:'ZOZO', period:'30d'};
+  document.querySelectorAll('.v2-scope-field').forEach(function(f){
+    var field = f.getAttribute('data-field');
+    f.classList.toggle('is-active', scopeState[field] !== defaults[field]);
   });
-  document.getElementById('brand-filter-clear').addEventListener('click', function(){
-    activeBrandFilter = null;
-    document.querySelectorAll('.v2-brand-card').forEach(function(c){ c.classList.remove('active'); });
-    document.getElementById('brand-filter-banner').classList.remove('show');
-  });
-})();
+}
+function onScopeChange(){
+  scopeState.brand = document.getElementById('scope-brand').value;
+  scopeState.season = document.getElementById('scope-season').value;
+  scopeState.channel = document.getElementById('scope-channel').value;
+  scopeState.period = document.getElementById('scope-period').value;
+  renderBrandHealth();
+  renderBrandComparison();
+  updateShowingTags();
+  applyScopeVisual();
+}
+['scope-brand','scope-season','scope-channel','scope-period'].forEach(function(id){
+  document.getElementById(id).addEventListener('change', onScopeChange);
+});
 
-/* ---------- 05. Business Health ---------- */
+renderBrandHealth();
+renderBrandComparison();
+updateShowingTags();
+applyScopeVisual();
+
+/* ---------- 06. Business Health ---------- */
 var kpis = [
   {label:'売上進捗', value:'106.2', unit:'%', target:'予算比 +6.2pt', base:'前年比', trendVal:'112.4%', trend:'up', accent:'var(--ds-primary-600)', evalWord:'Excellent', ai:'3ブランドが予算を上回っています。', spark:[86,88,90,92,94,96,99,101,104,106]},
   {label:'粗利率', value:'42.8', unit:'%', target:'目標 42.0%', base:'前年差', trendVal:'+1.6pt', trend:'up', accent:'var(--ds-accent-violet)', evalWord:'Good', ai:'値引率改善が寄与しています。', spark:[39.6,39.9,40.2,40.5,41.0,41.4,41.8,42.1,42.5,42.8]},
